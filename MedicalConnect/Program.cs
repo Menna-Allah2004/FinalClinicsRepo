@@ -1,5 +1,6 @@
 using MedicalConnect.Database;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalConnect
 {
@@ -12,7 +13,11 @@ namespace MedicalConnect
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            // Register DbContext FIRST
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Then register Identity
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
