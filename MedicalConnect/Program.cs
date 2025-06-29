@@ -1,13 +1,29 @@
+using MedicalConnect.Database;
+using Microsoft.AspNetCore.Identity;
+
 namespace MedicalConnect
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddRoles<IdentityRole>()
+              .AddDefaultTokenProviders();
 
             var app = builder.Build();
 
