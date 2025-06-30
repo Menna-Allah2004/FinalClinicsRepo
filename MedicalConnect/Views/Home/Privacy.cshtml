@@ -1,6 +1,217 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "سياسة الخصوصية";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<main class="flex-grow-1 py-5 mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card border-0 shadow-lg rounded-4">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-5">
+                            <h1 class="h2 fw-bold text-primary mb-3">سياسة الخصوصية</h1>
+                            <p class="text-muted">آخر تحديث: @DateTime.Now.ToString("dd/MM/yyyy")</p>
+                        </div>
+
+                        <div class="privacy-content">
+                            <section class="mb-5">
+                                <h2 class="h4 fw-bold text-dark mb-3">1. مقدمة</h2>
+                                <p class="text-justify">
+                                    نحن في منصة ميديكال كونكت نقدر خصوصيتك ونلتزم بحماية معلوماتك الشخصية. تشرح هذه السياسة كيفية جمعنا واستخدامنا وحمايتنا للمعلومات التي تقدمها لنا عند استخدام خدماتنا الطبية الرقمية.
+                                </p>
+                            </section>
+
+                            <section class="mb-5">
+                                <h2 class="h4 fw-bold text-dark mb-3">2. المعلومات التي نجمعها</h2>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border-0 bg-light h-100">
+                                            <div class="card-body">
+                                                <h5 class="fw-bold text-primary">المعلومات الشخصية</h5>
+                                                <ul class="list-unstyled mt-3">
+                                                    <li><i class="fas fa-check text-success me-2"></i>الاسم الكامل</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>البريد الإلكتروني</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>رقم الهاتف</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>تاريخ الميلاد</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>العنوان</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border-0 bg-light h-100">
+                                            <div class="card-body">
+                                                <h5 class="fw-bold text-primary">المعلومات الطبية</h5>
+                                                <ul class="list-unstyled mt-3">
+                                                    <li><i class="fas fa-check text-success me-2"></i>التاريخ الطبي</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>فصيلة الدم</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>الحساسية</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>الأدوية الحالية</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>نتائج الفحوصات</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="mb-5">
+                                <h2 class="h4 fw-bold text-dark mb-3">3. كيفية استخدام المعلومات</h2>
+                                <div class="bg-light rounded-3 p-4">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="text-center">
+                                                <i class="fas fa-calendar-check fa-3x text-primary mb-3"></i>
+                                                <h5>إدارة المواعيد</h5>
+                                                <p class="small text-muted">لتنظيم وإدارة مواعيدك الطبية</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <div class="text-center">
+                                                <i class="fas fa-user-md fa-3x text-primary mb-3"></i>
+                                                <h5>الاستشارات الطبية</h5>
+                                                <p class="small text-muted">لتقديم الرعاية الطبية المناسبة</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <div class="text-center">
+                                                <i class="fas fa-bell fa-3x text-primary mb-3"></i>
+                                                <h5>الإشعارات</h5>
+                                                <p class="small text-muted">لإرسال تذكيرات وتحديثات مهمة</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="mb-5">
+                                <h2 class="h4 fw-bold text-dark mb-3">4. مشاركة المعلومات</h2>
+                                <div class="alert alert-info" role="alert">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>نحن لا نشارك معلوماتك الطبية مع أطراف ثالثة إلا في الحالات التالية:</strong>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item border-0 ps-0">
+                                        <i class="fas fa-shield-alt text-success me-2"></i>
+                                        موافقتك الصريحة
+                                    </li>
+                                    <li class="list-group-item border-0 ps-0">
+                                        <i class="fas fa-gavel text-success me-2"></i>
+                                        متطلبات قانونية
+                                    </li>
+                                    <li class="list-group-item border-0 ps-0">
+                                        <i class="fas fa-ambulance text-success me-2"></i>
+                                        حالات الطوارئ الطبية
+                                    </li>
+                                    <li class="list-group-item border-0 ps-0">
+                                        <i class="fas fa-user-md text-success me-2"></i>
+                                        مع الأطباء المعالجين فقط
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <section class="mb-5">
+                                <h2 class="h4 fw-bold text-dark mb-3">5. أمان المعلومات</h2>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card border-0 shadow-sm">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-lock fa-3x text-primary mb-3"></i>
+                                                <h5>التشفير</h5>
+                                                <p class="small">جميع البيانات محمية بتشفير SSL 256-bit</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card border-0 shadow-sm">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-server fa-3x text-primary mb-3"></i>
+                                                <h5>الخوادم الآمنة</h5>
+                                                <p class="small">خوادم محمية ومراقبة على مدار الساعة</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="mb-5">
+                                <h2 class="h4 fw-bold text-dark mb-3">6. حقوقك</h2>
+                                <div class="bg-primary bg-opacity-10 rounded-3 p-4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li class="mb-2"><i class="fas fa-eye text-primary me-2"></i>الاطلاع على بياناتك</li>
+                                                <li class="mb-2"><i class="fas fa-edit text-primary me-2"></i>تعديل المعلومات</li>
+                                                <li class="mb-2"><i class="fas fa-trash text-primary me-2"></i>حذف الحساب</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li class="mb-2"><i class="fas fa-download text-primary me-2"></i>تحميل البيانات</li>
+                                                <li class="mb-2"><i class="fas fa-ban text-primary me-2"></i>إيقاف المعالجة</li>
+                                                <li class="mb-2"><i class="fas fa-question-circle text-primary me-2"></i>طلب الإيضاح</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="mb-5">
+                                <h2 class="h4 fw-bold text-dark mb-3">7. ملفات تعريف الارتباط (Cookies)</h2>
+                                <p class="text-justify">
+                                    نستخدم ملفات تعريف الارتباط لتحسين تجربتك على المنصة، وتذكر تفضيلاتك، وتقديم محتوى مخصص. يمكنك إدارة هذه الملفات من خلال إعدادات المتصفح.
+                                </p>
+                            </section>
+
+                            <section class="mb-5">
+                                <h2 class="h4 fw-bold text-dark mb-3">8. التحديثات على السياسة</h2>
+                                <div class="alert alert-warning" role="alert">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    قد نقوم بتحديث هذه السياسة من وقت لآخر. سيتم إشعارك بأي تغييرات مهمة عبر البريد الإلكتروني أو من خلال المنصة.
+                                </div>
+                            </section>
+
+                            <section class="text-center">
+                                <h2 class="h4 fw-bold text-dark mb-3">تواصل معنا</h2>
+                                <p>إذا كان لديك أي استفسارات حول سياسة الخصوصية:</p>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-4">
+                                        <div class="d-flex align-items-center justify-content-center mb-2">
+                                            <i class="fas fa-envelope text-primary me-2"></i>
+                                            <span>privacy@medicalconnect.com</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="d-flex align-items-center justify-content-center mb-2">
+                                            <i class="fas fa-phone text-primary me-2"></i>
+                                            <span>+966 12 345 6789</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    .privacy-content {
+        line-height: 1.7;
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+</style>

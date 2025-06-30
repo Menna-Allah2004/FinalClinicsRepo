@@ -40,7 +40,7 @@ namespace MedicalConnect.Database
 
         public string? Location { get; set; }
 
-        public string Bio { get; set; }
+        public string? Bio { get; set; }
 
         [Display(Name = "Rating")]
         //[Range(0, 5)]
