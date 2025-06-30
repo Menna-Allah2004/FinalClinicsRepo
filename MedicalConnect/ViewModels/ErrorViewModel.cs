@@ -1,4 +1,4 @@
-namespace MedicalConnect.Database
+namespace MedicalConnect.ViewModels
 {
     public class ErrorViewModel
     {

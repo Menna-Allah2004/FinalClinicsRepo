@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "إنشاء حساب جديد";
+}
+
+<main class="flex-grow-1 py-5 mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h1 class="h3 fw-bold text-dark mb-2">إنشاء حساب في منصة ميديكال كونكت</h1>
+                            <p class="text-muted">يرجى اختيار نوع الحساب</p>
+                        </div>
+
+                        <div class="row mt-5 g-4">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm hover-card">
+                                    <div class="card-body text-center p-4">
+                                        <div class="mb-4">
+                                            <i class="fas fa-user-circle fa-4x text-primary"></i>
+                                        </div>
+                                        <h3 class="h4 mb-3">تسجيل كمريض</h3>
+                                        <p class="text-muted mb-4">للأشخاص الراغبين في حجز المواعيد والتواصل مع الأطباء</p>
+                                        <a asp-controller="Account" asp-action="PatientRegister" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="btn btn-primary w-100 py-2 rounded-3">
+                                            تسجيل كمريض
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm hover-card">
+                                    <div class="card-body text-center p-4">
+                                        <div class="mb-4">
+                                            <i class="fas fa-user-md fa-4x text-info"></i>
+                                        </div>
+                                        <h3 class="h4 mb-3">تسجيل كطبيب</h3>
+                                        <p class="text-muted mb-4">للأطباء الراغبين في إدارة مواعيدهم والتواصل مع المرضى</p>
+                                        <a asp-controller="Account" asp-action="DoctorRegister" asp-route-returnUrl="@ViewData["ReturnUrl"]" class=" btn btn-info w-100 py-2 rounded-3">
+                                            تسجيل كطبيب
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <span class="text-muted">
+                                لديك حساب بالفعل؟
+                                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="text-primary fw-medium">
+                                    تسجيل الدخول
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

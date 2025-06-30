@@ -23,7 +23,7 @@ namespace MedicalConnect.Database
         [StringLength(10)]
         public string Gender { get; set; }
 
-        [StringLength(5)]
+        [MaxLength(20)]
         public string? BloodType { get; set; }
 
         [Display(Name = "Medical History")]

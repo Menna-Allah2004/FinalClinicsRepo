@@ -1,0 +1,228 @@
+﻿@model MedicalConnect.ViewModels.RegisterDoctorViewModel
+
+@{
+    ViewData["Title"] = "تسجيل حساب طبيب جديد";
+}
+
+<main class="flex-grow-1 py-5 mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="text-center mb-4">
+                            <h1 class="h3 fw-bold text-dark mb-2">تسجيل حساب طبيب جديد</h1>
+                            <p class="text-muted">انضم إلى منصة ميديكال كونكت لتقديم خدماتك الطبية</p>
+                        </div>
+
+                        <!-- Display validation summary -->
+                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                        @* <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div> *@
+
+                        <!-- Registration Form -->
+                        <form id="doctorRegisterForm" asp-controller="Account" asp-action="DoctorRegister" method="post" class="needs-validation" novalidate>
+
+                            <!-- Hidden field for ReturnURL -->
+                            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                            @* <input asp-for="ReturnUrl" type="hidden" /> *@
+
+                            <!-- Personal Information -->
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-3">المعلومات الشخصية</h5>
+
+                                <div class="row g-3">
+                                    <!-- Full Name -->
+                                    <div class="col-md-6">
+                                        <label asp-for="FullName" class="form-label"></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white text-muted">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                            <input asp-for="FullName" class="form-control" placeholder="أدخل اسمك الكامل" />
+                                        </div>
+                                        <span asp-validation-for="FullName" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="col-md-6">
+                                        <label asp-for="Email" class="form-label"></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white text-muted">
+                                                <i class="fas fa-envelope"></i>
+                                            </span>
+                                            <input asp-for="Email" class="form-control" placeholder="أدخل بريدك الإلكتروني" />
+                                        </div>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Phone Number -->
+                                    <div class="col-md-6">
+                                        <label asp-for="PhoneNumber" class="form-label"></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white text-muted">
+                                                <i class="fas fa-phone"></i>
+                                            </span>
+                                            <input asp-for="PhoneNumber" class="form-control" placeholder="05xxxxxxxx" />
+                                        </div>
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Gender -->
+                                    <div class="col-md-6">
+                                        <label asp-for="Gender" class="form-label"></label>
+                                        <select asp-for="Gender" class="form-select">
+                                            <option value="" selected disabled>اختر الجنس</option>
+                                            <option value="male">ذكر</option>
+                                            <option value="female">أنثى</option>
+                                        </select>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Professional Information -->
+                            <div id="doctorFields" class="mb-4">
+                                <h5 class="fw-bold mb-3">المعلومات المهنية</h5>
+
+                                <div class="row g-3">
+                                    <!-- Specialization -->
+                                    <div class="col-md-6">
+                                        <label asp-for="Specialty" class="form-label"></label>
+                                        <select asp-for="Specialty" class="form-select">
+                                            <option value="" selected disabled>اختر التخصص</option>
+                                            <option value="general">طب عام</option>
+                                            <option value="cardiology">قلب وأوعية دموية</option>
+                                            <option value="dermatology">جلدية</option>
+                                            <option value="orthopedics">عظام</option>
+                                            <option value="neurology">أعصاب</option>
+                                            <option value="ophthalmology">عيون</option>
+                                            <option value="pediatrics">أطفال</option>
+                                            <option value="dintest">أسنان</option>
+                                            <option value="other">أخرى</option>
+                                        </select>
+                                        <span asp-validation-for="Specialty" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Years of Experience -->
+                                    <div class="col-md-6">
+                                        <label asp-for="ExperienceYears" class="form-label"></label>
+                                        <input asp-for="ExperienceYears" class="form-control" placeholder="عدد سنوات الخبرة" min="1" />
+                                        <span asp-validation-for="ExperienceYears" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Medical License -->
+                                    <div class="col-md-6">
+                                        <label asp-for="License" class="form-label"></label>
+                                        <input asp-for="License" class="form-control" placeholder="أدخل رقم الترخيص الطبي" />
+                                        <span asp-validation-for="License" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Clinic/Hospital -->
+                                    <div class="col-md-6">
+                                        <label asp-for="Workplace" class="form-label"></label>
+                                        <input asp-for="Workplace" class="form-control" placeholder="اسم مكان العمل" />
+                                        <span asp-validation-for="Workplace" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- City -->
+                                    <div class="col-md-6">
+                                        <label asp-for="City" class="form-label"></label>
+                                        <select asp-for="City" class="form-select">
+                                            <option value="" selected disabled>اختر المدينة</option>
+                                            <option value="شمال غزة">شمال غزة</option>
+                                            <option value="غزة">غزة</option>
+                                            <option value="المغازي">المغازي</option>
+                                            <option value="النصيرات">النصيرات</option>
+                                            <option value="دير البلح">دير البلح</option>
+                                            <option value="خانيونس">خانيونس</option>
+                                            <option value="رفح">رفح</option>
+                                            <option value="البريج">البريج</option>
+                                            <option value="أخرى">أخرى</option>
+                                        </select>
+                                        <span asp-validation-for="City" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Bio -->
+                                    <div class="col-12">
+                                        <label asp-for="Bio" class="form-label"></label>
+                                        <textarea asp-for="Bio" class="form-control" rows="3" placeholder="اكتب نبذة مختصرة عن خبراتك ومهاراتك"></textarea>
+                                        <span asp-validation-for="Bio" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Account Information -->
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-3">معلومات الحساب</h5>
+
+                                <div class="row g-3">
+                                    <!-- Password -->
+                                    <div class="col-md-6">
+                                        <label asp-for="Password" class="form-label"></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white text-muted">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                            <input asp-for="Password" class="form-control" placeholder="أدخل كلمة المرور" />
+                                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                                <i class="fas fa-eye" id="passwordIcon"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-text">يجب أن تحتوي على الأقل 8 أحرف</div>
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Confirm Password -->
+                                    <div class="col-md-6">
+                                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white text-muted">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                            <input asp-for="ConfirmPassword" class="form-control" placeholder="أعد إدخال كلمة المرور" />
+                                            <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                                <i class="fas fa-eye" id="confirmPasswordIcon"></i>
+                                            </button>
+                                        </div>
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Terms and Privacy -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input asp-for="AgreeTerms" class="form-check-input" />
+                                    <label asp-for="AgreeTerms" class="form-check-label">
+                                        أوافق على <a href="#" class="text-primary">شروط الاستخدام</a> و <a href="#" class="text-primary">سياسة الخصوصية</a>
+                                    </label>
+                                    <span asp-validation-for="AgreeTerms" class="text-danger d-block"></span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-info w-100 py-2 rounded-3 mb-3">
+                                إنشاء الحساب
+                            </button>
+
+                            <div class="text-center mt-4">
+                                <span class="text-muted small">
+                                    لديك حساب بالفعل؟
+                                    <a asp-controller="Account" asp-action="Login" class="text-primary fw-medium">
+                                        تسجيل الدخول
+                                    </a>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/doctor-register.js" asp-append-version="true"></script>
+}
