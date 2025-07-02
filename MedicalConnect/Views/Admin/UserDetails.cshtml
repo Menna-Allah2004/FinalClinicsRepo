@@ -1,0 +1,182 @@
+﻿@model MedicalConnect.Database.ApplicationUser
+@{
+    ViewData["Title"] = "تفاصيل المستخدم";
+    Layout = "_Layout";
+    var doctor = ViewBag.Doctor as MedicalConnect.Database.Doctor;
+    var patient = ViewBag.Patient as MedicalConnect.Database.Patient;
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mt-4">تفاصيل المستخدم</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Dashboard")">لوحة التحكم</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Users")">المستخدمين</a></li>
+                <li class="breadcrumb-item active">@Model.FullName</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="@(Model.ImageUrl ?? "~/images/default-user.png")"
+                         class="rounded-circle mb-3" width="120" height="120" alt="@Model.FullName">
+                    <h4>@Model.FullName</h4>
+                    <p class="text-muted">@Model.Email</p>
+                    <span class="badge bg-@(Model.UserType == "Doctor" ? "primary" : Model.UserType == "Patient" ? "success" : "warning") fs-6">
+                        @(Model.UserType == "Doctor" ? "طبيب" : Model.UserType == "Patient" ? "مريض" : "مدير")
+                    </span>
+                </div>
+                <div class="card-footer">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="border-end">
+                                <h6 class="mb-1">الحالة</h6>
+                                @if (Model.IsApproved)
+                                {
+                                    <span class="badge bg-success">نشط</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">معلق</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h6 class="mb-1">تاريخ التسجيل</h6>
+                            <small class="text-muted">@Model.CreatedAt.ToString("yyyy-MM-dd")</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">المعلومات الشخصية</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="fw-bold">الاسم الكامل:</label>
+                            <p>@Model.FullName</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="fw-bold">البريد الإلكتروني:</label>
+                            <p>@Model.Email</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="fw-bold">رقم الهاتف:</label>
+                            <p>@(Model.PhoneNumber ?? "غير محدد")</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="fw-bold">الجنس:</label>
+                            <p>@(Model.Gender ?? "غير محدد")</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="fw-bold">تاريخ الميلاد:</label>
+                            <p>@(Model.BirthDate?.ToString("yyyy-MM-dd") ?? "غير محدد")</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="fw-bold">المدينة:</label>
+                            <p>@(Model.City ?? "غير محدد")</p>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="fw-bold">العنوان:</label>
+                            <p>@(Model.Location ?? "غير محدد")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (doctor != null)
+            {
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">معلومات الطبيب</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold">التخصص:</label>
+                                <p>@doctor.Specialty</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold">سنوات الخبرة:</label>
+                                <p>@doctor.Experience سنة</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold">رسوم الاستشارة:</label>
+                                <p>@doctor.ConsultationFee ريال</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold">مكان العمل:</label>
+                                <p>@doctor.Workplace</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold">رخصة الممارسة:</label>
+                                <p>@doctor.License</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold">المدينة:</label>
+                                <p>@doctor.City</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="fw-bold">نبذة تعريفية:</label>
+                                <p>@(doctor.Bio ?? "غير محدد")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (patient != null)
+            {
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">معلومات المريض</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold">فصيلة الدم:</label>
+                                <p>@(patient.BloodType ?? "غير محدد")</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold">تاريخ الميلاد:</label>
+                                <p>@patient.DateOfBirth?.ToString("yyyy-MM-dd")</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="fw-bold">التاريخ المرضي:</label>
+                                <p>@(patient.MedicalHistory ?? "غير محدد")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-footer text-center">
+                    <a href="@Url.Action("Users")" class="btn btn-secondary me-2">
+                        <i class="fas fa-arrow-left"></i> العودة للمستخدمين
+                    </a>
+                    <form asp-action="DeleteUser" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم؟')">
+                            <i class="fas fa-trash"></i> حذف المستخدم
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

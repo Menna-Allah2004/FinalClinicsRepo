@@ -1,0 +1,291 @@
+﻿@model MedicalConnect.ViewModels.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "لوحة تحكم المدير";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="dashboard-header mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="dashboard-title">
+                    <i class="fas fa-tachometer-alt text-primary me-2"></i>
+                    لوحة تحكم المدير
+                </h2>
+                <p class="text-muted">مرحباً بك في لوحة تحكم النظام</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-circle me-1"></i>
+                    النظام يعمل بشكل طبيعي
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="stats-card bg-primary">
+                <div class="stats-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="stats-content">
+                    <h3>@Model.TotalDoctors</h3>
+                    <p>إجمالي الأطباء</p>
+                </div>
+                <div class="stats-trend">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+12%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="stats-card bg-success">
+                <div class="stats-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stats-content">
+                    <h3>@Model.TotalPatients</h3>
+                    <p>إجمالي المرضى</p>
+                </div>
+                <div class="stats-trend">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+8%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="stats-card bg-info">
+                <div class="stats-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stats-content">
+                    <h3>@Model.TotalAppointments</h3>
+                    <p>إجمالي المواعيد</p>
+                </div>
+                <div class="stats-trend">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+15%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="stats-card bg-warning">
+                <div class="stats-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stats-content">
+                    <h3>@Model.PendingDoctorApprovals</h3>
+                    <p>طلبات معلقة</p>
+                </div>
+                <div class="stats-trend">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>يحتاج مراجعة</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Row -->
+    <div class="row">
+        <!-- Pending Doctor Approvals -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-user-clock text-warning me-2"></i>
+                            طلبات الأطباء المعلقة
+                        </h5>
+                        <a href="@Url.Action("DoctorApprovals", "Admin")" class="btn btn-outline-primary btn-sm">
+                            عرض الكل
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (Model.PendingDoctors.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>الصورة</th>
+                                        <th>الاسم</th>
+                                        <th>التخصص</th>
+                                        <th>سنوات الخبرة</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var doctor in Model.PendingDoctors)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@doctor.ImageUrl" alt="@doctor.FullName"
+                                                     class="rounded-circle" width="40" height="40">
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>@doctor.FullName</strong>
+                                                    <br>
+                                                    <small class="text-muted">@doctor.Email</small>
+                                                </div>
+                                            </td>
+                                            <td>@doctor.Specialization</td>
+                                            <td>@doctor.ExperienceYears سنة</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <form asp-action="ApproveDoctorRegistration" method="post" class="d-inline">
+                                                        <input type="hidden" name="userId" value="@doctor.UserId" />
+                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form asp-action="RejectDoctorRegistration" method="post" class="d-inline">
+                                                        <input type="hidden" name="userId" value="@doctor.UserId" />
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
+                            <p class="text-muted">لا توجد طلبات معلقة</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Messages -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-envelope text-info me-2"></i>
+                            الرسائل الحديثة
+                        </h5>
+                        <span class="badge bg-danger">@Model.UnreadMessages</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentMessages.Any())
+                    {
+                        <div class="message-list">
+                            @foreach (var message in Model.RecentMessages)
+                            {
+                                <div class="message-item @(!message.IsRead ? "unread" : "")">
+                                    <div class="d-flex">
+                                        <div class="message-avatar">
+                                            <i class="fas fa-user-circle fa-2x text-secondary"></i>
+                                        </div>
+                                        <div class="message-content flex-grow-1 me-3">
+                                            <h6 class="mb-1">@message.Name</h6>
+                                            <p class="mb-1 text-truncate">@message.Subject</p>
+                                            <small class="text-muted">@message.CreatedAt</small>
+                                        </div>
+                                        @if (!message.IsRead)
+                                        {
+                                            <div class="message-status">
+                                                <span class="badge bg-primary">جديد</span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="@Url.Action("Messages", "Admin")" class="btn btn-outline-primary btn-sm">
+                                عرض جميع الرسائل
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-inbox text-muted fa-3x mb-3"></i>
+                            <p class="text-muted">لا توجد رسائل جديدة</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-bolt text-warning me-2"></i>
+                        الإجراءات السريعة
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="@Url.Action("DoctorApprovals", "Admin")" class="quick-action-card">
+                                <div class="quick-action-icon bg-warning">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <div class="quick-action-content">
+                                    <h6>موافقة الأطباء</h6>
+                                    <p>مراجعة طلبات التسجيل</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="@Url.Action("Users", "Admin")" class="quick-action-card">
+                                <div class="quick-action-icon bg-primary">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="quick-action-content">
+                                    <h6>إدارة المستخدمين</h6>
+                                    <p>عرض وإدارة المستخدمين</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="@Url.Action("Appointments", "Admin")" class="quick-action-card">
+                                <div class="quick-action-icon bg-success">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="quick-action-content">
+                                    <h6>إدارة المواعيد</h6>
+                                    <p>متابعة جدول المواعيد</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="@Url.Action("Messages", "Admin")" class="quick-action-card">
+                                <div class="quick-action-icon bg-info">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="quick-action-content">
+                                    <h6>الرسائل</h6>
+                                    <p>قراءة رسائل المستخدمين</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

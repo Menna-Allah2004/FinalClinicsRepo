@@ -10,7 +10,7 @@ namespace MedicalConnect.ViewModels
         public int PendingDoctorApprovals { get; set; }
         public int UnreadMessages { get; set; }
         public List<DoctorApprovalViewModel> PendingDoctors { get; set; }
-        public List<ContactMessageViewModel> RecentMessages { get; set; }
+        public List<ContactUsMessageViewModel> RecentMessages { get; set; }
     }
 
     public class DoctorApprovalViewModel
@@ -25,16 +25,16 @@ namespace MedicalConnect.ViewModels
         public int? ExperienceYears { get; set; }
     }
 
-    public class ContactUsMessageViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Subject { get; set; }
-        public string Message { get; set; }
-        public bool IsRead { get; set; }
-        public string CreatedAt { get; set; }
-    }
+    //public class ContactUsMessageViewModel
+    //{
+    //    public int Id { get; set; }
+    //    public string Name { get; set; }
+    //    public string Email { get; set; }
+    //    public string Subject { get; set; }
+    //    public string Message { get; set; }
+    //    public bool IsRead { get; set; }
+    //    public string CreatedAt { get; set; }
+    //}
 
     public class MonthlyVisitData
     {

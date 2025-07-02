@@ -1,0 +1,108 @@
+﻿@model MedicalConnect.ViewModels.ContactUsMessageViewModel
+@{
+    ViewData["Title"] = "تفاصيل الرسالة";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-page-container">
+    <div class="page-header mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="page-title">
+                    <i class="fas fa-envelope-open text-info me-2"></i>
+                    تفاصيل الرسالة
+                </h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Dashboard", "Admin")">لوحة التحكم</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Messages", "Admin")">الرسائل</a>
+                        </li>
+                        <li class="breadcrumb-item active">تفاصيل الرسالة</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="@Url.Action("Messages", "Admin")" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-right me-2"></i>
+                    العودة للرسائل
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-details-card">
+        <div class="message-header">
+            <div class="sender-section">
+                <div class="sender-avatar">
+                    <i class="fas fa-user-circle fa-4x text-primary"></i>
+                </div>
+                <div class="sender-info">
+                    <h4 class="sender-name">@Model.Name</h4>
+                    <p class="sender-email">
+                        <i class="fas fa-envelope me-2"></i>
+                        @Model.Email
+                    </p>
+                    <p class="message-date">
+                        <i class="fas fa-clock me-2"></i>
+                        @Model.CreatedAt
+                    </p>
+                </div>
+            </div>
+            <div class="message-status">
+                @if (Model.IsRead)
+                {
+                    <span class="badge bg-success fs-6">
+                        <i class="fas fa-check-circle me-1"></i>
+                        مقروءة
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-warning fs-6">
+                        <i class="fas fa-circle me-1"></i>
+                        جديدة
+                    </span>
+                }
+            </div>
+        </div>
+
+        <div class="message-subject-section">
+            <h3 class="subject-title">
+                <i class="fas fa-tag me-2 text-primary"></i>
+                @Model.Subject
+            </h3>
+        </div>
+
+        <div class="message-content-section">
+            <div class="message-content">
+                <h5 class="content-label">
+                    <i class="fas fa-comment-dots me-2 text-info"></i>
+                    محتوى الرسالة
+                </h5>
+                <div class="content-text">
+                    @Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br>"))
+                </div>
+            </div>
+        </div>
+
+        <div class="message-actions-section">
+            <div class="action-buttons">
+                <a href="mailto:@Model.Email?subject=Re: @Model.Subject" class="btn btn-primary">
+                    <i class="fas fa-reply me-2"></i>
+                    الرد على الرسالة
+                </a>
+                <form asp-action="Delete" method="post" class="d-inline">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('هل أنت متأكد من حذف هذه الرسالة؟')">
+                        <i class="fas fa-trash me-2"></i>
+                        حذف الرسالة
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -22,7 +22,7 @@ namespace MedicalConnect.ViewModels
         public string Message { get; set; }
     }
 
-    public class ContactMessageViewModel
+    public class ContactUsMessageViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
