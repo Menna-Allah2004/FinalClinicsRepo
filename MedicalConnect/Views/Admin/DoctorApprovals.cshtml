@@ -1,0 +1,99 @@
+﻿@model List<MedicalConnect.ViewModels.DoctorApprovalViewModel>
+
+@{
+    ViewData["Title"] = "موافقة الأطباء";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-page-container">
+    <div class="page-header mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="page-title">
+                    <i class="fas fa-user-check text-warning me-2"></i>
+                    موافقة الأطباء
+                </h2>
+                <p class="text-muted">مراجعة والموافقة على طلبات تسجيل الأطباء الجدد</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <span class="badge bg-warning fs-6">
+                    @Model.Count طلب معلق
+                </span>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var doctor in Model)
+            {
+                <div class="col-lg-6 col-xl-4 mb-4">
+                    <div class="doctor-approval-card">
+                        <div class="card-header">
+                            <div class="doctor-image">
+                                <img src="@doctor.ImageUrl" alt="@doctor.FullName" class="doctor-avatar">
+                                <div class="status-badge pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="doctor-name">@doctor.FullName</h5>
+                            <p class="doctor-specialty">@doctor.Specialization</p>
+
+                            <div class="doctor-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                    <span>@doctor.Email</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-phone text-success"></i>
+                                    <span>@doctor.PhoneNumber</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-graduation-cap text-info"></i>
+                                    <span>@doctor.ExperienceYears سنة خبرة</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="action-buttons">
+                                <form asp-action="ApproveDoctorRegistration" method="post" class="d-inline">
+                                    <input type="hidden" name="userId" value="@doctor.UserId" />
+                                    <button type="submit" class="btn btn-success approve-btn"
+                                            onclick="return confirm('هل أنت متأكد من الموافقة على هذا الطلب؟')">
+                                        <i class="fas fa-check me-1"></i>
+                                        موافقة
+                                    </button>
+                                </form>
+                                <form asp-action="RejectDoctorRegistration" method="post" class="d-inline">
+                                    <input type="hidden" name="userId" value="@doctor.UserId" />
+                                    <button type="submit" class="btn btn-danger reject-btn"
+                                            onclick="return confirm('هل أنت متأكد من رفض هذا الطلب؟ سيتم حذف الحساب نهائياً.')">
+                                        <i class="fas fa-times me-1"></i>
+                                        رفض
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="text-center py-5">
+                <i class="fas fa-check-circle text-success fa-5x mb-4"></i>
+                <h3 class="text-muted">لا توجد طلبات معلقة</h3>
+                <p class="text-muted">جميع طلبات تسجيل الأطباء تمت مراجعتها</p>
+                <a href="@Url.Action("Dashboard", "Admin")" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-2"></i>
+                    العودة للوحة التحكم
+                </a>
+            </div>
+        </div>
+    }
+</div>
