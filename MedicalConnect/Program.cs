@@ -44,6 +44,7 @@ namespace MedicalConnect
               .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
 
             // Add services to the container.

@@ -1,0 +1,230 @@
+﻿@{
+    ViewData["Title"] = "اتصل بنا";
+}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-pattern"></div>
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="animate-on-scroll">
+                    <span class="badge bg-white text-primary fw-bold mb-3">اتصل بنا</span>
+                    <h1 class="display-4 fw-bold mb-4">تواصل معنا</h1>
+                    <p class="lead mb-0">
+                        نحن هنا للإجابة على جميع استفساراتك ومساعدتك في كل ما تحتاجه
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <svg class="hero-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <path d="M0,50 C150,100 350,0 500,50 C650,100 850,0 1000,50 C1150,100 1350,0 1440,50 L1440,100 L0,100 Z"></path>
+    </svg>
+</section>
+
+<!-- Contact Info Cards -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4 justify-content-center -mt-24" style="margin-top: -100px;">
+            <!-- Card 1: Phone -->
+            <div class="col-md-4">
+                <div class="card border-0 rounded-4 shadow bg-white p-4 text-center h-100 animate-on-scroll">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary p-3 rounded-circle mx-auto mb-4">
+                        <i class="fas fa-phone fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">اتصل بنا</h4>
+                    <p class="text-muted mb-2">الدعم الفني: 0599999999</p>
+                    <p class="text-muted mb-2">خدمة العملاء: 0599999999</p>
+                    <p class="text-muted mb-0">الطوارئ: 0599999999</p>
+                </div>
+            </div>
+
+            <!-- Card 2: Email -->
+            <div class="col-md-4">
+                <div class="card border-0 rounded-4 shadow bg-white p-4 text-center h-100 animate-on-scroll">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary p-3 rounded-circle mx-auto mb-4">
+                        <i class="fas fa-envelope fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">راسلنا</h4>
+                    <p class="text-muted mb-2">الاستفسارات العامة:<br>mennaallah102004@gmail.com</p>
+                    <p class="text-muted mb-2">الدعم الفني:<br>supportteam@gmail.com</p>
+                </div>
+            </div>
+
+            <!-- Card 3: Location -->
+            <div class="col-md-4">
+                <div class="card border-0 rounded-4 shadow bg-white p-4 text-center h-100 animate-on-scroll">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary p-3 rounded-circle mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">موقعنا</h4>
+                    <p class="text-muted mb-2">خانيونس - البلد</p>
+                    <p class="text-muted mb-2">بالقرب من عمارة جاسر</p>
+                    <p class="text-muted mb-0">غزة - فلسطين</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="py-5 bg-white">
+    <div class="container py-4">
+        <div class="text-center mb-5 animate-on-scroll">
+            <span class="badge bg-primary-subtle text-primary fw-bold mb-3">تواصل معنا</span>
+            <h2 class="display-5 fw-bold mb-3">أرسل لنا رسالة</h2>
+            <p class="text-muted col-lg-8 mx-auto">
+                هل لديك استفسار أو تحتاج إلى مساعدة؟ لا تتردد في التواصل معنا من خلال النموذج أدناه وسنقوم بالرد عليك في أقرب
+                وقت ممكن
+            </p>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <form id="contactForm" class="animate-on-scroll bg-light p-4 p-lg-5 rounded-4 shadow-sm">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label fw-medium">الاسم الكامل</label>
+                                <input type="text" class="form-control rounded-3 py-2" id="name" name="name"
+                                       placeholder="أدخل اسمك الكامل" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label fw-medium">البريد الإلكتروني</label>
+                                <input type="email" class="form-control rounded-3 py-2" id="email" name="email"
+                                       placeholder="your@email.com" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="phone" class="form-label fw-medium">رقم الهاتف</label>
+                                <input type="tel" class="form-control rounded-3 py-2" id="phone" name="phone"
+                                       placeholder="05xxxxxxxx">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="subject" class="form-label fw-medium">الموضوع</label>
+                                <select class="form-select rounded-3 py-2" id="subject" name="subject" required>
+                                    <option value="" selected disabled>اختر موضوع الرسالة</option>
+                                    <option value="استفسار عام">استفسار عام</option>
+                                    <option value="مشكلة تقنية">مشكلة تقنية</option>
+                                    <option value="حجز المواعيد">حجز المواعيد</option>
+                                    <option value="التسجيل كطبيب">التسجيل كطبيب</option>
+                                    <option value="اقتراحات وملاحظات">اقتراحات وملاحظات</option>
+                                    <option value="أخرى">أخرى</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="message" class="form-label fw-medium">الرسالة</label>
+                                <textarea class="form-control rounded-3" id="message" name="message" rows="5"
+                                          placeholder="اكتب رسالتك هنا..." required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary rounded-pill px-5 py-2">
+                                <i class="fas fa-paper-plane me-2"></i> إرسال الرسالة
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="animate-on-scroll">
+                    <!-- Office Hours -->
+                    <div class="card border-0 shadow-sm rounded-4 mb-4">
+                        <div class="card-body p-4">
+                            <h4 class="fw-bold mb-4">ساعات العمل</h4>
+
+                            <div class="d-flex mb-3">
+                                <div class="text-primary me-3">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div>
+                                    <p class="fw-medium text-dark mb-1">أيام الأسبوع</p>
+                                    <p class="text-muted mb-0">9:00 صباحاً - 10:00 مساءً</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mb-3">
+                                <div class="text-primary me-3">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div>
+                                    <p class="fw-medium text-dark mb-1">الجمعة</p>
+                                    <p class="text-muted mb-0">2:00 ظهراً - 10:00 مساءً</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <div class="text-primary me-3">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <div>
+                                    <p class="fw-medium text-dark mb-1">الدعم الفني</p>
+                                    <p class="text-muted mb-0">متاح على مدار الساعة</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Urgent Help -->
+                    <div class="card border-0 shadow-sm rounded-4 bg-primary text-white">
+                        <div class="card-body p-4">
+                            <h4 class="fw-bold mb-4">هل تحتاج إلى مساعدة عاجلة؟</h4>
+                            <p class="mb-4">
+                                يمكنك التواصل مع فريق الدعم الفني لدينا على مدار الساعة للحالات العاجلة.
+                            </p>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-phone-alt me-2"></i>
+                                <span class="fw-medium">0599999999</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="card border-0 rounded-4 shadow-sm p-3 animate-on-scroll">
+            <div class="ratio ratio-21x9">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.7217303632156!2d46.6745381!3d24.7115964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2ee38fed3b27d9%3A0x5e769ab7ada7e426!2sKingdom%20Centre!5e0!3m2!1sen!2ssa!4v1623831091952!5m2!1sen!2ssa"
+                        style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        title="خريطة موقع ميديكال كونكت"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Teaser Section -->
+<section class="py-5 bg-light">
+    <div class="container py-4">
+        <div class="text-center animate-on-scroll">
+            <h2 class="display-6 fw-bold mb-4">هل لديك المزيد من الأسئلة؟</h2>
+            <p class="text-muted col-lg-8 mx-auto mb-5">
+                قم بزيارة صفحة الأسئلة الشائعة للاطلاع على إجابات لأكثر الأسئلة شيوعاً، أو تواصل معنا مباشرة.
+            </p>
+            <a asp-controller="Home" asp-action="faq" class="btn btn-primary rounded-pill px-5 py-2">
+                الأسئلة الشائعة
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Toast Container for Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JavaScript -->
+<script src="~/js/contact.js"></script>

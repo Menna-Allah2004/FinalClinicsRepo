@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-namespace ClinicPatient.Services
+namespace MedicalConnect.Services
 {
     public interface IEmailService
     {

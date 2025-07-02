@@ -104,7 +104,7 @@ namespace MedicalConnect.Controllers
             var patient = new Patient
             {
                 UserId = user.Id,
-                Email = user.Email, 
+                Email = user.Email,
                 FullName = user.FullName,
                 PhoneNumber = user.PhoneNumber,
                 Gender = model.Gender ?? "غير محدد",
@@ -186,7 +186,7 @@ namespace MedicalConnect.Controllers
             var doctor = new Doctor
             {
                 UserId = user.Id,
-                Email = user.Email, 
+                Email = user.Email,
                 FullName = user.FullName,
                 PhoneNumber = user.PhoneNumber,
                 City = user.City,

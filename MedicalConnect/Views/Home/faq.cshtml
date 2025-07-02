@@ -1,0 +1,785 @@
+﻿@{
+    ViewData["Title"] = "الأسئلة الشائعة";
+}
+
+<!-- Header -->
+<header class="bg-medical-50 py-5">
+    <div class="container text-center" style="margin-top: 1rem;">
+        <h1 class="display-5 fw-bold text-dark mb-3">الأسئلة الشائعة</h1>
+        <p class="lead mb-4 text-muted mx-auto" style="max-width: 700px;">
+            إجابات على الأسئلة المتكررة حول خدماتنا وكيفية استخدام منصة ميديكال كونكت
+        </p>
+        <div class="col-md-8 col-lg-6 mx-auto">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control form-control-lg" id="searchFaq"
+                       placeholder="البحث في الأسئلة الشائعة..." aria-label="البحث في الأسئلة الشائعة">
+                <button class="btn btn-primary" type="button" id="searchFaqButton">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- FAQ Categories Sidebar -->
+            <div class="col-lg-3 mb-4 mb-lg-0">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-medical-600 text-white py-3">
+                        <h2 class="h5 mb-0">التصنيفات</h2>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="nav flex-column nav-pills" id="faqCategoriesTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active px-4 py-3 border-bottom rounded-0 d-flex justify-content-between align-items-center"
+                                        id="general-tab" data-bs-toggle="pill" data-bs-target="#general" type="button"
+                                        role="tab">
+                                    أسئلة عامة
+                                    <span class="badge bg-light text-dark">6</span>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link px-4 py-3 border-bottom rounded-0 d-flex justify-content-between align-items-center"
+                                        id="appointments-tab" data-bs-toggle="pill" data-bs-target="#appointments"
+                                        type="button" role="tab">
+                                    حجز المواعيد
+                                    <span class="badge bg-light text-dark">5</span>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link px-4 py-3 border-bottom rounded-0 d-flex justify-content-between align-items-center"
+                                        id="account-tab" data-bs-toggle="pill" data-bs-target="#account" type="button"
+                                        role="tab">
+                                    الحساب الشخصي
+                                    <span class="badge bg-light text-dark">4</span>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link px-4 py-3 border-bottom rounded-0 d-flex justify-content-between align-items-center"
+                                        id="payment-tab" data-bs-toggle="pill" data-bs-target="#payment" type="button"
+                                        role="tab">
+                                    الدفع والفواتير
+                                    <span class="badge bg-light text-dark">4</span>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link px-4 py-3 rounded-0 d-flex justify-content-between align-items-center"
+                                        id="technical-tab" data-bs-toggle="pill" data-bs-target="#technical"
+                                        type="button" role="tab">
+                                    مشاكل تقنية
+                                    <span class="badge bg-light text-dark">3</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-medical-50 p-4 rounded-3">
+                    <h3 class="h5 mb-3">هل لديك سؤال آخر؟</h3>
+                    <p class="text-muted mb-3">إذا لم تجد إجابة على سؤالك، يمكنك التواصل معنا مباشرة.</p>
+                    <a asp-controller="Contact" asp-action="Index" class="btn btn-primary w-100">
+                        <i class="fas fa-headset me-2"></i>
+                        تواصل مع الدعم
+                    </a>
+                </div>
+            </div>
+
+            <!-- FAQ Content -->
+            <div class="col-lg-9">
+                <div class="tab-content" id="faqCategoriesTabContent">
+                    <!-- General Questions -->
+                    <div class="tab-pane fade show active" id="general" role="tabpanel">
+                        <h2 class="h4 mb-4">أسئلة عامة</h2>
+
+                        <div class="accordion" id="accordionGeneral">
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#generalOne">
+                                        ما هي منصة ميديكال كونكت؟
+                                    </button>
+                                </h3>
+                                <div id="generalOne" class="accordion-collapse collapse show"
+                                     data-bs-parent="#accordionGeneral">
+                                    <div class="accordion-body">
+                                        <p>
+                                            منصة ميديكال كونكت هي منصة رقمية صحية متكاملة تهدف إلى تسهيل الخدمات
+                                            الطبية للمرضى وتحسين التواصل بين المرضى والأطباء. توفر المنصة العديد من
+                                            الخدمات مثل حجز المواعيد مع الأطباء، والاستشارات الطبية عن بُعد، والملف
+                                            الطبي الإلكتروني، ومتابعة الحالات الصحية، وغيرها من الخدمات الطبية.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#generalTwo">
+                                        كيف يمكنني استخدام المنصة؟
+                                    </button>
+                                </h3>
+                                <div id="generalTwo" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionGeneral">
+                                    <div class="accordion-body">
+                                        <p>
+                                            لاستخدام منصة ميديكال كونكت، عليك أولاً إنشاء حساب شخصي من خلال صفحة
+                                            التسجيل، ثم تسجيل الدخول إلى حسابك. بعد ذلك، يمكنك استخدام جميع الخدمات
+                                            المتاحة مثل:
+                                        </p>
+                                        <ul>
+                                            <li>البحث عن الأطباء حسب التخصص أو الموقع</li>
+                                            <li>حجز المواعيد مع الأطباء</li>
+                                            <li>إدارة مواعيدك وتعديلها أو إلغائها</li>
+                                            <li>الاطلاع على ملفك الطبي وتاريخك المرضي</li>
+                                            <li>متابعة حالتك الصحية</li>
+                                            <li>التواصل مع الأطباء</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#generalThree">
+                                        ما هي تكلفة استخدام المنصة؟
+                                    </button>
+                                </h3>
+                                <div id="generalThree" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionGeneral">
+                                    <div class="accordion-body">
+                                        <p>
+                                            التسجيل واستخدام منصة ميديكال كونكت مجاني تمامًا. تكلفة الخدمات الطبية
+                                            (مثل حجز المواعيد مع الأطباء أو الاستشارات عن بُعد) تعتمد على أسعار
+                                            الأطباء والمراكز الطبية المتعاقدة معنا، وتختلف حسب التخصص ومستوى الخبرة.
+                                            يتم عرض الأسعار بوضوح قبل إتمام أي حجز أو طلب خدمة.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#generalFour">
+                                        هل الأطباء في المنصة معتمدون ومرخصون؟
+                                    </button>
+                                </h3>
+                                <div id="generalFour" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionGeneral">
+                                    <div class="accordion-body">
+                                        <p>
+                                            نعم، جميع الأطباء المسجلين في منصة ميديكال كونكت معتمدون ومرخصون من قبل
+                                            الهيئات الصحية الرسمية. نحن نتحقق من شهادات وتراخيص الأطباء بشكل دقيق
+                                            قبل انضمامهم إلى المنصة. كما نوفر معلومات عن مؤهلات الأطباء وخبراتهم في
+                                            صفحاتهم الشخصية ليتمكن المستخدمون من اتخاذ قرارات مستنيرة عند اختيار
+                                            الطبيب المناسب.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#generalFive">
+                                        ما هي المناطق التي تغطيها الخدمة؟
+                                    </button>
+                                </h3>
+                                <div id="generalFive" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionGeneral">
+                                    <div class="accordion-body">
+                                        <p>
+                                            تتوفر خدمات منصة ميديكال كونكت حالياً في مناطق قطاع غزة. الخدمات الرقمية
+                                            مثل الاستشارات عن بُعد متاحة للجميع في أي مكان داخل القطاع.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#generalSix">
+                                        كيف يتم ضمان خصوصية وسرية بياناتي الطبية؟
+                                    </button>
+                                </h3>
+                                <div id="generalSix" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionGeneral">
+                                    <div class="accordion-body">
+                                        <p>
+                                            نحن نأخذ خصوصية وأمان بياناتك على محمل الجد. تلتزم منصة ميديكال كونكت
+                                            بأعلى معايير الأمان وحماية البيانات ونطبق إجراءات مشددة لضمان سرية
+                                            المعلومات الطبية:
+                                        </p>
+                                        <ul>
+                                            <li>جميع البيانات مشفرة باستخدام تقنيات التشفير الحديثة</li>
+                                            <li>تخزين البيانات في خوادم آمنة ومحمية</li>
+                                            <li>التزام صارم بقوانين وأنظمة حماية البيانات الصحية</li>
+                                            <li>
+                                                وصول محدود للمعلومات الطبية (فقط للأطباء المعالجين والكادر الطبي
+                                                المصرح له)
+                                            </li>
+                                            <li>عدم مشاركة البيانات الطبية مع أي طرف ثالث دون موافقة صريحة</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appointments Questions -->
+                    <div class="tab-pane fade" id="appointments" role="tabpanel">
+                        <h2 class="h4 mb-4">حجز المواعيد</h2>
+
+                        <div class="accordion" id="accordionAppointments">
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#appointmentsOne">
+                                        كيف يمكنني حجز موعد مع طبيب؟
+                                    </button>
+                                </h3>
+                                <div id="appointmentsOne" class="accordion-collapse collapse show"
+                                     data-bs-parent="#accordionAppointments">
+                                    <div class="accordion-body">
+                                        <p>لحجز موعد مع طبيب، اتبع الخطوات التالية:</p>
+                                        <ol>
+                                            <li>سجل دخولك إلى حسابك في المنصة</li>
+                                            <li>انتقل إلى قسم "الأطباء" أو "حجز موعد" في الصفحة الرئيسية</li>
+                                            <li>ابحث عن الطبيب المناسب حسب التخصص أو المنطقة</li>
+                                            <li>اختر الطبيب وانقر على "حجز موعد"</li>
+                                            <li>اختر نوع الزيارة (في العيادة أو استشارة عن بُعد)</li>
+                                            <li>حدد التاريخ والوقت المناسب من الأوقات المتاحة</li>
+                                            <li>أدخل سبب الزيارة وأي ملاحظات إضافية</li>
+                                            <li>قم بتأكيد الحجز والدفع (إذا كان مطلوباً)</li>
+                                            <li>
+                                                ستصلك رسالة تأكيد على البريد الإلكتروني ورسالة نصية على رقم الجوال
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#appointmentsTwo">
+                                        كيف يمكنني إلغاء أو تعديل موعد؟
+                                    </button>
+                                </h3>
+                                <div id="appointmentsTwo" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionAppointments">
+                                    <div class="accordion-body">
+                                        <p>يمكنك إلغاء أو تعديل موعدك من خلال الخطوات التالية:</p>
+                                        <ol>
+                                            <li>سجل دخولك إلى حسابك في المنصة</li>
+                                            <li>انتقل إلى قسم "مواعيدي" في لوحة تحكم الحساب</li>
+                                            <li>حدد الموعد الذي ترغب في إلغائه أو تعديله</li>
+                                            <li>انقر على زر "إلغاء الموعد" أو "تعديل الموعد"</li>
+                                            <li>في حالة التعديل، اختر تاريخاً ووقتاً جديداً</li>
+                                            <li>قم بتأكيد العملية</li>
+                                        </ol>
+                                        <p>
+                                            يرجى ملاحظة: يمكن إلغاء أو تعديل المواعيد قبل 24 ساعة على الأقل من وقت
+                                            الموعد بدون أي رسوم. الإلغاء أو التعديل في وقت أقرب قد يخضع لرسوم حسب
+                                            سياسة الطبيب أو المركز الطبي.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#appointmentsThree">
+                                        هل يمكنني حجز موعد لشخص آخر؟
+                                    </button>
+                                </h3>
+                                <div id="appointmentsThree" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionAppointments">
+                                    <div class="accordion-body">
+                                        <p>
+                                            نعم، يمكنك حجز موعد لشخص آخر (مثل أحد أفراد العائلة). أثناء عملية الحجز،
+                                            ستجد خياراً لتحديد ما إذا كان الموعد لك أو لشخص آخر. إذا كان الموعد لشخص
+                                            آخر، سيُطلب منك إدخال بياناته الأساسية (الاسم، العمر، العلاقة).
+                                        </p>
+                                        <p>
+                                            في حالة كنت تريد إدارة مواعيد أفراد عائلتك بشكل منتظم، يمكنك إضافتهم كـ
+                                            "تابعين" في حسابك من خلال قسم "إدارة الحساب" > "التابعين"، مما يسهل حجز
+                                            المواعيد لهم في المستقبل.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#appointmentsFour">
+                                        ما هي أوقات المواعيد المتاحة؟
+                                    </button>
+                                </h3>
+                                <div id="appointmentsFour" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionAppointments">
+                                    <div class="accordion-body">
+                                        <p>
+                                            أوقات المواعيد المتاحة تختلف حسب الطبيب والمركز الطبي. عند البحث عن موعد،
+                                            ستظهر لك فقط الأوقات المتاحة للحجز بناءً على جدول الطبيب. معظم العيادات
+                                            تعمل من الساعة 9 صباحاً إلى 9 مساءً، من السبت إلى الخميس.
+                                        </p>
+                                        <p>
+                                            بعض الأطباء يقدمون مواعيد في أوقات مسائية متأخرة أو في عطلة نهاية
+                                            الأسبوع. الاستشارات عن بُعد قد تتوفر في أوقات أكثر مرونة.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#appointmentsFive">
+                                        ماذا أفعل إذا تأخرت عن موعدي؟
+                                    </button>
+                                </h3>
+                                <div id="appointmentsFive" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionAppointments">
+                                    <div class="accordion-body">
+                                        <p>
+                                            إذا كنت ستتأخر عن موعدك، يرجى إخطار العيادة أو المركز الطبي في أقرب وقت
+                                            ممكن عن طريق:
+                                        </p>
+                                        <ul>
+                                            <li>الاتصال بالعيادة مباشرة (رقم الهاتف موجود في تفاصيل الموعد)</li>
+                                            <li>
+                                                إرسال إشعار من خلال المنصة في قسم "مواعيدي" ثم اختيار "إبلاغ عن
+                                                تأخير"
+                                            </li>
+                                        </ul>
+                                        <p>سياسة التأخير تختلف بين العيادات، لكن بشكل عام:</p>
+                                        <ul>
+                                            <li>التأخير لمدة تصل إلى 15 دقيقة: غالباً ما يتم استيعابه</li>
+                                            <li>
+                                                التأخير لأكثر من 15 دقيقة: قد يتم تقصير مدة الكشف أو إعادة جدولة
+                                                الموعد
+                                            </li>
+                                            <li>
+                                                التأخير لأكثر من 30 دقيقة: قد يعتبر الموعد ملغياً، وقد تنطبق سياسة
+                                                الإلغاء المتأخر
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Questions -->
+                    <div class="tab-pane fade" id="account" role="tabpanel">
+                        <h2 class="h4 mb-4">الحساب الشخصي</h2>
+
+                        <div class="accordion" id="accordionAccount">
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#accountOne">
+                                        كيف يمكنني إنشاء حساب في المنصة؟
+                                    </button>
+                                </h3>
+                                <div id="accountOne" class="accordion-collapse collapse show"
+                                     data-bs-parent="#accordionAccount">
+                                    <div class="accordion-body">
+                                        <p>لإنشاء حساب في منصة ميديكال كونكت، اتبع الخطوات التالية:</p>
+                                        <ol>
+                                            <li>
+                                                انتقل إلى صفحة "إنشاء حساب" من الصفحة الرئيسية أو من خلال رابط تسجيل
+                                                الدخول
+                                            </li>
+                                            <li>اختر نوع الحساب (مريض أو طبيب)</li>
+                                            <li>
+                                                أدخل البيانات المطلوبة (الاسم، البريد الإلكتروني، رقم الجوال، كلمة
+                                                المرور)
+                                            </li>
+                                            <li>قم بالموافقة على شروط الاستخدام وسياسة الخصوصية</li>
+                                            <li>انقر على "إنشاء حساب"</li>
+                                            <li>
+                                                ستصلك رسالة تحقق على البريد الإلكتروني أو رقم الجوال، قم بتأكيد
+                                                حسابك من خلالها
+                                            </li>
+                                            <li>بعد التأكيد، يمكنك تسجيل الدخول واستكمال ملفك الشخصي</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#accountTwo">
+                                        كيف يمكنني استعادة كلمة المرور المنسية؟
+                                    </button>
+                                </h3>
+                                <div id="accountTwo" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionAccount">
+                                    <div class="accordion-body">
+                                        <p>إذا نسيت كلمة المرور الخاصة بك، يمكنك استعادتها بسهولة:</p>
+                                        <ol>
+                                            <li>انتقل إلى صفحة تسجيل الدخول</li>
+                                            <li>انقر على رابط "نسيت كلمة المرور"</li>
+                                            <li>أدخل البريد الإلكتروني المسجل في حسابك</li>
+                                            <li>انقر على "إرسال رابط إعادة التعيين"</li>
+                                            <li>تحقق من بريدك الإلكتروني واتبع الرابط الذي سيصلك</li>
+                                            <li>أدخل كلمة مرور جديدة وقم بتأكيدها</li>
+                                            <li>
+                                                بعد إعادة تعيين كلمة المرور، يمكنك تسجيل الدخول باستخدام كلمة المرور
+                                                الجديدة
+                                            </li>
+                                        </ol>
+                                        <p>ملاحظة: رابط إعادة تعيين كلمة المرور صالح لمدة 24 ساعة فقط.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#accountThree">
+                                        كيف يمكنني تحديث بياناتي الشخصية؟
+                                    </button>
+                                </h3>
+                                <div id="accountThree" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionAccount">
+                                    <div class="accordion-body">
+                                        <p>لتحديث بياناتك الشخصية، اتبع الخطوات التالية:</p>
+                                        <ol>
+                                            <li>سجل دخولك إلى حسابك في المنصة</li>
+                                            <li>انتقل إلى "الملف الشخصي" أو "إعدادات الحساب" من القائمة العلوية</li>
+                                            <li>انقر على "تعديل البيانات الشخصية"</li>
+                                            <li>قم بتحديث المعلومات التي ترغب في تغييرها</li>
+                                            <li>انقر على "حفظ التغييرات"</li>
+                                        </ol>
+                                        <p>يمكنك تحديث معظم البيانات الشخصية بما في ذلك:</p>
+                                        <ul>
+                                            <li>الاسم</li>
+                                            <li>رقم الجوال</li>
+                                            <li>العنوان</li>
+                                            <li>صورة الملف الشخصي</li>
+                                            <li>إعدادات الإشعارات</li>
+                                        </ul>
+                                        <p>
+                                            ملاحظة: بعض البيانات الأساسية مثل البريد الإلكتروني ورقم الهوية/الإقامة
+                                            قد تتطلب خطوات تحقق إضافية لتغييرها.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#accountFour">
+                                        هل يمكنني إضافة أفراد عائلتي إلى حسابي؟
+                                    </button>
+                                </h3>
+                                <div id="accountFour" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionAccount">
+                                    <div class="accordion-body">
+                                        <p>
+                                            نعم، يمكنك إضافة أفراد عائلتك كتابعين لحسابك، مما يسمح لك بإدارة مواعيدهم
+                                            الطبية وسجلاتهم الصحية. لإضافة تابع:
+                                        </p>
+                                        <ol>
+                                            <li>سجل دخولك إلى حسابك في المنصة</li>
+                                            <li>انتقل إلى "إدارة الحساب" > "التابعين"</li>
+                                            <li>انقر على "إضافة تابع جديد"</li>
+                                            <li>
+                                                أدخل المعلومات المطلوبة (الاسم، تاريخ الميلاد، الجنس، صلة القرابة)
+                                            </li>
+                                            <li>أضف أي معلومات صحية مهمة (اختياري)</li>
+                                            <li>انقر على "إضافة"</li>
+                                        </ol>
+                                        <p>
+                                            يمكنك إضافة ما يصل إلى 10 تابعين لحسابك. بعد إضافة التابعين، يمكنك
+                                            بسهولة:
+                                        </p>
+                                        <ul>
+                                            <li>حجز مواعيد طبية لهم</li>
+                                            <li>الاطلاع على سجلاتهم الطبية</li>
+                                            <li>إدارة أدويتهم ومتابعة حالتهم الصحية</li>
+                                            <li>طلب استشارات طبية نيابة عنهم</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Questions -->
+                    <div class="tab-pane fade" id="payment" role="tabpanel">
+                        <h2 class="h4 mb-4">الدفع والفواتير</h2>
+
+                        <div class="accordion" id="accordionPayment">
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#paymentOne">
+                                        ما هي طرق الدفع المتاحة في المنصة؟
+                                    </button>
+                                </h3>
+                                <div id="paymentOne" class="accordion-collapse collapse show"
+                                     data-bs-parent="#accordionPayment">
+                                    <div class="accordion-body">
+                                        <p>
+                                            تدعم منصة ميديكال كونكت مجموعة متنوعة من طرق الدفع لتوفير أقصى درجات
+                                            المرونة للمستخدمين:
+                                        </p>
+                                        <ul>
+                                            <li>المحافظ الإلكترونية (محفظة بايننس، محفظة بال باي)</li>
+                                            <li>التحويل البنكي (بنك فلسطين)</li>
+                                            <li>الدفع عند الزيارة (متاح في جميع العيادات)</li>
+                                        </ul>
+                                        <p>
+                                            جميع المعاملات المالية عبر المنصة مشفرة وآمنة، ونحن لا نحتفظ ببيانات
+                                            بطاقات الائتمان، حيث يتم معالجة المدفوعات من خلال بوابات دفع موثوقة
+                                            ومرخصة.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#paymentTwo">
+                                        متى يتم خصم المبلغ عند حجز موعد؟
+                                    </button>
+                                </h3>
+                                <div id="paymentTwo" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionPayment">
+                                    <div class="accordion-body">
+                                        <p>سياسة الدفع تختلف حسب الطبيب والمركز الطبي، ولكن بشكل عام:</p>
+                                        <ul>
+                                            <li>
+                                                <strong>الحجز مع دفع تأمين:</strong> يتم خصم مبلغ تأمين (عادة 10-20%
+                                                من قيمة الاستشارة) عند الحجز، ويتم دفع الرصيد المتبقي عند حضور
+                                                الموعد.
+                                            </li>
+                                            <li>
+                                                <strong>الدفع الكامل المسبق:</strong> بعض الأطباء أو الخدمات تتطلب
+                                                الدفع الكامل عند الحجز، خاصة للاستشارات عن بُعد.
+                                            </li>
+                                            <li>
+                                                <strong>تفويض بطاقة الائتمان:</strong> في بعض الحالات، يتم أخذ تفويض
+                                                على البطاقة دون خصم فوري، ويتم الخصم فقط في حالة عدم الحضور أو
+                                                الإلغاء المتأخر.
+                                            </li>
+                                        </ul>
+                                        <p>
+                                            سيتم توضيح سياسة الدفع الخاصة بكل طبيب أو خدمة بشكل واضح قبل إتمام عملية
+                                            الحجز.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#paymentThree">
+                                        ما هي سياسة استرداد المبالغ في حالة إلغاء الموعد؟
+                                    </button>
+                                </h3>
+                                <div id="paymentThree" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionPayment">
+                                    <div class="accordion-body">
+                                        <p>سياسة استرداد المبالغ في حالة إلغاء الموعد تعتمد على توقيت الإلغاء:</p>
+                                        <ul>
+                                            <li>
+                                                <strong>الإلغاء قبل 24 ساعة من الموعد:</strong> استرداد كامل للمبلغ
+                                                المدفوع
+                                            </li>
+                                            <li>
+                                                <strong>الإلغاء بين 12-24 ساعة من الموعد:</strong> استرداد 50% من
+                                                المبلغ المدفوع
+                                            </li>
+                                            <li>
+                                                <strong>الإلغاء قبل أقل من 12 ساعة من الموعد:</strong> لا يتم
+                                                استرداد المبلغ في معظم الحالات
+                                            </li>
+                                        </ul>
+                                        <p>
+                                            في بعض الحالات الخاصة (مثل الظروف الطارئة، المرض الشديد) يمكن طلب استثناء
+                                            من سياسة الاسترداد عن طريق التواصل مع خدمة العملاء.
+                                        </p>
+                                        <p>
+                                            إذا تم إلغاء الموعد من قبل الطبيب أو المركز الطبي، يتم استرداد المبلغ
+                                            بالكامل بغض النظر عن وقت الإلغاء.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technical Questions -->
+                    <div class="tab-pane fade" id="technical" role="tabpanel">
+                        <h2 class="h4 mb-4">مشاكل تقنية</h2>
+
+                        <div class="accordion" id="accordionTechnical">
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#technicalOne">
+                                        المنصة لا تعمل بشكل صحيح على متصفحي، ماذا أفعل؟
+                                    </button>
+                                </h3>
+                                <div id="technicalOne" class="accordion-collapse collapse show"
+                                     data-bs-parent="#accordionTechnical">
+                                    <div class="accordion-body">
+                                        <p>إذا كنت تواجه مشاكل في استخدام المنصة، جرب الخطوات التالية:</p>
+                                        <ol>
+                                            <li>
+                                                <strong>تحديث المتصفح:</strong> تأكد من أنك تستخدم أحدث إصدار من
+                                                متصفحك (Chrome، Firefox، Safari، أو Edge).
+                                            </li>
+                                            <li>
+                                                <strong>مسح ذاكرة التخزين المؤقت:</strong> قم بمسح ذاكرة التخزين
+                                                المؤقت وملفات تعريف الارتباط في متصفحك.
+                                            </li>
+                                            <li>
+                                                <strong>جرب متصفح آخر:</strong> حاول استخدام متصفح مختلف لمعرفة ما
+                                                إذا كانت المشكلة متعلقة بمتصفح معين.
+                                            </li>
+                                            <li>
+                                                <strong>التحقق من اتصال الإنترنت:</strong> تأكد من أن اتصالك
+                                                بالإنترنت مستقر وسريع بدرجة كافية.
+                                            </li>
+                                            <li>
+                                                <strong>تعطيل الإضافات:</strong> قم بتعطيل أي إضافات أو برامج حظر
+                                                الإعلانات مؤقتاً، فقد تتداخل مع عمل المنصة.
+                                            </li>
+                                            <li>
+                                                <strong>استخدام وضع التصفح الخاص:</strong> جرب استخدام وضع التصفح
+                                                الخاص/المتخفي للتحقق من وجود مشكلة في الإعدادات المحلية.
+                                            </li>
+                                        </ol>
+                                        <p>
+                                            إذا استمرت المشكلة بعد تجربة الحلول أعلاه، يرجى التواصل مع فريق الدعم
+                                            الفني مع توضيح:
+                                        </p>
+                                        <ul>
+                                            <li>نوع الجهاز والمتصفح المستخدم</li>
+                                            <li>وصف دقيق للمشكلة</li>
+                                            <li>لقطة شاشة للمشكلة (إن أمكن)</li>
+                                            <li>توقيت حدوث المشكلة</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#technicalTwo">
+                                        كيف يمكنني استخدام خاصية الاستشارات عن بُعد؟
+                                    </button>
+                                </h3>
+                                <div id="technicalTwo" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionTechnical">
+                                    <div class="accordion-body">
+                                        <p>لاستخدام خاصية الاستشارات عن بُعد (الفيديو أو المكالمات الصوتية):</p>
+                                        <ol>
+                                            <li>
+                                                <strong>اختيار طبيب:</strong> ابحث عن طبيب يقدم خدمة الاستشارة عن
+                                                بُعد (مشار إليها بأيقونة الفيديو بجانب اسم الطبيب)
+                                            </li>
+                                            <li>
+                                                <strong>حجز موعد:</strong> احجز موعداً واختر "استشارة عن بُعد" كنوع
+                                                الزيارة
+                                            </li>
+                                            <li>
+                                                <strong>المتطلبات التقنية:</strong> تأكد من توفر المتطلبات التالية:
+                                                <ul>
+                                                    <li>اتصال إنترنت مستقر (سرعة لا تقل عن 1 ميجابت/ثانية)</li>
+                                                    <li>
+                                                        جهاز مزود بكاميرا وميكروفون (جوال حديث، كمبيوتر لوحي، أو
+                                                        كمبيوتر مكتبي مع ملحقات)
+                                                    </li>
+                                                    <li>متصفح حديث (يفضل Chrome أو Firefox)</li>
+                                                    <li>مكان هادئ ومضاء جيداً</li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <strong>بدء الاستشارة:</strong> قبل موعد الاستشارة بـ 10 دقائق:
+                                                <ul>
+                                                    <li>قم بتسجيل الدخول إلى حسابك</li>
+                                                    <li>انتقل إلى صفحة "مواعيدي"</li>
+                                                    <li>اضغط على زر "بدء الاستشارة" عندما يكون نشطاً</li>
+                                                    <li>
+                                                        اسمح للمتصفح بالوصول إلى الكاميرا والميكروفون عند طلب ذلك
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ol>
+                                        <p>نصائح لاستشارة أفضل:</p>
+                                        <ul>
+                                            <li>جهز قائمة بالأعراض أو الأسئلة قبل بدء الاستشارة</li>
+                                            <li>
+                                                جهز أي تقارير طبية سابقة أو نتائج فحوصات لمشاركتها إذا لزم الأمر
+                                            </li>
+                                            <li>اختبر الكاميرا والميكروفون قبل الموعد</li>
+                                            <li>ارتدِ ملابس مناسبة إذا كان الطبيب بحاجة لفحص أي جزء من الجسم</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#technicalThree">
+                                        هل يمكنني استخدام المنصة على الهاتف المحمول؟
+                                    </button>
+                                </h3>
+                                <div id="technicalThree" class="accordion-collapse collapse"
+                                     data-bs-parent="#accordionTechnical">
+                                    <div class="accordion-body">
+                                        <p>
+                                            نعم، منصة ميديكال كونكت متوافقة تماماً مع الأجهزة المحمولة ويمكن
+                                            استخدامها بطريقتين:
+                                        </p>
+                                        <ol>
+                                            <li>
+                                                <strong>الموقع المتجاوب:</strong> يمكنك الوصول إلى المنصة عبر متصفح
+                                                هاتفك الذكي. الموقع مصمم بشكل متجاوب (Responsive) ليعمل بكفاءة على
+                                                جميع أحجام الشاشات.
+                                            </li>
+                                            <li>
+                                                <strong>تطبيق الهاتف:</strong> يمكنك تحميل تطبيق ميديكال كونكت من
+                                                متجر التطبيقات:
+                                                <ul>
+                                                    <li>لأجهزة iPhone: متاح على App Store</li>
+                                                    <li>لأجهزة Android: متاح على Google Play</li>
+                                                </ul>
+                                            </li>
+                                        </ol>
+                                        <p>التطبيق يوفر مزايا إضافية مثل:</p>
+                                        <ul>
+                                            <li>إشعارات فورية للمواعيد والتذكيرات</li>
+                                            <li>تسجيل دخول أسرع باستخدام بصمة الإصبع أو التعرف على الوجه</li>
+                                            <li>واجهة مخصصة للهواتف الذكية</li>
+                                            <li>إمكانية استخدام بعض الخدمات بدون اتصال بالإنترنت</li>
+                                            <li>
+                                                مسح وتحميل الوثائق والتقارير الطبية بسهولة باستخدام كاميرا الهاتف
+                                            </li>
+                                        </ul>
+                                        <p>
+                                            كلا الخيارين (الموقع والتطبيق) يوفران نفس الخدمات الأساسية ويتزامنان
+                                            معاً، لذا يمكنك استخدام الحل الأنسب لك في أي وقت.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="~/js/faq.js"></script>
+    <script src="~/js/common.js"></script>

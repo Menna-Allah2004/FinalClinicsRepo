@@ -1,0 +1,70 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MedicalConnect.Database
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@if (SignInManager != null && User?.Identity?.IsAuthenticated == true)
+{
+    <div class="d-flex align-items-center gap-3 me-3">
+        <div class="dropdown">
+            <a class="dropdown-toggle d-flex align-items-center text-decoration-none" href="#" role="button"
+            id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2"
+                style="width: 35px; height: 35px;">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span class="text-dark">@user?.FullName</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                @if (User?.IsInRole("Patient") == true)
+                {
+                    <li>
+                        <a class="dropdown-item" asp-controller="Patients" asp-action="Profile" title="Manage">
+                            <i class="fas fa-user-circle me-2"></i> الملف الشخصي
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-controller="Appointments" asp-action="Index" title="appointments.html">
+                            <i class="fas fa-calendar-check me-2"></i> مواعيدي
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-controller="MedicalReports" asp-action="Index" title="medical-record.html">
+                            <i class="fas fa-file-medical me-2"></i> السجل الطبي
+                        </a>
+                    </li>
+                }
+                else if (User?.IsInRole("Doctor") == true)
+                {
+                    <li><a class="dropdown-item" asp-controller="Doctors" asp-action="Dashboard">لوحة التحكم</a></li>
+                }
+                else if (User?.IsInRole("Admin") == true)
+                {
+                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Dashboard">لوحة التحكم</a></li>
+                }
+
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" id="logoutBtn" method="Post">
+                        <i class="fas fa-sign-out-alt me-2"></i> تسجيل الخروج
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+else
+{
+    <div class="d-flex">
+        <button class="btn btn-link text-secondary me-2">
+            <i class="fas fa-search"></i>
+        </button>
+        <a class="btn btn-link text-secondary me-2" asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">تسجيل الدخول</a>
+        <a class="btn btn-primary rounded-pill" asp-area="" asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Context.Request.Path">إنشاء حساب</a>
+    </div>
+}

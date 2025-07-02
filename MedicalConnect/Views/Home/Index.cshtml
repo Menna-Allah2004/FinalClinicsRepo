@@ -1,8 +1,376 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "الصفحة الرئيسية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-pattern"></div>
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="animate-on-scroll">
+                    <span class="badge bg-white text-primary fw-bold mb-3">الرعاية الصحية المتكاملة</span>
+                    <h1 class="display-4 fw-bold mb-4">منصة رقمية تربط المرضى بأفضل الأطباء</h1>
+                    <p class="lead mb-5">
+                        مهمتنا توفير رعاية صحية متميزة وسهلة الوصول للجميع من خلال ربط المرضى بأفضل الأطباء
+                        والخدمات الطبية بطريقة سهلة وآمنة
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a asp-area="" asp-controller="Account" asp-action="Register" class="btn btn-light btn-lg rounded-pill shadow px-4 py-2">
+                            <i class="fas fa-user-plus me-2"></i>انضم إلينا الآن
+                        </a>
+                        <a href="#featured-doctors" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">
+                            تصفح الأطباء <i class="fas fa-arrow-left ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="~/images/home/Home-image.png"
+                     class="img-fluid img-blur-in rounded-4 shadow-lg animate-on-scroll" alt="طبيب ومريض">
+            </div>
+        </div>
+    </div>
+    <svg class="hero-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <path d="M0,50 C150,100 350,0 500,50 C650,100 850,0 1000,50 C1150,100 1350,0 1440,50 L1440,100 L0,100 Z"></path>
+    </svg>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 bg-white shadow-sm stats-card h-100 p-4 text-center animate-on-scroll">
+                    <div class="stats-icon mx-auto">
+                        <i class="fas fa-user-md fa-2x"></i>
+                    </div>
+                    <h2 class="fw-bold text-primary mb-0">500+</h2>
+                    <p class="text-muted mb-0">أطباء معتمدين</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 bg-white shadow-sm stats-card h-100 p-4 text-center animate-on-scroll">
+                    <div class="stats-icon mx-auto">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                    <h2 class="fw-bold text-primary mb-0">10,000+</h2>
+                    <p class="text-muted mb-0">مستخدم مسجل</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 bg-white shadow-sm stats-card h-100 p-4 text-center animate-on-scroll">
+                    <div class="stats-icon mx-auto">
+                        <i class="fas fa-calendar-check fa-2x"></i>
+                    </div>
+                    <h2 class="fw-bold text-primary mb-0">15,000+</h2>
+                    <p class="text-muted mb-0">موعد تم حجزه</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 bg-white shadow-sm stats-card h-100 p-4 text-center animate-on-scroll">
+                    <div class="stats-icon mx-auto">
+                        <i class="fas fa-star fa-2x"></i>
+                    </div>
+                    <h2 class="fw-bold text-primary mb-0">4.8</h2>
+                    <p class="text-muted mb-0">تقييم المستخدمين</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-5 bg-white" id="services">
+    <div class="container py-4">
+        <div class="text-center mb-5 animate-on-scroll">
+            <span class="badge bg-primary-subtle text-primary fw-bold mb-3">خدماتنا</span>
+            <h2 class="display-5 fw-bold mb-3">خدمات طبية متكاملة</h2>
+            <p class="text-muted col-lg-8 mx-auto">
+                نقدم مجموعة متنوعة من الخدمات الطبية المتكاملة لضمان حصولك على أفضل رعاية صحية ممكنة
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Service 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm service-card h-100 animate-on-scroll">
+                    <div class="card-body p-4 text-center p-lg-5">
+                        <div class="service-icon mx-auto mb-4">
+                            <i class="fas fa-calendar-alt fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">حجز المواعيد</h4>
+                        <p class="text-muted mb-0">
+                            حجز المواعيد مع الأطباء بكل سهولة وتتبع الحالة والمواعيد القادمة من خلال حسابك الشخصي
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm service-card h-100 animate-on-scroll">
+                    <div class="card-body p-4 text-center p-lg-5">
+                        <div class="service-icon mx-auto mb-4">
+                            <i class="fas fa-comments fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">استشارات طبية</h4>
+                        <p class="text-muted mb-0">
+                            التواصل المباشر مع الأطباء والحصول على استشارات طبية عن بعد عبر المنصة بكل سهولة
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm service-card h-100 animate-on-scroll">
+                    <div class="card-body p-4 text-center p-lg-5">
+                        <div class="service-icon mx-auto mb-4">
+                            <i class="fas fa-file-medical fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">الملف الطبي</h4>
+                        <p class="text-muted mb-0">
+                            الاحتفاظ بسجل طبي كامل للمريض يتضمن التاريخ المرضي والفحوصات والأدوية والتقارير الطبية
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm service-card h-100 animate-on-scroll">
+                    <div class="card-body p-4 text-center p-lg-5">
+                        <div class="service-icon mx-auto mb-4">
+                            <i class="fas fa-pills fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">متابعة الأدوية</h4>
+                        <p class="text-muted mb-0">
+                            تنظيم جدول الأدوية وإرسال تنبيهات لمواعيد تناول الأدوية والجرعات المطلوبة
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm service-card h-100 animate-on-scroll">
+                    <div class="card-body p-4 text-center p-lg-5">
+                        <div class="service-icon mx-auto mb-4">
+                            <i class="fas fa-bell fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">تذكير بالمواعيد</h4>
+                        <p class="text-muted mb-0">
+                            إرسال تذكيرات للمواعيد القادمة عبر البريد الإلكتروني والرسائل النصية للتأكد من عدم تفويت أي موعد
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm service-card h-100 animate-on-scroll">
+                    <div class="card-body p-4 text-center p-lg-5">
+                        <div class="service-icon mx-auto mb-4">
+                            <i class="fas fa-heart fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">نصائح صحية</h4>
+                        <p class="text-muted mb-0">
+                            الحصول على نصائح وإرشادات صحية مخصصة بناءً على حالتك الصحية واحتياجاتك
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a asp-controller="Home" asp-action="Services" class="btn btn-primary btn-lg rounded-pill px-5">عرض جميع الخدمات</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Doctors -->
+<section class="py-5 bg-light" id="featured-doctors">
+    <div class="container py-4">
+        <div class="text-center mb-5 animate-on-scroll">
+            <span class="badge bg-primary-subtle text-primary fw-bold mb-3">أطباؤنا</span>
+            <h2 class="display-5 fw-bold mb-3">نخبة من أفضل الأطباء</h2>
+            <p class="text-muted col-lg-8 mx-auto">
+                نفخر بتقديم نخبة من أفضل الأطباء المتخصصين في مختلف المجالات الطبية لضمان تقديم أفضل رعاية صحية
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Doctors -->
+            @if (Model != null && Model.Any())
+            {
+                foreach (var doctor in Model)
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card border-0 shadow-sm doctor-card animate-on-scroll">
+                            <div class="position-relative doctor-img-wrapper">
+                                <img src="@(string.IsNullOrEmpty(doctor.ImageUrl) ? "/images/default-doctor.png" : doctor.ImageUrl)" class="doctor-img"
+                                     alt="@doctor.FullName">
+                                <span class="doctor-specialty">@doctor.Specialization</span>
+                            </div>
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-1 doctor-name">د. @doctor.FullName</h5>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="doctor-rating me-2">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Math.Floor(doctor.Rating))
+                                            {
+                                                <i class="fas fa-star"></i>
+                                            }
+                                            else if (i <= Math.Ceiling(doctor.Rating) && doctor.Rating % 1 != 0)
+                                            {
+                                                <i class="fas fa-star-half-alt"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-star"></i>
+                                            }
+                                        }
+                                    </div>
+                                    <span class="text-muted small">(@doctor.RatingCount تقييم)</span>
+                                </div>
+                                <p class="text-muted small mb-3">
+                                    @(doctor.Bio?.Length > 100 ? doctor.Bio.Substring(0, 100) + "..." : doctor.Bio)
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <a asp-controller="Doctors" asp-action="Details" asp-route-id="@doctor.Id" class="btn btn-outline-primary rounded-pill">عرض الملف الشخصي</a>
+                                    <a asp-controller="Appointments" asp-action="Create" asp-route-doctorId="@doctor.Id" class="btn btn-primary rounded-pill">حجز موعد</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center">
+                    <p class="text-muted">لا يوجد أطباء متاحين حالياً</p>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-5">
+            <a asp-controller="Doctors" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5">عرض جميع الأطباء</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-white">
+    <div class="container py-4">
+        <div class="text-center mb-5 animate-on-scroll">
+            <span class="badge bg-primary-subtle text-primary fw-bold mb-3">آراء المستخدمين</span>
+            <h2 class="display-5 fw-bold mb-3">ماذا يقول عنا المستخدمون</h2>
+            <p class="text-muted col-lg-8 mx-auto">
+                شهادات حقيقية من المرضى والأطباء الذين استفادوا من خدمات منصة ميديكال كونكت
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Testimonial 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="testimonial-card animate-on-scroll">
+                    <div class="testimonial-quote mb-4">
+                        <p class="mb-0">
+                            المنصة سهلت علي كثيراً في حجز المواعيد ومتابعة حالتي الصحية. التطبيق سهل الاستخدام والأطباء محترفون جداً
+                            ويهتمون براحة المريض.
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <img src="https://dummyimage.com/100x100/e0e0e0/808080&text=Avatar" class="testimonial-img me-3"
+                             alt="نورة أحمد">
+                        <div>
+                            <h6 class="fw-bold mb-1">نورة أحمد</h6>
+                            <p class="text-muted small mb-0">مريضة</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="testimonial-card animate-on-scroll">
+                    <div class="testimonial-quote mb-4">
+                        <p class="mb-0">
+                            ميديكال كونكت غيرت طريقة تعاملي مع المرضى للأفضل. أصبح بإمكاني تنظيم مواعيدي وتقديم استشارات عن بعد
+                            بطريقة احترافية وآمنة.
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <img src="https://dummyimage.com/100x100/e0e0e0/808080&text=Avatar" class="testimonial-img me-3"
+                             alt="د. محمد العبدالله">
+                        <div>
+                            <h6 class="fw-bold mb-1">د. محمد العبدالله</h6>
+                            <p class="text-muted small mb-0">طبيب أسنان</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="testimonial-card animate-on-scroll">
+                    <div class="testimonial-quote mb-4">
+                        <p class="mb-0">
+                            استخدمت المنصة لحجز موعد لوالدتي، كانت التجربة سلسة جداً وسريعة. تلقينا رعاية ممتازة والمتابعة كانت
+                            دقيقة ومستمرة من الطبيب.
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <img src="https://dummyimage.com/100x100/e0e0e0/808080&text=Avatar" class="testimonial-img me-3"
+                             alt="فهد السليمان">
+                        <div>
+                            <h6 class="fw-bold mb-1">فهد السليمان</h6>
+                            <p class="text-muted small mb-0">مريض</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call-to-Action Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <h2 class="display-5 fw-bold mb-3 animate-on-scroll">ابدأ رحلتك الصحية الآن</h2>
+                <p class="lead mb-0 animate-on-scroll">
+                    انضم إلى آلاف المستخدمين الذين يثقون بنا واستفد من خدماتنا الطبية المتميزة
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end animate-on-scroll">
+                <a asp-area="" asp-controller="Account" asp-action="Register" class="btn btn-light btn-lg rounded-pill px-5 shadow">
+                    إنشاء حساب مجاني
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'نجاح',
+                text: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["SuccessMessage"])),
+                confirmButtonText: 'حسناً',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+        });
+    </script>
+}

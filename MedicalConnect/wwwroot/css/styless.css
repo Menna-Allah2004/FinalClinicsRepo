@@ -1,0 +1,618 @@
+/* ألوان المشروع */
+:root {
+    --primary: #2196F3;
+    --primary-dark: #1976D2;
+    --primary-light: #64B5F6;
+    --primary-lightest: #E3F2FD;
+    --dark: #212529;
+    --light: #f8f9fa;
+    --success: #198754;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #0dcaf0;
+    --medical-50: #e3f2fd;
+    --medical-100: #bbdefb;
+    --medical-200: #90caf9;
+    --medical-300: #64b5f6;
+    --medical-400: #42a5f5;
+    --medical-500: #2196f3;
+    --medical-600: #1e88e5;
+    --medical-700: #1976d2;
+    --medical-800: #1565c0;
+    --medical-900: #0d47a1;
+}
+
+/* تنسيق العام */
+body {
+    font-family: "Tajawal", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+}
+
+/* ألوان النصوص والخلفيات */
+.text-medical-50 {
+    color: var(--medical-50) !important;
+}
+
+.text-medical-100 {
+    color: var(--medical-100) !important;
+}
+
+.text-medical-200 {
+    color: var(--medical-200) !important;
+}
+
+.text-medical-300 {
+    color: var(--medical-300) !important;
+}
+
+.text-medical-400 {
+    color: var(--medical-400) !important;
+}
+
+.text-medical-500 {
+    color: var(--medical-500) !important;
+}
+
+.text-medical-600 {
+    color: var(--medical-600) !important;
+}
+
+.text-medical-700 {
+    color: var(--medical-700) !important;
+}
+
+.text-medical-800 {
+    color: var(--medical-800) !important;
+}
+
+.text-medical-900 {
+    color: var(--medical-900) !important;
+}
+
+.bg-medical-50 {
+    background-color: var(--medical-50) !important;
+}
+
+.bg-medical-100 {
+    background-color: var(--medical-100) !important;
+}
+
+.bg-medical-200 {
+    background-color: var(--medical-200) !important;
+}
+
+.bg-medical-300 {
+    background-color: var(--medical-300) !important;
+}
+
+.bg-medical-400 {
+    background-color: var(--medical-400) !important;
+}
+
+.bg-medical-500 {
+    background-color: var(--medical-500) !important;
+}
+
+.bg-medical-600 {
+    background-color: var(--medical-600) !important;
+}
+
+.bg-medical-700 {
+    background-color: var(--medical-700) !important;
+}
+
+.bg-medical-800 {
+    background-color: var(--medical-800) !important;
+}
+
+.bg-medical-900 {
+    background-color: var(--medical-900) !important;
+}
+
+/* تحويل ألوان البوتستراب */
+.btn-primary {
+    background-color: var(--medical-600) !important;
+    border-color: var(--medical-600) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--medical-700) !important;
+    border-color: var(--medical-700) !important;
+}
+
+.btn-outline-primary {
+    color: var(--medical-600) !important;
+    border-color: var(--medical-600) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    background-color: var(--medical-600) !important;
+    color: white !important;
+}
+
+.page-item.active .page-link {
+    background-color: var(--medical-600) !important;
+    border-color: var(--medical-600) !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--medical-600) !important;
+    border-color: var(--medical-600) !important;
+}
+
+/* تنسيق البطاقات */
+.card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.breadcrumb {
+    margin-top: 1.5rem;
+}
+
+/* تنسيق الصور والرسوم */
+.img-blur-in {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+}
+
+.img-blur-in.loaded {
+    filter: blur(0);
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+
+/* القسم الرئيسي */
+.hero-section {
+    background-color: var(--light);
+}
+
+.bg-image {
+    background-image: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.hero-image-glow {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: radial-gradient(circle, var(--medical-500) 0%, transparent 70%);
+    opacity: 0.3;
+    filter: blur(40px);
+    z-index: -1;
+    border-radius: 30px;
+}
+
+.hero-bottom-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background-image: linear-gradient(to top, var(--light), transparent);
+}
+
+/* التدرج اللوني */
+.gradient-primary {
+    background: linear-gradient(135deg, var(--medical-600) 0%, var(--medical-800) 100%);
+}
+
+.app-image-glow {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    filter: blur(20px);
+    z-index: -1;
+    border-radius: 20px;
+}
+
+/* التغيرات للمتصفحات الجوالة */
+@media (max-width: 767.98px) {
+    .display-4 {
+        font-size: 2.5rem;
+    }
+
+    .display-5 {
+        font-size: 2rem;
+    }
+
+    .display-6 {
+        font-size: 1.75rem;
+    }
+}
+
+/* الرسوم المتحركة */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-reveal {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.animate-reveal-delay-1 {
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.1s forwards;
+}
+
+.animate-reveal-delay-2 {
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.2s forwards;
+}
+
+.animate-reveal-delay-3 {
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.3s forwards;
+}
+
+/* تحويل اللون عند التحويم */
+.hover-text-primary:hover {
+    color: var(--medical-600) !important;
+}
+
+.hover-text-white:hover {
+    color: white !important;
+}
+
+/* تنسيق صفحة الأطباء */
+.min-w-20 {
+    min-width: 70px;
+}
+
+/* تنسيق صفحة الملف الشخصي */
+.nav-pills .nav-link {
+    color: var(--dark);
+    background-color: transparent;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+}
+
+.nav-pills .nav-link.active {
+    background-color: white;
+    color: var(--medical-600);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* تنسيق صفحة حجز موعد */
+.booking-progress-line {
+    position: absolute;
+    top: 20px;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background-color: #e9ecef;
+    z-index: 0;
+}
+
+.booking-step-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.timeline-marker {
+    position: relative;
+}
+
+.timeline-marker::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background-color: #e9ecef;
+    transform: translateX(-50%);
+}
+
+.timeline-item:last-child .timeline-marker::after {
+    display: none;
+}
+
+.appointment-type-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.appointment-type-card input[type="radio"]+label {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.appointment-type-card input[type="radio"]:checked+label {
+    border-color: var(--medical-600) !important;
+    background-color: var(--medical-50);
+}
+
+/* تنسيق الانتهاء من الحجز */
+.success-animation {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.checkmark-circle {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.checkmark-circle .background {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--medical-600);
+    position: absolute;
+}
+
+.checkmark-circle .checkmark {
+    border-radius: 5px;
+}
+
+.checkmark-circle .checkmark.draw:after {
+    animation-delay: 0.2s;
+    animation-duration: 0.5s;
+    animation-name: checkmark;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    transform: scaleX(-1) rotate(135deg);
+    transform-origin: left top;
+    border-right: 4px solid white;
+    border-top: 4px solid white;
+    content: '';
+    display: block;
+    height: 33px;
+    position: absolute;
+    left: 30px;
+    top: 45px;
+    width: 16px;
+    opacity: 0;
+}
+
+@keyframes checkmark {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 0;
+    }
+
+    20% {
+        height: 0;
+        width: 16px;
+        opacity: 1;
+    }
+
+    40% {
+        height: 33px;
+        width: 16px;
+        opacity: 1;
+    }
+
+    100% {
+        height: 33px;
+        width: 16px;
+        opacity: 1;
+    }
+}
+
+/* تنسيق Flatpickr */
+.flatpickr-calendar.arrowTop:before,
+.flatpickr-calendar.arrowTop:after {
+    display: none;
+}
+
+.flatpickr-day.selected {
+    background: var(--medical-600) !important;
+    border-color: var(--medical-600) !important;
+}
+
+.flatpickr-day.today {
+    border-color: var(--medical-600) !important;
+}
+
+/* تنسيق التوست */
+.toast-container>.toast {
+    width: 350px;
+}
+
+.toast-header {
+    border-bottom: none;
+    background-color: inherit;
+}
+
+.toast-success .toast-header {
+    background-color: var(--success);
+    color: white;
+}
+
+.toast-error .toast-header {
+    background-color: var(--danger);
+    color: white;
+}
+
+.toast-info .toast-header {
+    background-color: var(--info);
+    color: white;
+}
+
+/* تنسيق صفحة متابعة الحالة */
+.recovery-progress {
+    height: 5px;
+    background-color: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.recovery-timeline {
+    position: relative;
+}
+
+.recovery-timeline::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 16.66%;
+    right: 16.66%;
+    height: 2px;
+    background-color: #e9ecef;
+    z-index: 0;
+}
+
+.recovery-point {
+    position: relative;
+    z-index: 1;
+}
+
+.recovery-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 4px white;
+}
+
+.recovery-point.completed .recovery-icon {
+    background-color: var(--success);
+    color: white;
+}
+
+.recovery-point.active .recovery-icon {
+    background-color: var(--primary);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.4), 0 0 0 4px white;
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(33, 150, 243, 0), 0 0 0 4px white;
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(33, 150, 243, 0), 0 0 0 4px white;
+    }
+}
+
+/* تنسيق راديو الوقت في المواعيد */
+.appointment-time-radio input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.appointment-time-radio input[type="radio"]+label {
+    display: block;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.appointment-time-radio input[type="radio"]:checked+label {
+    background-color: var(--medical-50);
+    border-color: var(--medical-600) !important;
+    color: var(--medical-600);
+}
+
+.appointment-time-radio input[type="radio"]:focus+label {
+    box-shadow: 0 0 0 0.25rem rgba(33, 150, 243, 0.25);
+}
+
+/* تنسيق صفحة الأسئلة الشائعة */
+.accordion-button:not(.collapsed) {
+    background-color: var(--medical-50);
+    color: var(--medical-700);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.accordion-button:focus {
+    border-color: var(--medical-200);
+    box-shadow: 0 0 0 0.25rem rgba(33, 150, 243, 0.25);
+}
+
+.accordion-button:not(.collapsed)::after {
+    transform: rotate(-180deg);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231976D2'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+/* تنسيق المواعيد وتفاصيل الموعد */
+.appointment-status-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 50rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.appointment-calendar-day {
+    width: 50px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-calendar-day .month {
+    background-color: var(--medical-600);
+    color: white;
+    padding: 2px 0;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.appointment-calendar-day .day {
+    background-color: white;
+    color: var(--dark);
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 5px 0;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
