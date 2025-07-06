@@ -1,0 +1,145 @@
+﻿@model MedicalConnect.ViewModels.DoctorPatientsViewModel
+
+@{
+    ViewData["Title"] = "المرضى";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="container-fluid p-3">
+    <!-- إحصائيات المرضى -->
+    <div class="row mb-4">
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">إجمالي المرضى</h5>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <i class="fas fa-users text-primary fa-2x"></i>
+                        <span class="fs-2 fw-bold">@Model.TotalPatientsCount</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- جدول المرضى -->
+    <div class="card">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h5 class="card-title mb-0">قائمة المرضى</h5>
+                </div>
+                <div class="col-md-6">
+                    <form method="get" class="d-flex">
+                        <div class="search-container position-relative flex-grow-1">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="search" name="searchQuery" value="@Model.SearchQuery"
+                                   class="form-control search-input" placeholder="ابحث عن مرضى...">
+                        </div>
+                        <button type="submit" class="btn btn-outline-secondary ms-2">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @if (Model.Patients.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>اسم المريض</th>
+                                <th>العمر</th>
+                                <th>آخر زيارة</th>
+                                <th>الحالة</th>
+                                <th>الجنس</th>
+                                <th>فصيلة الدم</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var patient in Model.Patients)
+                            {
+                                <tr>
+                                    <td class="fw-medium">@patient.FullName</td>
+                                    <td>@patient.Age</td>
+                                    <td>@patient.LastVisit</td>
+                                    <td>
+                                        <span class="text-muted">@patient.MedicalHistory</span>
+                                    </td>
+                                    <td>@patient.Gender</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(patient.BloodType) && patient.BloodType != "غير محدد")
+                                        {
+                                            <span class="badge bg-secondary">@patient.BloodType</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">غير محدد</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-outline-secondary btn-sm"
+                                                onclick="viewPatientRecord(@patient.Id)">
+                                            عرض السجل
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- صفحات -->
+                @if (Model.TotalPages > 1)
+                {
+                    <nav aria-label="صفحات المرضى" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                                <a class="page-link" href="@Url.Action("Patients", new { page = Model.CurrentPage - 1, searchQuery = Model.SearchQuery })"
+                                   tabindex="@(Model.CurrentPage == 1 ? "-1" : "")"
+                                   aria-disabled="@(Model.CurrentPage == 1 ? "true" : "false")">السابق</a>
+                            </li>
+
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Patients", new { page = i, searchQuery = Model.SearchQuery })">@i</a>
+                                </li>
+                            }
+
+                            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                                <a class="page-link" href="@Url.Action("Patients", new { page = Model.CurrentPage + 1, searchQuery = Model.SearchQuery })">التالي</a>
+                            </li>
+                        </ul>
+                    </nav>
+                }
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-users text-muted fa-3x mb-3"></i>
+                    <h5 class="text-muted">لا يوجد مرضى</h5>
+                    @if (!string.IsNullOrEmpty(Model.SearchQuery))
+                    {
+                        <p class="text-muted">لم يتم العثور على مرضى يطابقون البحث "@Model.SearchQuery"</p>
+                        <a href="@Url.Action("Patients")" class="btn btn-outline-primary">عرض جميع المرضى</a>
+                    }
+                    else
+                    {
+                        <p class="text-muted">لم تتم إضافة أي مرضى بعد</p>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function viewPatientRecord(patientId) {
+            alert('عرض سجل المريض رقم: ' + patientId);
+        }
+    </script>
+}

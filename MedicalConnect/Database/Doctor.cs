@@ -68,5 +68,6 @@ namespace MedicalConnect.Database
         public virtual ICollection<Appointment> Appointments { get; set; } = new HashSet<Appointment>();
         public virtual ICollection<MedicalReport> MedicalReports { get; set; } = new HashSet<MedicalReport>();
         public virtual ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();
+        public virtual ICollection<DoctorAvailability> Availabilities { get; set; }
     }
 }

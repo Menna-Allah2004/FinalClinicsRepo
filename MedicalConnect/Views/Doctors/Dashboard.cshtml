@@ -1,0 +1,300 @@
+﻿@model MedicalConnect.ViewModels.DoctorDashboardViewModel
+
+@{
+    ViewData["Title"] = "لوحة التحكم";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- بطاقة الترحيب -->
+        <div class="welcome-card mb-4">
+            <div class="welcome-card-content">
+                <div class="date-time">
+                    <span id="current-date-time">@Model.CurrentDate.ToString("dddd، dd MMMM yyyy، hh:mm tt")</span>
+                </div>
+                <h2 class="greeting mb-1"> @ViewBag.Greeting ، <span id="doctor-name">@Model.Doctor.FullName</span>!</h2>
+                <p class="welcome-message">يوم سعيد وموفق لك!</p>
+            </div>
+            <div class="welcome-decorations">
+                <div class="decoration-circle circle-1"></div>
+                <div class="decoration-circle circle-2"></div>
+                <div class="decoration-circle circle-3"></div>
+            </div>
+        </div>
+
+        <!-- الإحصائيات -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="stat-title text-muted mb-1">المرضى الداخليون</h6>
+                            <h3 class="stat-value fw-bold">@Model.PatientsCount</h3>
+                            @if (Model.PatientsCountChange < 0)
+                            {
+                                <span class="trend-indicator text-danger">
+                                    <i class="fas fa-arrow-down"></i> @Math.Abs(Model.PatientsCountChange)% من الأسبوع الماضي
+                                </span>
+                            }
+                            else if (Model.PatientsCountChange > 0)
+                            {
+                                <span class="trend-indicator text-success">
+                                    <i class="fas fa-arrow-up"></i> @Model.PatientsCountChange% من الأسبوع الماضي
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="trend-indicator text-muted">
+                                    <i class="fas fa-minus"></i> 0% من الأسبوع الماضي
+                                </span>
+                            }
+                        </div>
+                        <div class="stat-icon-container bg-pink-light">
+                            <i class="fas fa-users stat-icon text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="stat-title text-muted mb-1">الاستشارات عبر الإنترنت</h6>
+                            <h3 class="stat-value fw-bold">@Model.OnlineConsultationsCount</h3>
+                            @if (Model.OnlineConsultationsChange < 0)
+                            {
+                                <span class="trend-indicator text-danger">
+                                    <i class="fas fa-arrow-down"></i> @Math.Abs(Model.OnlineConsultationsChange)% من الأسبوع الماضي
+                                </span>
+                            }
+                            else if (Model.OnlineConsultationsChange > 0)
+                            {
+                                <span class="trend-indicator text-success">
+                                    <i class="fas fa-arrow-up"></i> @Model.OnlineConsultationsChange% من الأسبوع الماضي
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="trend-indicator text-muted">
+                                    <i class="fas fa-minus"></i> 0% من الأسبوع الماضي
+                                </span>
+                            }
+                        </div>
+                        <div class="stat-icon-container bg-green-light">
+                            <i class="fas fa-stethoscope stat-icon text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="stat-title text-muted mb-1">تحاليل المختبر</h6>
+                            <h3 class="stat-value fw-bold">@Model.LabTestsCount</h3>
+                            @if (Model.LabTestsChange < 0)
+                            {
+                                <span class="trend-indicator text-danger">
+                                    <i class="fas fa-arrow-down"></i> @Math.Abs(Model.LabTestsChange)% من الأسبوع الماضي
+                                </span>
+                            }
+                            else if (Model.LabTestsChange > 0)
+                            {
+                                <span class="trend-indicator text-success">
+                                    <i class="fas fa-arrow-up"></i> @Model.LabTestsChange% من الأسبوع الماضي
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="trend-indicator text-muted">
+                                    <i class="fas fa-minus"></i> 0% من الأسبوع الماضي
+                                </span>
+                            }
+                        </div>
+                        <div class="stat-icon-container bg-blue-light">
+                            <i class="fas fa-flask stat-icon text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الأحداث المجدولة والمهام المنجزة -->
+        <div class="row mb-4">
+            <div class="col-lg-6">
+                <!-- الأحداث المجدولة -->
+                <div class="card mb-4 mb-lg-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-center mb-4">الأحداث المجدولة</h5>
+                        <div class="progress-container">
+                            <div class="progress-circle">
+                                <svg width="120" height="120" class="progress-ring">
+                                    <circle class="progress-ring-circle-bg" cx="60" cy="60" r="54"></circle>
+                                    <circle class="progress-ring-circle" cx="60" cy="60" r="54" id="progressCircle"
+                                            data-percentage="@Model.TotalEventsPercentage"></circle>
+                                </svg>
+                                <div class="progress-text">
+                                    <span class="progress-percentage">@Model.TotalEventsPercentage<span class="percent-sign">%</span></span>
+                                    <span class="progress-label">الاكتمال</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-stats mt-3">
+                            <div class="event-item d-flex justify-content-between mb-2">
+                                <span class="event-label">استشارات</span>
+                                <span class="event-value fw-semibold">@Model.ConsultationsCount</span>
+                            </div>
+                            <div class="event-item d-flex justify-content-between mb-2">
+                                <span class="event-label">تحاليل مخبرية</span>
+                                <span class="event-value fw-semibold">@Model.LabAnalysisCount</span>
+                            </div>
+                            <div class="event-item d-flex justify-content-between">
+                                <span class="event-label">اجتماعات</span>
+                                <span class="event-value fw-semibold">@Model.MeetingsCount</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- المهام المنجزة -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title text-muted">المهام المنجزة</h5>
+                            <select class="form-select form-select-sm period-select">
+                                <option selected>اليوم</option>
+                                <option>هذا الأسبوع</option>
+                                <option>هذا الشهر</option>
+                            </select>
+                        </div>
+                        <div class="tasks-list">
+                            <div class="task-progress mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="task-name">استشارات</span>
+                                    <span class="task-percentage">@Model.ConsultationsPercentage%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-med-blue" style="width: @Model.ConsultationsPercentage%"></div>
+                                </div>
+                            </div>
+                            <div class="task-progress mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="task-name">تحاليل</span>
+                                    <span class="task-percentage">@Model.LabAnalysisPercentage%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-chart-pink" style="width: @Model.LabAnalysisPercentage%"></div>
+                                </div>
+                            </div>
+                            <div class="task-progress mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="task-name">اجتماعات</span>
+                                    <span class="task-percentage">@Model.MeetingsPercentage%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-chart-green" style="width: @Model.MeetingsPercentage%"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-link text-med-blue w-100 mt-2">إضافة مهمة +</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <!-- الملف الشخصي -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="card-title">ملفي الشخصي</h5>
+                    <a asp-controller="Doctors" asp-action="Settings" class="btn btn-sm btn-primary">تعديل</a>
+                </div>
+                <div class="profile-info text-center">
+                    <div class="avatar-container">
+                        @if (!string.IsNullOrEmpty(Model.Doctor.ImageUrl))
+                        {
+                            <img src="@Model.Doctor.ImageUrl" alt="صورة الطبيب" class="avatar-img">
+                        }
+                        else
+                        {
+                            <img src="~/images/doctors/default-user.png" alt="صورة الطبيب" class="avatar-img">
+                        }
+                    </div>
+                    <h4 class="profile-name mt-3">@Model.Doctor.FullName</h4>
+                    <p class="profile-specialty text-uppercase text-muted">@Model.Doctor.Specialty</p>
+                    <div class="profile-details mt-3">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <p class="detail-label text-muted small">سنوات الخبرة</p>
+                                <p class="detail-value fw-bold small">@Model.Doctor.ExperienceYears</p>
+                            </div>
+                            <div class="col-4 border-end border-start border-light">
+                                <p class="detail-label text-muted small">المؤهلات</p>
+                                <p class="detail-value fw-bold small">@(string.IsNullOrEmpty(Model.Doctor.Education) ? "غير متوفر" : Model.Doctor.Education)</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="detail-label text-muted small">رسوم الاستشارة</p>
+                                <p class="detail-value fw-bold small">@(Model.Doctor.ConsultationFee?.ToString("C") ?? "غير متوفر")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- التقويم والمواعيد -->
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="card-title">مواعيد اليوم</h5>
+                    <a asp-controller="Doctor" asp-action="Appointments" class="btn btn-sm btn-outline-primary">كل المواعيد</a>
+                </div>
+                <div class="appointments-list">
+                    @if (Model.TodayAppointments.Any())
+                    {
+                        foreach (var appointment in Model.TodayAppointments)
+                        {
+                            <div class="appointment-item d-flex p-2">
+                                <div class="appointment-time text-muted me-3">@appointment.FormattedTime</div>
+                                <div class="appointment-info">
+                                    <div class="appointment-title">@appointment.Title</div>
+                                    <div class="appointment-person text-muted small">@appointment.PatientName</div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted py-4">
+                            لا توجد مواعيد لهذا اليوم
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // تحديث حلقة التقدم عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            const circle = document.getElementById('progressCircle');
+            if (circle) {
+                const radius = circle.getAttribute('r');
+                const circumference = 2 * Math.PI * radius;
+
+                circle.setAttribute('stroke-dasharray', circumference);
+
+                const percentage = parseInt(circle.dataset.percentage);
+                const offset = circumference - (percentage / 100 * circumference);
+
+                circle.setAttribute('stroke-dashoffset', offset);
+            }
+        });
+    </script>
+}

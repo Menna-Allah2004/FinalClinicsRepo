@@ -1,0 +1,173 @@
+﻿@model MedicalConnect.ViewModels.DoctorSettingsViewModel
+
+@{
+    ViewData["Title"] = "إعدادات الطبيب";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">الإعدادات</h5>
+    </div>
+    <div class="card-body">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <!-- تبويبات الإعدادات -->
+        <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">الملف الشخصي</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications" type="button" role="tab" aria-controls="notifications" aria-selected="false">الإشعارات</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false">الأمان</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="settingsTabContent">
+            <!-- تبويب الملف الشخصي -->
+            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <form asp-controller="Doctor" asp-action="UpdateProfile" method="post" class="row g-3">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ProfileSettings.Id" />
+
+                    <div class="col-md-6">
+                        <label asp-for="ProfileSettings.FullName" class="form-label">الاسم</label>
+                        <input asp-for="ProfileSettings.FullName" class="form-control" />
+                        <span asp-validation-for="ProfileSettings.FullName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ProfileSettings.Email" class="form-label">البريد الإلكتروني</label>
+                        <input asp-for="ProfileSettings.Email" class="form-control" />
+                        <span asp-validation-for="ProfileSettings.Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ProfileSettings.Specialty" class="form-label">التخصص</label>
+                        <input asp-for="ProfileSettings.Specialty" class="form-control" />
+                        <span asp-validation-for="ProfileSettings.Specialty" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ProfileSettings.PhoneNumber" class="form-label">رقم الهاتف</label>
+                        <input asp-for="ProfileSettings.PhoneNumber" class="form-control" />
+                        <span asp-validation-for="ProfileSettings.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- تبويب الإشعارات -->
+            <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+                <form asp-controller="Doctor" asp-action="UpdateNotifications" method="post">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">إشعارات المواعيد</h6>
+                                    <p class="text-muted small mb-0">تلقي إشعارات عن المواعيد الجديدة والتغييرات</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input asp-for="NotificationSettings.AppointmentNotifications" class="form-check-input" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">تذكيرات المهام</h6>
+                                    <p class="text-muted small mb-0">تلقي تذكيرات عن المهام المعلقة</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input asp-for="NotificationSettings.TaskReminders" class="form-check-input" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">إشعارات البريد الإلكتروني</h6>
+                                    <p class="text-muted small mb-0">تلقي إشعارات عبر البريد الإلكتروني</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input asp-for="NotificationSettings.EmailNotifications" class="form-check-input" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button type="submit" class="btn btn-primary">حفظ الإعدادات</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- تبويب الأمان -->
+            <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+                <form asp-controller="Doctor" asp-action="UpdatePassword" method="post" class="row g-3">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="col-md-12">
+                        <label asp-for="SecuritySettings.CurrentPassword" class="form-label"></label>
+                        <input asp-for="SecuritySettings.CurrentPassword" class="form-control" />
+                        <span asp-validation-for="SecuritySettings.CurrentPassword" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="SecuritySettings.NewPassword" class="form-label"></label>
+                        <input asp-for="SecuritySettings.NewPassword" class="form-control" />
+                        <span asp-validation-for="SecuritySettings.NewPassword" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="SecuritySettings.ConfirmPassword" class="form-label"></label>
+                        <input asp-for="SecuritySettings.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="SecuritySettings.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <button type="submit" class="btn btn-primary">تحديث كلمة المرور</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // التأكد من عرض التبويب الصحيح عند تحديث الصفحة بعد الإرسال
+        document.addEventListener('DOMContentLoaded', function() {
+            // إذا كان هناك خطأ في أحد التبويبات، نفتح هذا التبويب
+            const urlParams = new URLSearchParams(window.location.search);
+            const activeTab = urlParams.get('tab');
+
+            if (activeTab) {
+                const tabToActivate = document.getElementById(activeTab + '-tab');
+                if (tabToActivate) {
+                    const tab = new bootstrap.Tab(tabToActivate);
+                    tab.show();
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,180 @@
+﻿@model MedicalConnect.ViewModels.DoctorReportsViewModel
+@{
+    ViewData["Title"] = "التقارير";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @TempData["InfoMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- إحصائيات التقارير -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">إجمالي الزيارات</h5>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <i class="fas fa-file-alt text-primary fa-2x"></i>
+                    <span class="fs-2 fw-bold">@Model.TotalVisits.ToString("N0")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">زيارات هذا الشهر</h5>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <i class="fas fa-calendar-alt text-success fa-2x"></i>
+                    <span class="fs-2 fw-bold">@Model.MonthlyVisitsCount.ToString("N0")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">زيارات هذا الأسبوع</h5>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <i class="fas fa-chart-line text-info fa-2x"></i>
+                    <span class="fs-2 fw-bold">@Model.WeeklyVisits.ToString("N0")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">متوسط يومي</h5>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <i class="fas fa-chart-bar text-warning fa-2x"></i>
+                    <span class="fs-2 fw-bold">@Model.DailyAverage.ToString("F1")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- الرسم البياني للزيارات -->
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">إحصائيات الزيارات الشهرية</h5>
+        <form asp-controller="Doctor" asp-action="ExportReport" method="post" class="d-inline">
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fas fa-download me-1"></i>
+                تصدير التقرير
+            </button>
+        </form>
+    </div>
+    <div class="card-body">
+        <div style="height: 400px; position: relative;">
+            <canvas id="visitsChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- التقارير الأخيرة -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">التقارير الأخيرة</h5>
+    </div>
+    <div class="card-body">
+        <div class="reports-list">
+            @if (Model.RecentReports != null && Model.RecentReports.Any())
+            {
+                @foreach (var report in Model.RecentReports)
+                {
+                    <div class="report-item d-flex justify-content-between align-items-center p-3 mb-3 bg-light rounded border">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-file-alt text-muted me-3 fa-lg"></i>
+                            <div>
+                                <div class="fw-medium">@report.Title</div>
+                                <div class="text-muted small">تم إنشاؤه في @report.CreatedAt.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ar-SA"))</div>
+                                <div class="text-muted small">
+                                    <span class="badge bg-secondary me-1">@report.Type</span>
+                                    <span class="badge bg-info">@report.FilePath</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a asp-controller="Doctor" asp-action="DownloadReport" asp-route-reportId="@report.Id"
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-download me-1"></i>
+                                تحميل
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center py-4">
+                    <i class="fas fa-file-alt text-muted fa-3x mb-3"></i>
+                    <p class="text-muted">لا توجد تقارير متاحة حالياً</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // بيانات الرسم البياني من النموذج
+            var chartLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ChartData?.Labels ?? new List<string>()));
+            var chartData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ChartData?.Data ?? new List<int>()));
+
+            // إعداد الرسم البياني
+            var ctx = document.getElementById('visitsChart').getContext('2d');
+            var visitsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'عدد الزيارات',
+                        data: chartData,
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        tension: 0.1,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'إحصائيات الزيارات الشهرية'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    locale: 'ar'
+                }
+            });
+        });
+    </script>
+}

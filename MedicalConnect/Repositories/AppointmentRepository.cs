@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MedicalConnect.Repositories
@@ -84,6 +85,11 @@ namespace MedicalConnect.Repositories
                 appointment.Status = status;
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<int> CountAsync(Expression<Func<Appointment, bool>> filter)
+        {
+            return await _db.Appointments.CountAsync(filter);
         }
     }
 }

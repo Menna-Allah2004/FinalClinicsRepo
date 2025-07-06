@@ -29,6 +29,8 @@ namespace MedicalConnect.Database
 
         public bool IsAvailable { get; set; } = true;
 
+        public string WaitingTime { get; set; } = "غير محدد";
+
         // Navigation properties
         [ForeignKey("DoctorId")]
         public virtual Doctor Doctor { get; set; }

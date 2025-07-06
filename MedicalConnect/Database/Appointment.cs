@@ -34,11 +34,21 @@ namespace MedicalConnect.Database
         public string Status { get; set; } = "Pending"; // Pending, Confirmed, Completed, Cancelled
 
         [Display(Name = "Notes")]
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+        public string Title { get; set; }
+
+        [Required]
+        [StringLength(20)]
+        public string Type { get; set; } = "InPerson";
+
+        public bool IsVirtual { get; set; }
+
+        public string? MeetingLink { get; set; }
 
         [ForeignKey("PatientId")]
         public virtual Patient Patient { get; set; }

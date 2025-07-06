@@ -35,7 +35,7 @@ namespace MedicalConnect.ViewModels
         public int TotalVisits { get; set; }
 
         [Display(Name = "الزيارات هذا الشهر")]
-        public int MonthlyVisits { get; set; }
+        public int MonthlyVisitsCount { get; set; }
 
         [Display(Name = "الزيارات هذا الأسبوع")]
         public int WeeklyVisits { get; set; }
@@ -50,15 +50,13 @@ namespace MedicalConnect.ViewModels
         [Display(Name = "بيانات الرسم البياني")]
         public ChartDataViewModel ChartData { get; set; }
 
-        public List<MonthlyVisitData> MonthlyVisitData { get; set; }
+        public List<MonthlyVisitData> MonthlyVisits { get; set; }
 
         public DoctorReportsViewModel()
         {
             RecentReports = new List<MedicalReport>();
             ChartData = new ChartDataViewModel();
         }
-
-        public ReportViewModel ReportModel { get; set; }
     }
 
     public class ChartDataViewModel

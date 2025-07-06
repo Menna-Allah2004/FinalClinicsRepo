@@ -1,6 +1,7 @@
 ﻿using MedicalConnect.Database;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MedicalConnect.Repositories
@@ -12,5 +13,6 @@ namespace MedicalConnect.Repositories
         Task<IEnumerable<Appointment>> GetAppointmentsByDateAsync(DateTime date);
         Task<bool> IsTimeSlotAvailableAsync(int doctorId, DateTime appointmentTime);
         Task UpdateStatusAsync(int appointmentId, string status);
+        Task<int> CountAsync(Expression<Func<Appointment, bool>> filter);
     }
 }

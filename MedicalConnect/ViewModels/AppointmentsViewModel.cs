@@ -5,7 +5,6 @@ namespace MedicalConnect.ViewModels
 {
     public class AppointmentViewModel
     {
-        public Patient Patient { get; set; } // استدعاء موديل المريض
         public int Id { get; set; }
 
         [Required(ErrorMessage = "الطبيب مطلوب")]
@@ -13,7 +12,7 @@ namespace MedicalConnect.ViewModels
         public int DoctorId { get; set; }
 
         public string DoctorName { get; set; }
-        public string DoctorSpecialty { get; set; }
+        public string DoctorSpecialization { get; set; }
         public string DoctorImageUrl { get; set; }
 
         [Required(ErrorMessage = "المريض مطلوب")]
@@ -22,10 +21,16 @@ namespace MedicalConnect.ViewModels
 
         public string PatientName { get; set; }
 
-        [Required(ErrorMessage = "تاريخ الموعد مطلوب")]
-        [Display(Name = "تاريخ الموعد")]
-        [DataType(DataType.Date)]
-        public DateTime AppointmentDate { get; set; }
+        [Required(ErrorMessage = "تاريخ ووقت الموعد مطلوب")]
+        [Display(Name = "تاريخ ووقت الموعد")]
+        [DataType(DataType.DateTime)]
+        public DateTime AppointmentTime { get; set; }
+
+        // خاصية مُحسّنة لتنسيق وعرض الوقت بشكل أفضل في واجهة المستخدم
+        public string FormattedTime { get; set; }
+
+        // خاصية مُحسّنة لتنسيق وعرض التاريخ بشكل أفضل في واجهة المستخدم
+        public string FormattedDate => AppointmentTime.ToString("yyyy-MM-dd");
 
         [Required(ErrorMessage = "وقت بدء الموعد مطلوب")]
         [Display(Name = "وقت بدء الموعد")]
@@ -37,13 +42,34 @@ namespace MedicalConnect.ViewModels
         [DataType(DataType.Time)]
         public TimeSpan EndTime { get; set; }
 
+        // المدة المتوقعة للموعد بالدقائق
+        public int DurationMinutes => (int)EndTime.Subtract(StartTime).TotalMinutes;
+
+        [Display(Name = "عنوان الموعد")]
+        [Required(ErrorMessage = "عنوان الموعد مطلوب")]
+        public string Title { get; set; }
+
+        [Display(Name = "نوع الموعد")]
+        [Required(ErrorMessage = "نوع الموعد مطلوب")]
+        public string Type { get; set; } // استشارة، فحص، إلخ
+
         [Display(Name = "حالة الموعد")]
-        public string Status { get; set; }
+        public string Status { get; set; } // مؤكد، ملغي، منتظر، مكتمل
 
         [Display(Name = "ملاحظات")]
         public string Notes { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        // معلومات التواصل الافتراضي
+        [Display(Name = "رابط الاجتماع عبر الإنترنت")]
+        public string MeetingLink { get; set; }
+
+        // تحديد إذا كان الموعد عبر الإنترنت أو حضوري
+        [Display(Name = "موعد افتراضي")]
+        public bool IsVirtual { get; set; }
+
+        public DateTime AppointmentDate { get; internal set; }
     }
 
     public class BookAppointmentViewModel
@@ -70,7 +96,7 @@ namespace MedicalConnect.ViewModels
 
     public class AppointmentListViewModel
     {
-        public PatientViewModel Patients { get; set; }      // استدعاء موديل المريض
+        public PatientViewModel Patients { get; set; }
         public AppointmentViewModel[] UpcomingAppointments { get; set; }
         public AppointmentViewModel[] PastAppointments { get; set; }
         public AppointmentViewModel[] TodayAppointments { get; set; }
