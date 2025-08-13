@@ -276,7 +276,7 @@ namespace MedicalConnect.Controllers
                         return RedirectToAction("Dashboard", "Doctors");
 
                     if (await _userManager.IsInRoleAsync(user, "Patient"))
-                        return RedirectToAction("Profile", "Patient");
+                        return RedirectToAction("Profile", "Patients");
 
                     return LocalRedirect(returnUrl);
                 }

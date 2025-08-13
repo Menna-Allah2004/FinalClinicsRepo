@@ -23,6 +23,12 @@ namespace MedicalConnect.Database
         public DateTime AppointmentDate { get; set; }
 
         [Required]
+        public TimeSpan AppointmentTime { get; set; }
+
+        [Range(15, 120)]
+        public int Duration { get; set; } = 30;
+
+        [Required]
         public TimeSpan StartTime { get; set; }
 
         [Required]
@@ -36,15 +42,32 @@ namespace MedicalConnect.Database
         [Display(Name = "Notes")]
         public string? Notes { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public string Title { get; set; }
 
         [Required]
         [StringLength(20)]
         public string Type { get; set; } = "InPerson";
+
+        [StringLength(500)]
+        public string Reason { get; set; }
+
+        [Column(TypeName = "decimal(8,2)")]
+        public decimal? Fee { get; set; }
+
+        [StringLength(20)]
+        public string PaymentStatus { get; set; } = "Pending";
+
+        public DateTime? CheckInTime { get; set; }
+        public DateTime? CheckOutTime { get; set; }
+
+        [StringLength(1000)]
+        public string CancellationReason { get; set; }
+
+        public DateTime? CancellationDate { get; set; }
 
         public bool IsVirtual { get; set; }
 

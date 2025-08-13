@@ -41,9 +41,15 @@ namespace MedicalConnect.Database
 
         public string? Condition { get; set; }
 
-        public int? PrimaryDoctorId { get; set; }
-
         public DateTime? LastVisit { get; set; }
+
+        [Range(0, 300)]
+        public double? Height { get; set; }
+
+        [Range(0, 500)]
+        public double? Weight { get; set; }
+
+        public int? PrimaryDoctorId { get; set; }
 
         [ForeignKey("DoctorId")]
         public Doctor? Doctor { get; set; }

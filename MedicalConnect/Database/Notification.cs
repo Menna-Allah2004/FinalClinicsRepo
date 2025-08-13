@@ -22,6 +22,8 @@ namespace MedicalConnect.Database
 
         public bool IsRead { get; set; } = false;
 
+        public DateTime? ReadAt { get; set; }
+
         [Required]
         [StringLength(50)]
         public string Type { get; set; } // Appointment, Report, System

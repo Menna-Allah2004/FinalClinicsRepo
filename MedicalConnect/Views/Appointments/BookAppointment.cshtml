@@ -1,0 +1,405 @@
+﻿@model MedicalConnect.ViewModels.BookAppointmentViewModel
+
+@{
+    ViewData["Title"] = "حجز موعد";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Main Content -->
+<main class="py-5 mt-5">
+    <div class="container py-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">الرئيسية</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Doctors")">الأطباء</a></li>
+                <li class="breadcrumb-item active" aria-current="page">حجز موعد</li>
+            </ol>
+        </nav>
+
+        <h1 class="display-6 fw-bold mb-4">حجز موعد</h1>
+
+        <div class="row g-4">
+            <!-- Booking Form - Right Side -->
+            <div class="col-lg-8 order-1">
+                <div class="card shadow-sm rounded-4 border-0">
+                    <div class="card-body p-4">
+                        <div class="booking-progress mb-5">
+                            <div class="row text-center position-relative">
+                                <div class="col-4">
+                                    <div class="booking-step active" id="step-1-indicator">
+                                        <div class="booking-step-icon rounded-circle bg-primary text-white mx-auto">
+                                            <i class="fas fa-calendar-day"></i>
+                                        </div>
+                                        <p class="mt-2 small fw-medium">اختيار الموعد</p>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="booking-step" id="step-2-indicator">
+                                        <div class="booking-step-icon rounded-circle bg-light text-muted mx-auto">
+                                            <i class="fas fa-info-circle"></i>
+                                        </div>
+                                        <p class="mt-2 small fw-medium">تفاصيل الحجز</p>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="booking-step" id="step-3-indicator">
+                                        <div class="booking-step-icon rounded-circle bg-light text-muted mx-auto">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <p class="mt-2 small fw-medium">تأكيد الحجز</p>
+                                    </div>
+                                </div>
+                                <div class="booking-progress-line"></div>
+                            </div>
+                        </div>
+
+                        <form id="booking-form" asp-action="ConfirmBooking" asp-controller="Appointment" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" asp-for="DoctorId" />
+                            <input type="hidden" id="selectedDate" name="SelectedDate" />
+                            <input type="hidden" id="selectedTime" name="SelectedTime" />
+
+                            <!-- Step 1: Choose Date and Time -->
+                            <div id="booking-step-1" class="booking-step-content">
+                                <h3 class="fs-5 fw-bold mb-4">اختر التاريخ والوقت المناسب</h3>
+
+                                <div class="row g-4">
+                                    <div class="col-md-7">
+                                        <label class="form-label mb-3">اختر التاريخ</label>
+                                        <div id="appointment-calendar" class="mb-4"></div>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <label class="form-label mb-3">الأوقات المتاحة</label>
+                                        <div id="available-times" class="appointment-times">
+                                            <div class="text-center text-muted py-4">
+                                                <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                                                <p>اختر التاريخ أولاً لعرض الأوقات المتاحة</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5 d-flex justify-content-end">
+                                    <button id="goto-step-2" type="button" class="btn btn-primary px-4 py-2 rounded-3" disabled>
+                                        الخطوة التالية
+                                        <i class="fas fa-arrow-left ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Booking Details -->
+                            <div id="booking-step-2" class="booking-step-content d-none">
+                                <h3 class="fs-5 fw-bold mb-4">تفاصيل الحجز</h3>
+
+                                <div class="mb-4">
+                                    <label class="form-label">نوع الموعد</label>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-check appointment-type-card">
+                                                <input class="form-check-input" type="radio" name="AppointmentType"
+                                                       id="inPerson" value="inPerson" checked>
+                                                <label class="form-check-label w-100 p-3 border rounded-3"
+                                                       for="inPerson">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                                                            <i class="fas fa-user-md text-primary"></i>
+                                                        </div>
+                                                        <div>
+                                                            <h6 class="mb-1">زيارة في العيادة</h6>
+                                                            <p class="text-muted small mb-0">زيارة الطبيب شخصياً في العيادة</p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check appointment-type-card">
+                                                <input class="form-check-input" type="radio" name="AppointmentType"
+                                                       id="online" value="online">
+                                                <label class="form-check-label w-100 p-3 border rounded-3"
+                                                       for="online">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                                                            <i class="fas fa-video text-primary"></i>
+                                                        </div>
+                                                        <div>
+                                                            <h6 class="mb-1">استشارة عن بعد</h6>
+                                                            <p class="text-muted small mb-0">استشارة عبر الفيديو مع الطبيب</p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label for="patientName" class="form-label">اسم المريض</label>
+                                        <input type="text" class="form-control" id="patientName" value="@Model.PatientName" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="patientPhone" class="form-label">رقم الهاتف</label>
+                                        <input type="tel" class="form-control" id="patientPhone" value="@Model." required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="appointmentReason" class="form-label">سبب الزيارة</label>
+                                    <select class="form-select" id="appointmentReason" name="Reason" required>
+                                        <option value="" selected disabled>اختر سبب الزيارة</option>
+                                        <option value="استشارة طبية">استشارة طبية</option>
+                                        <option value="متابعة حالة">متابعة حالة</option>
+                                        <option value="فحص دوري">فحص دوري</option>
+                                        <option value="علاج">علاج</option>
+                                        <option value="أخرى">أخرى</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="notes" class="form-label">ملاحظات (اختياري)</label>
+                                    <textarea class="form-control" id="notes" name="Notes" rows="3"
+                                              placeholder="أي معلومات إضافية ترغب في إخبار الطبيب بها قبل الموعد"></textarea>
+                                </div>
+
+                                <div class="mt-5 d-flex justify-content-between">
+                                    <button id="back-to-step-1" type="button"
+                                            class="btn btn-outline-secondary px-4 py-2 rounded-3">
+                                        <i class="fas fa-arrow-right me-2"></i>
+                                        الخطوة السابقة
+                                    </button>
+                                    <button id="goto-step-3" type="button"
+                                            class="btn btn-primary px-4 py-2 rounded-3">
+                                        الخطوة التالية
+                                        <i class="fas fa-arrow-left ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Confirm Booking -->
+                            <div id="booking-step-3" class="booking-step-content d-none">
+                                <h3 class="fs-5 fw-bold mb-4">تأكيد الحجز</h3>
+
+                                <div class="card bg-light border-0 rounded-4 mb-4">
+                                    <div class="card-body p-4">
+                                        <h4 class="fs-6 fw-semibold mb-3">تفاصيل الموعد</h4>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <p class="text-muted small mb-1">الطبيب</p>
+                                                <p class="fw-medium" id="confirm-doctor">@Model.DoctorName</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="text-muted small mb-1">التخصص</p>
+                                                <p class="fw-medium" id="confirm-specialty">@Model.DoctorSpecialization</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="text-muted small mb-1">التاريخ</p>
+                                                <p class="fw-medium" id="confirm-date">-</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="text-muted small mb-1">الوقت</p>
+                                                <p class="fw-medium" id="confirm-time">-</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="text-muted small mb-1">نوع الموعد</p>
+                                                <p class="fw-medium" id="confirm-type">-</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="text-muted small mb-1">سبب الزيارة</p>
+                                                <p class="fw-medium" id="confirm-reason">-</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card bg-light border-0 rounded-4 mb-4">
+                                    <div class="card-body p-4">
+                                        <h4 class="fs-6 fw-semibold mb-3">تفاصيل الدفع</h4>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <p class="text-muted small mb-1">رسوم الكشف</p>
+                                                <p class="fw-medium" id="confirm-fee">@Model.ConsultationFee شيكل</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="text-muted small mb-1">طريقة الدفع</p>
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="radio" name="PaymentMethod"
+                                                           id="creditCard" value="creditCard" checked>
+                                                    <label class="form-check-label" for="creditCard">
+                                                        <i class="far fa-credit-card me-2"></i>
+                                                        عن طريق التطبيق / بنك فلسطين
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="PaymentMethod"
+                                                           id="clinicPayment" value="clinicPayment">
+                                                    <label class="form-check-label" for="clinicPayment">
+                                                        <i class="fas fa-hand-holding-usd me-2"></i>
+                                                        الدفع في العيادة
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert alert-info d-flex align-items-center mb-0" role="alert">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <div>
+                                                في حالة إلغاء الموعد قبل 24 ساعة من الموعد المحدد سيتم استرداد المبلغ كاملاً.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                    <label class="form-check-label" for="termsCheck">
+                                        أوافق على <a href="#" class="text-decoration-none">الشروط والأحكام</a> و<a href="#" class="text-decoration-none">سياسة الخصوصية</a>
+                                    </label>
+                                </div>
+
+                                <div class="mt-5 d-flex justify-content-between">
+                                    <button id="back-to-step-2" type="button"
+                                            class="btn btn-outline-secondary px-4 py-2 rounded-3">
+                                        <i class="fas fa-arrow-right me-2"></i>
+                                        الخطوة السابقة
+                                    </button>
+                                    <button id="confirm-booking" type="button"
+                                            class="btn btn-primary px-4 py-2 rounded-3">
+                                        <span id="booking-spinner" class="spinner-border spinner-border-sm d-none me-2" role="status"></span>
+                                        تأكيد الحجز والدفع
+                                        <i class="fas fa-check ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Step 4: Booking Confirmed -->
+                        <div id="booking-step-4" class="booking-step-content d-none text-center py-4">
+                            <div class="success-animation mb-4">
+                                <div class="checkmark-circle">
+                                    <div class="background"></div>
+                                    <div class="checkmark draw"></div>
+                                </div>
+                            </div>
+
+                            <h3 class="fs-5 fw-bold mb-3">تم تأكيد الحجز بنجاح!</h3>
+                            <p class="text-muted mb-4">تم حجز موعدك بنجاح مع @Model.DoctorName</p>
+
+                            <div class="card bg-light border-0 rounded-4 mb-5 text-start mx-auto"
+                                 style="max-width: 450px;">
+                                <div class="card-body p-4">
+                                    <div class="row g-3">
+                                        <div class="col-6">
+                                            <p class="text-muted small mb-1">رقم الحجز</p>
+                                            <p class="fw-medium" id="booking-number">-</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="text-muted small mb-1">التاريخ</p>
+                                            <p class="fw-medium" id="booking-date">-</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="text-muted small mb-1">الوقت</p>
+                                            <p class="fw-medium" id="booking-time">-</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="text-muted small mb-1">نوع الموعد</p>
+                                            <p class="fw-medium" id="booking-type">-</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                                <a href="@Url.Action("MyAppointments", "Appointment")" class="btn btn-outline-primary px-4 py-2 rounded-3">
+                                    <i class="fas fa-calendar-check me-2"></i>
+                                    عرض مواعيدي
+                                </a>
+                                <a href="@Url.Action("Profile", "Patients")" class="btn btn-primary px-4 py-2 rounded-3">
+                                    <i class="fas fa-home me-2"></i>
+                                    العودة إلى الملف الشخصي
+                                </a>
+                                <a href="@Url.Action("Index", "Home")" class="btn btn-primary px-4 py-2 rounded-3">
+                                    <i class="fas fa-home me-2"></i>
+                                    العودة إلى الرئيسية
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor Info - Left Side -->
+            <div class="col-lg-4 order-2">
+                <div class="card shadow-sm rounded-4 border-0 sticky-lg-top" style="top: 100px;">
+                    <div class="card-body p-4">
+                        <h3 class="fs-5 fw-bold mb-3">معلومات الطبيب</h3>
+
+                        <div class="d-flex mb-4">
+                            <div class="rounded-circle bg-light overflow-hidden me-3"
+                                 style="width: 60px; height: 60px;">
+                                <img id="doctor-image" src="@Model.DoctorImageUrl" alt="صورة الطبيب" class="w-100 h-100 object-fit-cover">
+                            </div>
+                            <div>
+                                <h4 id="doctor-name" class="fs-6 fw-semibold mb-1">@Model.DoctorName</h4>
+                                <p id="doctor-specialty" class="text-medical-600 mb-1">@Model.DoctorSpecialization</p>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-star text-warning me-1"></i>
+                                    <span id="doctor-rating" class="fw-medium me-1">@((Model.Doctor.Rating ?? 0).ToString("F1"))</span>
+                                    <span class="text-muted small">(<span id="doctor-reviews">@Model.Doctor.RatingCount</span> تقييم)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-3">
+
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-map-marker-alt text-medical-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small mb-1">العنوان</p>
+                                <p id="doctor-location" class="mb-0">@Model.Doctor.Workplace</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-comment-medical text-medical-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small mb-1">رسوم الكشف</p>
+                                <p id="doctor-fee" class="mb-0">@Model.ConsultationFee شيكل</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-hourglass-half text-medical-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small mb-1">مدة الكشف</p>
+                                <p id="doctor-session-duration" class="mb-0">@Model.Doctor.WorkingHours دقيقة</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+@section Scripts {
+    <script>
+        // متغيرات JavaScript مطلوبة
+        const doctorId = @Model.DoctorId;
+        const availableDates = @Html.Raw(Json.Serialize(Model.AvailableDates.Select(d => d.ToString("yyyy-MM-dd"))));
+    </script>
+    @* <script src="~/js/book-appointment.js"></script> *@
+}

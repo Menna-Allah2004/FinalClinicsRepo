@@ -12,7 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace ClinicPatient.Controllers
+namespace MedicalConnect.Controllers
 {
     public class DoctorsController : Controller
     {
@@ -80,7 +80,7 @@ namespace ClinicPatient.Controllers
                             RatingCount = totalRatings,
                             City = doctor.City ?? "غزة",
                             HasAvailability = firstAvailability?.IsAvailable ?? false,
-                            DisplayWaitingTime = firstAvailability != null ? firstAvailability.WaitingTime : "غير متاح"
+                            //DisplayWaitingTime = firstAvailability != null ? firstAvailability.WaitingTime : "غير متاح"
                         });
                     }
                 }
@@ -300,7 +300,7 @@ namespace ClinicPatient.Controllers
                     Id = a.Id,
                     PatientId = a.PatientId,
                     PatientName = a.Patient?.User?.FullName ?? "غير معروف",
-                    AppointmentTime = a.AppointmentDate.Add(a.StartTime),
+                    AppointmentDate = a.AppointmentDate.Add(a.StartTime),
                     StartTime = a.StartTime,
                     EndTime = a.EndTime,
                     Status = a.Status ?? "معلق",
@@ -310,7 +310,7 @@ namespace ClinicPatient.Controllers
                     IsVirtual = (bool)a.IsVirtual,
                     MeetingLink = a.MeetingLink ?? "",
                     CreatedAt = a.CreatedAt,
-                    FormattedTime = a.StartTime.ToString(@"h\:mm") + (a.StartTime.Hours >= 12 ? " م" : " ص")
+                    //FormattedTime = a.StartTime.ToString(@"h\:mm") + (a.StartTime.Hours >= 12 ? " م" : " ص")
                 })
                 .ToList();
 
@@ -451,7 +451,7 @@ namespace ClinicPatient.Controllers
                 DoctorId = appointment.DoctorId,
                 PatientId = appointment.PatientId,
                 PatientName = appointment.Patient?.User?.FullName,
-                AppointmentTime = appointment.AppointmentDate.Add(appointment.StartTime),
+                AppointmentDate = appointment.AppointmentDate.Add(appointment.StartTime),
                 StartTime = appointment.StartTime,
                 EndTime = appointment.EndTime,
                 Title = appointment.Title,
@@ -462,15 +462,6 @@ namespace ClinicPatient.Controllers
                 MeetingLink = appointment.MeetingLink,
                 CreatedAt = appointment.CreatedAt
             };
-        }
-
-        private string GetGreeting()
-        {
-            var hour = DateTime.Now.Hour;
-            if (hour < 12)
-                return "صباح الخير";
-            else
-                return "مساء الخير";
         }
 
         [Authorize(Roles = "Doctor")]
@@ -665,19 +656,6 @@ namespace ClinicPatient.Controllers
 
             TempData["SuccessMessage"] = "تم تحديث كلمة المرور بنجاح";
             return RedirectToAction(nameof(Settings));
-        }
-
-        private string GetCurrentDoctorId()
-        {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
-
-        private int CalculateAge(DateTime birthDate)
-        {
-            var today = DateTime.Today;
-            int age = today.Year - birthDate.Year;
-            if (birthDate.Date > today.AddYears(-age)) age--;
-            return age;
         }
 
         // GET: Doctor/Patients

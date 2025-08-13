@@ -26,6 +26,10 @@ namespace MedicalConnect.Database
         [StringLength(100)]
         public string Specialty { get; set; }
 
+        [StringLength(100)]
+        public string SubSpecialty { get; set; }
+
+        [Display(Name = "المؤهل العلمي")]
         public string? Education { get; set; }
 
         [Display(Name = "اسم المكان / العيادة / المستشفى")]
@@ -33,13 +37,16 @@ namespace MedicalConnect.Database
 
         public string City { get; set; }
 
-        [Display(Name = "Years of Experience")]
+        [Required]
+        [Range(1, 50)]
+        [Display(Name = "سنوات الخبرة")]
         public int? Experience { get; set; }
 
         public string? License { get; set; }
 
         public string? Location { get; set; }
 
+        [StringLength(2000)]
         public string? Bio { get; set; }
 
         [Display(Name = "Rating")]
@@ -54,12 +61,19 @@ namespace MedicalConnect.Database
         [Column(TypeName = "decimal(10, 2)")]
         public decimal? ConsultationFee { get; set; }
 
+        [Range(15, 120)]
+        public int ConsultationDuration { get; set; } = 30; // in minutes
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         public string? WorkingHours { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? BloodType { get; set; }
+
+        public bool IsAvailable { get; set; } = true;
+        public bool IsVerified { get; set; } = false;
+        public bool AcceptingNewPatients { get; set; } = true;
 
         // Navigation properties
         [ForeignKey("UserId")]

@@ -143,20 +143,20 @@
                                         @(doctor.ConsultationFee != null && doctor.ConsultationFee > 0 ? $"{doctor.ConsultationFee} شيكل" : "غير محدد")
                                     </p>
                                 </div>
-                                <div>
-                                    <span class="text-muted fs-7">مدة الانتظار</span>
-                                    <p class="mb-0 fw-bold text-dark">
-                                        @(
-                                            doctor.Availabilities?.FirstOrDefault()?.WaitingTime != null
-                                            && doctor.Availabilities.FirstOrDefault().WaitingTime != ""
-                                            ? doctor.Availabilities.FirstOrDefault().WaitingTime + " دقيقة"
-                                            : "غير محدد"
-                                            )
-                                    </p>
-                                </div>
+                                @* <div> *@
+                                @*     <span class="text-muted fs-7">مدة الانتظار</span> *@
+                                @*     <p class="mb-0 fw-bold text-dark"> *@
+                                @*         @( *@
+                                @*             doctor.Availabilities?.FirstOrDefault()?.WaitingTime != null *@
+                                @*             && doctor.Availabilities.FirstOrDefault().WaitingTime != "" *@
+                                @*             ? doctor.Availabilities.FirstOrDefault().WaitingTime + " دقيقة" *@
+                                @*             : "غير محدد" *@
+                                @*             ) *@
+                                @*     </p> *@
+                                @* </div> *@
                             </div>
                             <div class="d-flex gap-2">
-                                <a href="@Url.Action("BookAppointment", "Appointment", new { doctorId = doctor.Id })"
+                                <a href="@Url.Action("BookAppointment", "Appointments", new { doctorId = doctor.Id })"
                                    class="btn btn-primary flex-grow-1 d-flex align-items-center justify-content-center">
                                     <i class="fas fa-calendar-alt me-2"></i> حجز موعد
                                 </a>

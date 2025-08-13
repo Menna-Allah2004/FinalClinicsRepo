@@ -78,17 +78,35 @@ namespace MedicalConnect.ViewModels
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
 
+        public int? Age { get; set; }
+
+        [Display(Name = "المدينة")]
+        public string City { get; set; }
+
         [Display(Name = "الجنس")]
         public string Gender { get; set; }
 
         [Display(Name = "فصيلة الدم")]
-        public string BloodType { get; set; }
+        public string? BloodType { get; set; }
 
-        [Display(Name = "التاريخ الطبي")]
-        public string MedicalHistory { get; set; }
+        [Display(Name = "الطول (سم)")]
+        [Range(0, 300, ErrorMessage = "الطول يجب أن يكون بين 0 و 300 سم")]
+        public double? Height { get; set; }
+
+        [Display(Name = "الوزن (كيلو)")]
+        [Range(0, 500, ErrorMessage = "الوزن يجب أن يكون بين 0 و 500 كيلو")]
+        public double? Weight { get; set; }
+
+        [Display(Name = "الحالة الاجتماعية")]
+        public string MaritalStatus { get; set; }
 
         [Display(Name = "صورة الملف الشخصي")]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
+
+        public int TotalAppointments { get; set; }
+        public int TotalMedicalReports { get; set; }
+        public List<AppointmentViewModel> RecentAppointments { get; set; } = new();
+        public List<MedicalReportViewModel> RecentMedicalReports { get; set; } = new();
 
         public List<AppointmentViewModel> UpcomingAppointments { get; set; }
         public List<AppointmentViewModel> PastAppointments { get; set; }
@@ -103,5 +121,24 @@ namespace MedicalConnect.ViewModels
         public int TotalPages { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public string SearchQuery { get; set; } = "";
+    }
+
+    public class PatientAppointmentsViewModel
+    {
+        public int PatientId { get; set; }
+        public string PatientName { get; set; }
+        public string PatientCode => $"PAT-{PatientId:D5}";
+
+        // Stats
+        public int TotalAppointmentsCount { get; set; }
+        public int CompletedAppointmentsCount { get; set; }
+        public int UpcomingAppointmentsCount { get; set; }
+        public int CancelledAppointmentsCount { get; set; }
+
+        // Lists
+        public IEnumerable<AppointmentViewModel> AllAppointments { get; set; } = new List<AppointmentViewModel>();
+        public IEnumerable<AppointmentViewModel> UpcomingAppointments { get; set; } = new List<AppointmentViewModel>();
+        public IEnumerable<AppointmentViewModel> CompletedAppointments { get; set; } = new List<AppointmentViewModel>();
+        public IEnumerable<AppointmentViewModel> CancelledAppointments { get; set; } = new List<AppointmentViewModel>();
     }
 }

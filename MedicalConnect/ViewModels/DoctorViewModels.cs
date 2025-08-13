@@ -33,6 +33,9 @@ namespace MedicalConnect.ViewModels
         [Display(Name = "المدينة")]
         public string City { get; set; }
 
+        [Display(Name = "اسم المكان / العيادة / المستشفى")]
+        public string? Workplace { get; set; }
+
         [Display(Name = "عدد التقييمات")]
         public int RatingCount { get; set; }
 
@@ -61,6 +64,9 @@ namespace MedicalConnect.ViewModels
         public bool HasAvailability { get; set; }
 
         public string DisplayWaitingTime { get; set; }
+
+        [Display(Name = "مدة الكشف")]
+        public string? WorkingHours { get; set; }
 
         public List<DoctorAvailability> Availabilities { get; set; }
 

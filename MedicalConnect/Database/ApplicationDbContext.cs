@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MedicalConnect.ViewModels;
 
 namespace MedicalConnect.Database
 {
@@ -115,5 +116,6 @@ namespace MedicalConnect.Database
                 .Property(p => p.PrimaryDoctorId)
                 .IsRequired(false); // nullable
         }
+        public DbSet<MedicalConnect.ViewModels.AppointmentViewModel> AppointmentViewModel { get; set; } = default!;
     }
 }

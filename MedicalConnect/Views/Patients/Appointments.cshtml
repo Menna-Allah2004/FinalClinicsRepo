@@ -1,0 +1,273 @@
+﻿@model MedicalConnect.ViewModels.PatientAppointmentsViewModel
+
+@{
+    ViewData["Title"] = ViewData["Title"] ?? "مواعيدي - Medical Connect";
+}
+
+<main class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Profile", "Patients")">الملف الشخصي</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">مواعيدي</li>
+                    </ol>
+                </nav>
+                <h1 class="h3 mb-0">مواعيدي</h1>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-medical-600 text-white py-3">
+                        <h3 class="h5 mb-0">الملف الشخصي</h3>
+                    </div>
+                    <div class="card-body px-0 py-2">
+                        <div class="text-center mb-4 mt-3">
+                            <div class="position-relative d-inline-block">
+                                <img src="https://via.placeholder.com/80" alt="صورة المستخدم" class="rounded-circle border border-3 border-medical-100" width="80" height="80" />
+                            </div>
+                            <h4 class="h5 mt-3 mb-0">@Model.PatientName</h4>
+                            <p class="text-muted small">ID: @Model.PatientCode</p>
+                        </div>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Profile", "Patients")" class="nav-link px-4 py-3 border-bottom">
+                                    <i class="fas fa-user-circle me-2"></i>
+                                    الملف الشخصي
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Appointments", "Patients")" class="nav-link px-4 py-3 border-bottom active">
+                                    <i class="fas fa-calendar-check me-2"></i>
+                                    مواعيدي
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Profile", "Patients")#medical-records" class="nav-link px-4 py-3 border-bottom">
+                                    <i class="fas fa-notes-medical me-2"></i>
+                                    السجلات الطبية
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Profile", "Patients")#settings" class="nav-link px-4 py-3">
+                                    <i class="fas fa-cog me-2"></i>
+                                    إعدادات الحساب
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-medical-50 p-4 rounded-3">
+                    <h3 class="h5 mb-3">بحاجة إلى مساعدة؟</h3>
+                    <p class="text-muted mb-3">فريق الدعم الفني متواجد على مدار الساعة للإجابة على استفساراتك.</p>
+                    <a href="@Url.Action("Index", "ContactUs")" class="btn btn-primary w-100">
+                        <i class="fas fa-headset me-2"></i>
+                        تواصل مع الدعم
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- Appointments Statistics -->
+                <div class="row mb-4 g-3">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card border-0 shadow-sm text-center hover-card">
+                            <div class="card-body py-4">
+                                <div class="rounded-circle bg-medical-50 p-3 d-inline-flex mb-3">
+                                    <i class="fas fa-calendar-alt fa-2x text-medical-600"></i>
+                                </div>
+                                <h3 class="h2 fw-bold mb-0">@Model.TotalAppointmentsCount</h3>
+                                <p class="text-muted mb-0">إجمالي المواعيد</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card border-0 shadow-sm text-center hover-card">
+                            <div class="card-body py-4">
+                                <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-flex mb-3">
+                                    <i class="fas fa-check-circle fa-2x text-success"></i>
+                                </div>
+                                <h3 class="h2 fw-bold mb-0">@Model.CompletedAppointmentsCount</h3>
+                                <p class="text-muted mb-0">مكتملة</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card border-0 shadow-sm text-center hover-card">
+                            <div class="card-body py-4">
+                                <div class="rounded-circle bg-warning bg-opacity-10 p-3 d-inline-flex mb-3">
+                                    <i class="fas fa-hourglass-half fa-2x text-warning"></i>
+                                </div>
+                                <h3 class="h2 fw-bold mb-0">@Model.UpcomingAppointmentsCount</h3>
+                                <p class="text-muted mb-0">قادمة</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card border-0 shadow-sm text-center hover-card">
+                            <div class="card-body py-4">
+                                <div class="rounded-circle bg-danger bg-opacity-10 p-3 d-inline-flex mb-3">
+                                    <i class="fas fa-times-circle fa-2x text-danger"></i>
+                                </div>
+                                <h3 class="h2 fw-bold mb-0">@Model.CancelledAppointmentsCount</h3>
+                                <p class="text-muted mb-0">ملغية</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointments Tabs and Search -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white p-3 d-flex flex-wrap justify-content-between align-items-center">
+                        <ul class="nav nav-pills" id="appointmentsTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active py-2 px-3" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab">المواعيد القادمة</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link py-2 px-3" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">جميع المواعيد</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link py-2 px-3" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab">المواعيد المكتملة</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link py-2 px-3" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab">المواعيد الملغية</button>
+                            </li>
+                        </ul>
+
+                        <div class="d-flex mt-3 mt-md-0">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchAppointments" placeholder="بحث عن موعد..." />
+                                <button class="btn btn-outline-secondary" type="button" id="searchAppointmentsBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="tab-content" id="appointmentsTabContent">
+                            <!-- Upcoming Appointments Tab -->
+                            <div class="tab-pane fade show active" id="upcoming" role="tabpanel">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th scope="col" class="py-3 px-4 border-bottom-0">الطبيب</th>
+                                                <th scope="col" class="py-3 border-bottom-0">التخصص</th>
+                                                <th scope="col" class="py-3 border-bottom-0">التاريخ</th>
+                                                <th scope="col" class="py-3 border-bottom-0">الوقت</th>
+                                                <th scope="col" class="py-3 border-bottom-0">نوع الزيارة</th>
+                                                <th scope="col" class="py-3 border-bottom-0">الحالة</th>
+                                                <th scope="col" class="py-3 px-4 border-bottom-0">إجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @Html.Partial("~/Views/Patients/Partials/_AppointmentsTableRows.cshtml", Model.UpcomingAppointments)
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- All Appointments Tab -->
+                            <div class="tab-pane fade" id="all" role="tabpanel">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th scope="col" class="py-3 px-4 border-bottom-0">الطبيب</th>
+                                                <th scope="col" class="py-3 border-bottom-0">التخصص</th>
+                                                <th scope="col" class="py-3 border-bottom-0">التاريخ</th>
+                                                <th scope="col" class="py-3 border-bottom-0">الوقت</th>
+                                                <th scope="col" class="py-3 border-bottom-0">نوع الزيارة</th>
+                                                <th scope="col" class="py-3 border-bottom-0">الحالة</th>
+                                                <th scope="col" class="py-3 px-4 border-bottom-0">إجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @Html.Partial("~/Views/Patients/Partials/_AppointmentsTableRows.cshtml", Model.AllAppointments)
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Completed Appointments Tab -->
+                            <div class="tab-pane fade" id="completed" role="tabpanel">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th scope="col" class="py-3 px-4 border-bottom-0">الطبيب</th>
+                                                <th scope="col" class="py-3 border-bottom-0">التخصص</th>
+                                                <th scope="col" class="py-3 border-bottom-0">التاريخ</th>
+                                                <th scope="col" class="py-3 border-bottom-0">الوقت</th>
+                                                <th scope="col" class="py-3 border-bottom-0">نوع الزيارة</th>
+                                                <th scope="col" class="py-3 border-bottom-0">التقييم</th>
+                                                <th scope="col" class="py-3 px-4 border-bottom-0">إجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @Html.Partial("~/Views/Patients/Partials/_AppointmentsTableRows.cshtml", Model.CompletedAppointments)
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Cancelled Appointments Tab -->
+                            <div class="tab-pane fade" id="cancelled" role="tabpanel">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th scope="col" class="py-3 px-4 border-bottom-0">الطبيب</th>
+                                                <th scope="col" class="py-3 border-bottom-0">التخصص</th>
+                                                <th scope="col" class="py-3 border-bottom-0">التاريخ</th>
+                                                <th scope="col" class="py-3 border-bottom-0">الوقت</th>
+                                                <th scope="col" class="py-3 border-bottom-0">نوع الزيارة</th>
+                                                <th scope="col" class="py-3 border-bottom-0">سبب الإلغاء</th>
+                                                <th scope="col" class="py-3 px-4 border-bottom-0">إجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @Html.Partial("~/Views/Patients/Partials/_AppointmentsTableRows.cshtml", Model.CancelledAppointments)
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-white d-flex justify-content-between align-items-center p-3">
+                        <p class="mb-0 text-muted small">إجمالي <span id="totalCount">@Model.TotalAppointmentsCount</span> موعد</p>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">التالي</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Book New Appointment Button -->
+                <div class="text-center">
+                    <a href="@Url.Action("Index", "Doctors")" class="btn btn-primary px-4 py-2">
+                        <i class="fas fa-calendar-plus me-2"></i>
+                        حجز موعد جديد
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

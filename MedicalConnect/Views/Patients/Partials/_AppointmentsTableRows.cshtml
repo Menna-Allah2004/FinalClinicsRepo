@@ -1,0 +1,82 @@
+﻿@using System.Globalization
+@model IEnumerable<MedicalConnect.ViewModels.AppointmentViewModel>
+
+@{
+    var ar = new CultureInfo("ar-EG");
+    Func<string, string> LocalizeStatus = s =>
+    {
+        if (string.Equals(s, "Scheduled", StringComparison.OrdinalIgnoreCase)) return "قادم";
+        if (string.Equals(s, "Completed", StringComparison.OrdinalIgnoreCase)) return "مكتمل";
+        if (string.Equals(s, "Cancelled", StringComparison.OrdinalIgnoreCase)) return "ملغي";
+        return string.IsNullOrWhiteSpace(s) ? "غير محدد" : s;
+    };
+    Func<string, string> StatusBadgeClass = s =>
+    {
+        if (string.Equals(s, "Scheduled", StringComparison.OrdinalIgnoreCase) || s == "قادم") return "badge bg-warning text-dark";
+        if (string.Equals(s, "Completed", StringComparison.OrdinalIgnoreCase) || s == "مكتمل") return "badge bg-success";
+        if (string.Equals(s, "Cancelled", StringComparison.OrdinalIgnoreCase) || s == "ملغي") return "badge bg-danger";
+        return "badge bg-secondary";
+    };
+    Func<string, (string label, string icon)> VisitType = t =>
+    {
+        if (string.Equals(t, "InPerson", StringComparison.OrdinalIgnoreCase)) return ("عيادة", "fa-clinic-medical");
+        if (string.Equals(t, "Virtual", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "Online", StringComparison.OrdinalIgnoreCase)) return ("عن بُعد", "fa-video");
+        return ("غير محدد", "fa-question-circle");
+    };
+}
+
+@foreach (var a in Model)
+{
+    var type = VisitType(a.Type);
+    bool isUpcoming = string.Equals(a.Status, "Scheduled", StringComparison.OrdinalIgnoreCase) || a.Status == "قادم";
+    <tr>
+        <td class="py-3 px-4">
+            <div class="d-flex align-items-center">
+                <img src="https://via.placeholder.com/36" alt="@a.DoctorName" class="rounded-circle me-2" width="36" height="36" />
+                <a href="@Url.Action("Details", "Doctor", new { id = a.DoctorId })" class="fw-medium text-decoration-none">@a.DoctorName</a>
+            </div>
+        </td>
+        <td>@a.DoctorSpecialization</td>
+        <td>@a.AppointmentTime.ToString("dd MMMM yyyy", ar)</td>
+        <td>@a.AppointmentTime.ToString("hh:mm tt", ar)</td>
+        <td>
+            <span class="badge bg-light text-dark border">
+                <i class="fas @type.icon me-1"></i> @type.label
+            </span>
+        </td>
+        <td>
+            <span class="@StatusBadgeClass(a.Status)">@LocalizeStatus(a.Status)</span>
+        </td>
+        <td class="py-3 px-4">
+            <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-eye"></i> التفاصيل
+                </a>
+                @if (isUpcoming && a.AppointmentDate >= DateTime.Now)
+                {
+                    <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelAppointmentModal-@a.Id">
+                        <i class="fas fa-times"></i> إلغاء
+                    </button>
+                    <!-- Modal placeholder per row -->
+                    <div class="modal fade" id="cancelAppointmentModal-@a.Id" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">تأكيد إلغاء الموعد</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    هل أنت متأكد من رغبتك في إلغاء هذا الموعد؟
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                                    <a class="btn btn-danger disabled" href="#">تأكيد الإلغاء</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+}

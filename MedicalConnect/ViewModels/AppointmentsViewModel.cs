@@ -15,22 +15,20 @@ namespace MedicalConnect.ViewModels
         public string DoctorSpecialization { get; set; }
         public string DoctorImageUrl { get; set; }
 
+        public string DoctorLocation { get; set; }
+
         [Required(ErrorMessage = "المريض مطلوب")]
         [Display(Name = "المريض")]
         public int PatientId { get; set; }
 
         public string PatientName { get; set; }
 
+        public DateTime AppointmentDate { get; set; }
+
         [Required(ErrorMessage = "تاريخ ووقت الموعد مطلوب")]
         [Display(Name = "تاريخ ووقت الموعد")]
         [DataType(DataType.DateTime)]
-        public DateTime AppointmentTime { get; set; }
-
-        // خاصية مُحسّنة لتنسيق وعرض الوقت بشكل أفضل في واجهة المستخدم
-        public string FormattedTime { get; set; }
-
-        // خاصية مُحسّنة لتنسيق وعرض التاريخ بشكل أفضل في واجهة المستخدم
-        public string FormattedDate => AppointmentTime.ToString("yyyy-MM-dd");
+        public TimeSpan AppointmentTime { get; set; }
 
         [Required(ErrorMessage = "وقت بدء الموعد مطلوب")]
         [Display(Name = "وقت بدء الموعد")]
@@ -56,6 +54,12 @@ namespace MedicalConnect.ViewModels
         [Display(Name = "حالة الموعد")]
         public string Status { get; set; } // مؤكد، ملغي، منتظر، مكتمل
 
+        public string Reason { get; set; }
+
+        public decimal? Fee { get; set; }
+
+        public string PaymentStatus { get; set; }
+
         [Display(Name = "ملاحظات")]
         public string Notes { get; set; }
 
@@ -69,7 +73,28 @@ namespace MedicalConnect.ViewModels
         [Display(Name = "موعد افتراضي")]
         public bool IsVirtual { get; set; }
 
-        public DateTime AppointmentDate { get; internal set; }
+        public bool CanCancel { get; set; }
+        public bool CanReschedule { get; set; }
+
+        public string FormattedDate => AppointmentDate.ToString("dddd، dd MMMM yyyy", new System.Globalization.CultureInfo("ar-EG"));
+        public string FormattedTime => AppointmentTime.ToString(@"hh\:mm") + (AppointmentTime.Hours < 12 ? " صباحاً" : " مساءً");
+        public string StatusDisplay => Status switch
+        {
+            "Scheduled" => "مجدول",
+            "Completed" => "مكتمل",
+            "Cancelled" => "ملغي",
+            "InProgress" => "جاري",
+            _ => Status
+        };
+        public string TypeDisplay => IsVirtual ? "استشارة عن بعد" : "زيارة في العيادة";
+        public string PaymentStatusDisplay => PaymentStatus switch
+        {
+            "Paid" => "مدفوع",
+            "Pending" => "معلق",
+            "Refunded" => "مسترد",
+            _ => PaymentStatus
+        };
+
     }
 
     public class BookAppointmentViewModel
@@ -77,11 +102,43 @@ namespace MedicalConnect.ViewModels
         public int DoctorId { get; set; }
         public string DoctorName { get; set; }
         public string DoctorSpecialization { get; set; }
+        public string DoctorLocation { get; set; }
+        public decimal? DoctorRating { get; set; }
+        public int DoctorReviews { get; set; }
         public string DoctorImageUrl { get; set; }
         public decimal? ConsultationFee { get; set; }
-        public List<DateTime> AvailableDates { get; set; }
+        public List<DateTime> AvailableDates { get; set; } = new List<DateTime>();
         public List<TimeSlotViewModel> AvailableTimeSlots { get; set; }
         public AppointmentViewModel Appointment { get; set; }
+
+        [Required(ErrorMessage = "نوع الموعد مطلوب")]
+        public string AppointmentType { get; set; }
+
+        [Required(ErrorMessage = "سبب الزيارة مطلوب")]
+        public string Reason { get; set; }
+
+        public string Notes { get; set; }
+
+        public string PatientName { get; set; }
+        public string PatientPhone { get; set; }
+        public string PatientEmail { get; set; }
+
+        public DateTime SelectedDate { get; set; }
+        public TimeSpan SelectedTime { get; set; }
+
+        public string PaymentMethod { get; set; }
+
+        // For confirmation step
+        public string BookingNumber { get; set; }
+        public bool IsConfirmed { get; set; }
+
+        public Doctor Doctor { get; set; } // معلومات الطبيب للحجز
+    }
+
+    public class AvailableTimesRequest
+    {
+        public int DoctorId { get; set; }
+        public DateTime Date { get; set; }
     }
 
     public class TimeSlotViewModel
@@ -120,5 +177,17 @@ namespace MedicalConnect.ViewModels
         public bool IsToday { get; set; }
         public bool HasAppointments { get; set; }
         public int Day { get; set; }
+    }
+
+    public class CancelAppointmentRequest
+    {
+        public string Reason { get; set; }
+        public string OtherReason { get; set; }
+    }
+
+    public class RescheduleAppointmentRequest
+    {
+        public DateTime NewDate { get; set; }
+        public TimeSpan NewTime { get; set; }
     }
 }

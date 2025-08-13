@@ -60,17 +60,17 @@
                                     @(Model.ConsultationFee != null && Model.ConsultationFee > 0 ? $"{Model.ConsultationFee} شيكل" : "غير محدد")
                                 </span>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <span>مدة الانتظار</span>
-                                <span class="fw-bold">
-                                    @(
-                                        Model.Availabilities?.FirstOrDefault()?.WaitingTime != null
-                                        && Model.Availabilities.FirstOrDefault().WaitingTime != ""
-                                        ? Model.Availabilities.FirstOrDefault().WaitingTime + " دقيقة"
-                                        : "غير محدد"
-                                        )
-                                </span>
-                            </div>
+                            @* <div class="d-flex justify-content-between"> *@
+                            @*     <span>مدة الانتظار</span> *@
+                            @*     <span class="fw-bold"> *@
+                            @*         @( *@
+                            @*             Model.Availabilities?.FirstOrDefault()?.WaitingTime != null *@
+                            @*             && Model.Availabilities.FirstOrDefault().WaitingTime != "" *@
+                            @*             ? Model.Availabilities.FirstOrDefault().WaitingTime + " دقيقة" *@
+                            @*             : "غير محدد" *@
+                            @*             ) *@
+                            @*     </span> *@
+                            @* </div> *@
                         </div>
 
                         <div class="d-grid">

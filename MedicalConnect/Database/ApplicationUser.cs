@@ -21,6 +21,8 @@ namespace MedicalConnect.Database
         // الحالة: هل الآدمن وافق على حساب الطبيب؟
         public bool IsApproved { get; set; } = false; // الافتراضي غير موافق عليه
 
+        public bool IsActive { get; set; } = true;
+
         public DateTime? BirthDate { get; set; }
 
         public string? Gender { get; set; }

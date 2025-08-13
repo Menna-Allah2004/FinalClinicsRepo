@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,9 +26,25 @@ namespace MedicalConnect.Database
         [Display(Name = "End Time")]
         public TimeSpan EndTime { get; set; }
 
+        [Range(15, 120)]
+        public int SlotDuration { get; set; } = 30;
+
         public bool IsAvailable { get; set; } = true;
 
-        public string WaitingTime { get; set; } = "غير محدد";
+        [StringLength(20)]
+        public string Type { get; set; } = "Regular"; // Regular, Holiday, Special
+
+        public TimeSpan? BreakStartTime { get; set; }
+
+        public TimeSpan? BreakEndTime { get; set; }
+
+        public DateTime? SpecificDate { get; set; }
+
+        [StringLength(500)]
+        public string? Notes { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
         [ForeignKey("DoctorId")]

@@ -108,6 +108,10 @@ namespace MedicalConnect.ViewModels
         [Display(Name = "ملاحظات")]
         public string Notes { get; set; }
 
+        [Display(Name = "تاريخ التقرير")]
         public DateTime CreatedAt { get; set; }
+
+        [Display(Name = "عنوان التقرير")]
+        public string Title { get; set; }
     }
 }

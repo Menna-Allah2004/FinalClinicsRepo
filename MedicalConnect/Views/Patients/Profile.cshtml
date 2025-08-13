@@ -1,0 +1,335 @@
+﻿@model MedicalConnect.ViewModels.PatientProfileViewModel
+
+@{
+    ViewData["Title"] = "الملف الشخصي";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h4 mb-1 text-primary">
+                                <i class="fas fa-user-circle me-2"></i>
+                                الملف الشخصي
+                            </h1>
+                            <p class="text-muted mb-0">إدارة معلوماتك الشخصية والطبية</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary">
+                                <i class="fas fa-home me-1"></i>
+                                الرئيسية
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Patient Info Card -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm rounded-4 border-0 h-100 profile-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h3 class="card-title fs-5 fw-bold">المعلومات الشخصية</h3>
+                        <button id="editProfileBtn" class="btn btn-sm btn-light">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                    </div>
+                    <p class="card-subtitle mb-4 text-muted">البيانات الشخصية والصحية</p>
+
+                    <!-- View Mode -->
+                    <div id="viewProfileMode">
+                        <div class="d-flex mb-4">
+                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+                                 style="width: 60px; height: 60px;">
+                                <i class="fas fa-user fa-2x text-muted"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h4 class="fs-5 fw-semibold mb-1">@Model.FullName</h4>
+                                <p class="text-muted mb-0">@Model.Email</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <p class="text-muted small mb-1">رقم الهاتف</p>
+                                <p class="fw-medium">@(Model.PhoneNumber ?? "غير محدد")</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="text-muted small mb-1">تاريخ الميلاد</p>
+                                <p class="fw-medium">@Model.DateOfBirth?.ToString("dd/MM/yyyy")</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="text-muted small mb-1">العمر</p>
+                                <p class="fw-medium">@Model.Age سنة</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="text-muted small mb-1">فصيلة الدم</p>
+                                <p class="fw-medium">@(Model.BloodType ?? "غير محدد")</p>
+                            </div>
+                            <div class="col-12">
+                                <p class="text-muted small mb-1">التاريخ المرضي</p>
+                                <p class="fw-medium">@(Model.MedicalHistory ?? "لا يوجد")</p>
+                            </div>
+                            @if (Model.Height.HasValue || Model.Weight.HasValue)
+                            {
+                                <div class="col-6">
+                                    <p class="text-muted small mb-1">الطول</p>
+                                    <p class="fw-medium">@(Model.Height?.ToString("F0") ?? "غير محدد") سم</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-muted small mb-1">الوزن</p>
+                                    <p class="fw-medium">@(Model.Weight?.ToString("F0") ?? "غير محدد") كغ</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Edit Mode -->
+                    <div id="editProfileMode" class="d-none">
+                        <form asp-action="UpdateProfile" method="post" id="editProfileForm">
+                            <input asp-for="PatientId" type="hidden" />
+
+                            <div class="mb-3">
+                                <label asp-for="FullName" class="form-label small fw-medium"></label>
+                                <input asp-for="FullName" class="form-control" />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Email" class="form-label small fw-medium"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-6">
+                                    <label asp-for="PhoneNumber" class="form-label small fw-medium"></label>
+                                    <input asp-for="PhoneNumber" class="form-control" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="DateOfBirth" class="form-label small fw-medium"></label>
+                                    <input asp-for="DateOfBirth" class="form-control" type="date" />
+                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="BloodType" class="form-label small fw-medium"></label>
+                                    <select asp-for="BloodType" class="form-select">
+                                        <option value="">اختر فصيلة الدم</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="Gender" class="form-label small fw-medium"></label>
+                                    <select asp-for="Gender" class="form-select">
+                                        <option value="">اختر الجنس</option>
+                                        <option value="ذكر">ذكر</option>
+                                        <option value="أنثى">أنثى</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="Height" class="form-label small fw-medium"></label>
+                                    <input asp-for="Height" class="form-control" placeholder="الطول (سم)" />
+                                    <span asp-validation-for="Height" class="text-danger"></span>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="Weight" class="form-label small fw-medium"></label>
+                                    <input asp-for="Weight" class="form-control" placeholder="الوزن (كغ)" />
+                                    <span asp-validation-for="Weight" class="text-danger"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="MedicalHistory" class="form-label small fw-medium"></label>
+                                    <textarea asp-for="MedicalHistory" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end gap-2 mt-4">
+                                <button type="button" id="cancelEditBtn" class="btn btn-light">إلغاء</button>
+                                <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Card -->
+            <div class="card shadow-sm rounded-4 border-0 mt-4">
+                <div class="card-body">
+                    <h3 class="card-title fs-5 fw-bold mb-4">إحصائيات</h3>
+                    <div class="row g-3">
+                        <div class="col-6 text-center">
+                            <div class="text-primary mb-2">
+                                <i class="fas fa-calendar-check fa-2x"></i>
+                            </div>
+                            <h4 class="h6 mb-1">@Model.TotalAppointments</h4>
+                            <p class="text-muted small mb-0">إجمالي المواعيد</p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <div class="text-success mb-2">
+                                <i class="fas fa-file-medical fa-2x"></i>
+                            </div>
+                            <h4 class="h6 mb-1">@Model.TotalMedicalReports</h4>
+                            <p class="text-muted small mb-0">التقارير الطبية</p>
+                        </div>
+                    </div>
+                    @if (Model.LastVisit.HasValue)
+                    {
+                        <div class="mt-3 pt-3 border-top">
+                            <p class="text-muted small mb-1">آخر زيارة</p>
+                            <p class="fw-medium">@Model.LastVisit.Value.ToString("dd/MM/yyyy")</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Container -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm rounded-4 border-0">
+                <div class="card-body p-0">
+                    <ul class="nav nav-pills nav-fill p-3 border-bottom" id="profileTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active px-4 py-2" id="appointments-tab" data-bs-toggle="tab"
+                                    data-bs-target="#appointments-tab-pane" type="button" role="tab">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                المواعيد
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link px-4 py-2" id="medical-records-tab" data-bs-toggle="tab"
+                                    data-bs-target="#medical-records-tab-pane" type="button" role="tab">
+                                <i class="fas fa-file-medical me-2"></i>
+                                السجل الطبي
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content p-4" id="profileTabsContent">
+                        <!-- Appointments Tab -->
+                        <div class="tab-pane fade show active" id="appointments-tab-pane" role="tabpanel"
+                             aria-labelledby="appointments-tab" tabindex="0">
+                            <h3 class="fs-5 fw-bold mb-4">
+                                <i class="fas fa-clock me-2 text-primary"></i>
+                                المواعيد الأخيرة
+                            </h3>
+
+                            @if (Model.RecentAppointments.Any())
+                            {
+                                @Html.Partial("Partials/_AppointmentsList", Model.RecentAppointments)
+                            }
+                            else
+                            {
+                                <div class="text-center py-5">
+                                    <div class="text-muted mb-3">
+                                        <i class="fas fa-calendar-times fa-3x"></i>
+                                    </div>
+                                    <h5 class="fw-bold mb-2">لا توجد مواعيد</h5>
+                                    <p class="text-muted mb-4">ليس لديك أي مواعيد محجوزة حالياً</p>
+                                    <a href="@Url.Action("Index", "Doctors")" class="btn btn-primary px-4 py-2 rounded-3">
+                                        حجز موعد جديد
+                                    </a>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Medical Records Tab -->
+                        <div class="tab-pane fade" id="medical-records-tab-pane" role="tabpanel"
+                             aria-labelledby="medical-records-tab" tabindex="0">
+                            <h3 class="fs-5 fw-bold mb-4">
+                                <i class="fas fa-file-medical me-2 text-primary"></i>
+                                السجل الطبي
+                            </h3>
+
+                            @if (Model.RecentMedicalReports.Any())
+                            {
+                                @Html.Partial("Partials/_MedicalRecordsList", Model.RecentMedicalReports)
+                            }
+                            else
+                            {
+                                <div class="text-center py-5">
+                                    <div class="text-muted mb-3">
+                                        <i class="fas fa-file-medical fa-3x"></i>
+                                    </div>
+                                    <h5 class="fw-bold mb-2">لا توجد سجلات طبية</h5>
+                                    <p class="text-muted">لم يتم إضافة أي سجلات طبية بعد</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="text-center py-5">
+                        <div class="text-muted mb-3">
+                            <i class="fas fa-file-medical fa-3x"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">لا توجد سجلات طبية</h5>
+                        <p class="text-muted">لم يتم إضافة أي سجلات طبية بعد</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: all 0.3s ease;
+    }
+
+        .hover-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+        }
+
+    .profile-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .nav-pills .nav-link {
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+        }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // إعداد تحرير الملف الشخصي
+        document.addEventListener('DOMContentLoaded', function() {
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+            const viewProfileMode = document.getElementById('viewProfileMode');
+            const editProfileMode = document.getElementById('editProfileMode');
+
+            if (editProfileBtn && cancelEditBtn && viewProfileMode && editProfileMode) {
+                // التبديل إلى وضع التحرير
+                editProfileBtn.addEventListener('click', function() {
+                    viewProfileMode.classList.add('d-none');
+                    editProfileMode.classList.remove('d-none');
+                });
+
+                // إلغاء التحرير
+                cancelEditBtn.addEventListener('click', function() {
+                    viewProfileMode.classList.remove('d-none');
+                    editProfileMode.classList.add('d-none');
+                });
+            }
+        });
+    </script>
+}

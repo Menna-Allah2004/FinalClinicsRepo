@@ -1,0 +1,564 @@
+﻿@model MedicalConnect.ViewModels.AppointmentViewModel
+@{
+    ViewData["Title"] = "تفاصيل الموعد";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="py-5 mt-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("MyAppointments", "Appointment")">مواعيدي</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">تفاصيل الموعد</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                    <div class="card-header bg-primary text-white py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h1 class="h4 mb-0">تفاصيل الموعد</h1>
+                            <span class="badge
+                                @(Model.Status == "Scheduled" ? "bg-success" :
+                                  Model.Status == "Completed" ? "bg-info" :
+                                  Model.Status == "Cancelled" ? "bg-danger" : "bg-warning") fs-6">
+                                @Model.StatusDisplay
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <div class="d-flex align-items-center">
+                                    <img src="@Model.DoctorImageUrl" alt="الدكتور"
+                                         class="rounded-circle border border-2 border-light me-3" width="60"
+                                         height="60">
+                                    <div>
+                                        <h3 class="h5 mb-1" id="doctorName">@Model.DoctorName</h3>
+                                        <p class="text-muted mb-0" id="doctorSpecialty">@Model.DoctorSpecialization</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex h-100 align-items-center justify-content-md-end">
+                                    <div class="text-end">
+                                        <div class="d-flex align-items-center justify-content-end mb-2">
+                                            <div class="me-2">
+                                                <p class="fw-medium mb-0" id="appointmentDate">@Model.FormattedDate</p>
+                                                <p class="text-muted mb-0" id="appointmentTime">@Model.FormattedTime</p>
+                                            </div>
+                                            <div class="bg-light rounded-circle p-2">
+                                                <i class="fas fa-calendar-alt text-primary fa-fw"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="text-muted my-4">
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h4 class="h6 text-muted mb-3">معلومات الموعد</h4>
+                                <div class="mb-3">
+                                    <div class="d-flex mb-2">
+                                        <div class="min-w-20 text-muted">
+                                            <i class="fas @(Model.IsVirtual ? "fa-video" : "fa-clinic-medical") me-2"></i>
+                                        </div>
+                                        <div>
+                                            <p class="mb-0 fw-medium">نوع الزيارة</p>
+                                            <p class="text-muted mb-0" id="visitType">@Model.TypeDisplay</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex mb-2">
+                                        <div class="min-w-20 text-muted">
+                                            <i class="fas fa-map-marker-alt me-2"></i>
+                                        </div>
+                                        <div>
+                                            <p class="mb-0 fw-medium">الموقع</p>
+                                            <p class="text-muted mb-0" id="location">@(Model.DoctorLocation ?? "سيتم إرسال التفاصيل لاحقاً")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex mb-2">
+                                        <div class="min-w-20 text-muted">
+                                            <i class="fas fa-credit-card me-2"></i>
+                                        </div>
+                                        <div>
+                                            <p class="mb-0 fw-medium">رسوم الاستشارة</p>
+                                            <p class="text-muted mb-0" id="consultationFee">@Model.Fee شيكل</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h4 class="h6 text-muted mb-3">معلومات إضافية</h4>
+                                <div class="mb-3">
+                                    <div class="d-flex mb-2">
+                                        <div class="min-w-20 text-muted">
+                                            <i class="fas fa-clipboard-list me-2"></i>
+                                        </div>
+                                        <div>
+                                            <p class="mb-0 fw-medium">سبب الزيارة</p>
+                                            <p class="text-muted mb-0" id="visitReason">@Model.Reason</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex mb-2">
+                                        <div class="min-w-20 text-muted">
+                                            <i class="fas fa-notes-medical me-2"></i>
+                                        </div>
+                                        <div>
+                                            <p class="mb-0 fw-medium">ملاحظات طبية</p>
+                                            <p class="text-muted mb-0" id="medicalNotes">@(Model.Notes ?? "لا توجد ملاحظات")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex mb-2">
+                                        <div class="min-w-20 text-muted">
+                                            <i class="fas fa-id-card me-2"></i>
+                                        </div>
+                                        @* <div> *@
+                                        @*     <p class="mb-0 fw-medium">رقم الموعد</p> *@
+                                        @*     <p class="text-muted mb-0" id="appointmentNumber">@Model.BookingNumber</p> *@
+                                        @* </div> *@
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex mb-2">
+                                        <div class="min-w-20 text-muted">
+                                            <i class="fas fa-money-bill me-2"></i>
+                                        </div>
+                                        <div>
+                                            <p class="mb-0 fw-medium">حالة الدفع</p>
+                                            <span class="badge
+                                                @(Model.PaymentStatus == "Paid" ? "bg-success" :
+                                                  Model.PaymentStatus == "Pending" ? "bg-warning" : "bg-danger")">
+                                                @Model.PaymentStatusDisplay
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="text-muted my-4">
+
+                        @if (Model.Status == "Scheduled")
+                        {
+                            <div class="d-flex flex-column flex-md-row gap-3 justify-content-between">
+                                <button type="button" class="btn btn-outline-primary" onclick="addToCalendar()">
+                                    <i class="fas fa-calendar-plus me-2"></i>
+                                    إضافة إلى التقويم
+                                </button>
+                                <div class="d-flex gap-2">
+                                    @if (Model.CanCancel)
+                                    {
+                                        <button type="button" class="btn btn-outline-danger" id="cancelAppointmentBtn">
+                                            <i class="fas fa-times-circle me-2"></i>
+                                            إلغاء الموعد
+                                        </button>
+                                    }
+                                    @if (Model.CanReschedule)
+                                    {
+                                        <button type="button" class="btn btn-primary" id="rescheduleAppointmentBtn">
+                                            <i class="fas fa-calendar-alt me-2"></i>
+                                            إعادة جدولة
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else if (Model.IsVirtual && !string.IsNullOrEmpty(Model.MeetingLink) && Model.Status == "Scheduled")
+                        {
+                            <div class="d-flex justify-content-center">
+                                <a href="@Model.MeetingLink" target="_blank" class="btn btn-success btn-lg">
+                                    <i class="fas fa-video me-2"></i>
+                                    الانضمام للاستشارة
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden mt-4">
+                    <div class="card-body p-4">
+                        <h4 class="h5 mb-3">هل تحتاج إلى مساعدة؟</h4>
+                        <p class="text-muted mb-4">يمكنك التواصل مع فريق الدعم الخاص بنا للمساعدة فيما يتعلق بموعدك.</p>
+                        <div class="d-flex flex-column flex-md-row gap-3">
+                            <a href="tel:+972567000000" class="btn btn-outline-primary">
+                                <i class="fas fa-phone-alt me-2"></i>
+                                اتصال
+                            </a>
+                            <a href="mailto:support@medicalconnect.com" class="btn btn-outline-primary">
+                                <i class="fas fa-envelope me-2"></i>
+                                البريد الإلكتروني
+                            </a>
+                            <a href="#" class="btn btn-outline-primary">
+                                <i class="fas fa-comments me-2"></i>
+                                الدردشة المباشرة
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Cancel Appointment Modal -->
+<div class="modal fade" id="cancelAppointmentModal" tabindex="-1" aria-labelledby="cancelAppointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelAppointmentModalLabel">تأكيد إلغاء الموعد</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="fas fa-exclamation-triangle text-warning fa-3x mb-3"></i>
+                    <h5>هل أنت متأكد من رغبتك في إلغاء هذا الموعد؟</h5>
+                    <p class="text-muted">
+                        سيتم إلغاء موعدك مع الدكتور <span id="cancelDoctorName">@Model.DoctorName</span> يوم
+                        <span id="cancelAppointmentDay">@Model.FormattedDate</span>.
+                        <strong>ملاحظة: سيتم حذف الموعد نهائياً من النظام.</strong>
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <label for="cancellationReason" class="form-label">سبب الإلغاء</label>
+                    <select class="form-select" id="cancellationReason" required>
+                        <option value="" selected disabled>اختر سبب الإلغاء</option>
+                        <option value="schedule_conflict">تعارض في المواعيد</option>
+                        <option value="feeling_better">تحسن الحالة الصحية</option>
+                        <option value="found_another_doctor">وجدت طبيب آخر</option>
+                        <option value="emergency">ظروف طارئة</option>
+                        <option value="other">سبب آخر</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="otherReasonContainer" style="display: none;">
+                    <label for="otherReason" class="form-label">يرجى ذكر السبب</label>
+                    <textarea class="form-control" id="otherReason" rows="3" placeholder="اكتب سبب الإلغاء هنا..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                <button type="button" class="btn btn-danger" id="confirmCancelBtn">تأكيد الإلغاء</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reschedule Appointment Modal -->
+<div class="modal fade" id="rescheduleAppointmentModal" tabindex="-1" aria-labelledby="rescheduleAppointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rescheduleAppointmentModalLabel">إعادة جدولة الموعد</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted mb-4">
+                    يرجى اختيار تاريخ ووقت جديد لموعدك مع الدكتور <span id="rescheduleDoctorName">@Model.DoctorName</span>.
+                </p>
+                <div class="mb-3">
+                    <label for="newAppointmentDate" class="form-label">تاريخ جديد</label>
+                    <input type="date" class="form-control" id="newAppointmentDate" required min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">وقت جديد</label>
+                    <div id="availableTimeSlots" class="d-flex flex-wrap gap-2">
+                        <div class="text-center text-muted py-3 w-100">
+                            <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                            <p>اختر التاريخ أولاً لعرض الأوقات المتاحة</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-info" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>
+                    ملاحظة: يمكنك إعادة جدولة الموعد حسب التواريخ والأوقات المتاحة للطبيب.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="btn btn-primary" id="confirmRescheduleBtn" disabled>تأكيد إعادة الجدولة</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+@section Scripts {
+    <script>
+        const appointmentId = @Model.Id;
+        const doctorId = @Model.DoctorId;
+        let selectedNewDate = null;
+        let selectedNewTime = null;
+
+        // Cancel appointment functionality
+        document.getElementById('cancelAppointmentBtn')?.addEventListener('click', function() {
+            new bootstrap.Modal(document.getElementById('cancelAppointmentModal')).show();
+        });
+
+        // Show/hide other reason field
+        document.getElementById('cancellationReason').addEventListener('change', function() {
+            const otherContainer = document.getElementById('otherReasonContainer');
+            if (this.value === 'other') {
+                otherContainer.style.display = 'block';
+            } else {
+                otherContainer.style.display = 'none';
+            }
+        });
+
+        // Confirm cancellation
+        document.getElementById('confirmCancelBtn').addEventListener('click', function() {
+            const reason = document.getElementById('cancellationReason').value;
+            const otherReason = document.getElementById('otherReason').value;
+
+            if (!reason) {
+                showToast('يرجى اختيار سبب الإلغاء', 'warning');
+                return;
+            }
+
+            if (reason === 'other' && !otherReason.trim()) {
+                showToast('يرجى كتابة سبب الإلغاء', 'warning');
+                return;
+            }
+
+            const btn = this;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>جارٍ الإلغاء...';
+
+            fetch(`/Appointment/Cancel/${appointmentId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    reason: reason === 'other' ? otherReason : reason
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    setTimeout(() => {
+                        window.location.href = '@Url.Action("MyAppointments", "Appointment")';
+                    }, 1500);
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showToast('حدث خطأ أثناء إلغاء الموعد', 'error');
+            })
+            .finally(() => {
+                bootstrap.Modal.getInstance(document.getElementById('cancelAppointmentModal')).hide();
+                btn.disabled = false;
+                btn.innerHTML = 'تأكيد الإلغاء';
+            });
+        });
+
+        // Reschedule appointment functionality
+        document.getElementById('rescheduleAppointmentBtn')?.addEventListener('click', function() {
+            new bootstrap.Modal(document.getElementById('rescheduleAppointmentModal')).show();
+        });
+
+        // Load available times when date changes
+        document.getElementById('newAppointmentDate').addEventListener('change', function() {
+            selectedNewDate = this.value;
+            loadAvailableTimesForReschedule();
+        });
+
+        function loadAvailableTimesForReschedule() {
+            if (!selectedNewDate) return;
+
+            const timeSlotsContainer = document.getElementById('availableTimeSlots');
+            timeSlotsContainer.innerHTML = `
+                <div class="text-center w-100">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                        <span class="visually-hidden">جارٍ التحميل...</span>
+                    </div>
+                    <p class="mt-2 text-muted">جارٍ تحميل الأوقات المتاحة...</p>
+                </div>
+            `;
+
+            fetch('/Appointment/GetAvailableTimesForReschedule', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    doctorId: doctorId,
+                    date: selectedNewDate
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayAvailableTimesForReschedule(data.timeSlots);
+                } else {
+                    showToast('حدث خطأ في تحميل الأوقات المتاحة', 'error');
+                }
+            })
+            .catch(error => {
+                showToast('حدث خطأ في الاتصال بالخادم', 'error');
+            });
+        }
+
+        function displayAvailableTimesForReschedule(timeSlots) {
+            const timeSlotsContainer = document.getElementById('availableTimeSlots');
+
+            if (timeSlots.length === 0) {
+                timeSlotsContainer.innerHTML = `
+                    <div class="text-center text-muted py-4 w-100">
+                        <i class="fas fa-calendar-times fa-2x mb-2"></i>
+                        <p>لا توجد أوقات متاحة في هذا التاريخ</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let slotsHTML = '';
+            timeSlots.forEach((slot, index) => {
+                slotsHTML += `
+                    <div class="form-check appointment-time-radio">
+                        <input class="form-check-input" type="radio" name="timeSlot" id="timeSlot${index}" value="${slot.time}">
+                        <label class="form-check-label px-3 py-2 rounded-3 border" for="timeSlot${index}">
+                            ${slot.display}
+                        </label>
+                    </div>
+                `;
+            });
+
+            timeSlotsContainer.innerHTML = slotsHTML;
+
+            // Add event listeners to time slots
+            document.querySelectorAll('input[name="timeSlot"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    selectedNewTime = this.value;
+                    document.getElementById('confirmRescheduleBtn').disabled = false;
+                });
+            });
+        }
+
+        // Confirm reschedule
+        document.getElementById('confirmRescheduleBtn').addEventListener('click', function() {
+            if (!selectedNewDate || !selectedNewTime) {
+                showToast('يرجى اختيار التاريخ والوقت الجديد', 'warning');
+                return;
+            }
+
+            const btn = this;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>جارٍ إعادة الجدولة...';
+
+            fetch(`/Appointment/Reschedule/${appointmentId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    newDate: selectedNewDate,
+                    newTime: selectedNewTime
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showToast('حدث خطأ أثناء إعادة جدولة الموعد', 'error');
+            })
+            .finally(() => {
+                bootstrap.Modal.getInstance(document.getElementById('rescheduleAppointmentModal')).hide();
+                btn.disabled = false;
+                btn.innerHTML = 'تأكيد إعادة الجدولة';
+            });
+        });
+
+        function addToCalendar() {
+            const title = `موعد مع @Model.DoctorName`;
+            const details = `@Model.Reason - @Model.TypeDisplay`;
+            const location = `@Model.DoctorLocation`;
+            const startDate = new Date('@Model.AppointmentDate.ToString("yyyy-MM-dd")T@Model.AppointmentTime');
+            const endDate = new Date(startDate.getTime() + 30 * 60000); // Add 30 minutes
+
+            const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
+
+            window.open(googleCalendarUrl, '_blank');
+        }
+
+        function showToast(message, type = 'info') {
+            const toastContainer = document.querySelector('.toast-container');
+            const bgClass = type === 'success' ? 'bg-success' :
+                           type === 'error' ? 'bg-danger' :
+                           type === 'warning' ? 'bg-warning' : 'bg-info';
+
+            const toastHTML = `
+                <div class="toast align-items-center text-white ${bgClass} border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">${message}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+            toast.show();
+        }
+    </script>
+}
+
+@{
+    Html.AntiForgeryToken();
+}
+
+<style>
+    .min-w-20 {
+        min-width: 20px;
+    }
+
+    .appointment-time-radio .form-check-input {
+        display: none;
+    }
+
+    .appointment-time-radio .form-check-label {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .appointment-time-radio .form-check-input:checked + .form-check-label {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+        color: white;
+    }
+
+    .appointment-time-radio .form-check-label:hover {
+        background-color: rgba(var(--bs-primary-rgb), 0.1);
+        border-color: var(--bs-primary);
+    }
+</style>

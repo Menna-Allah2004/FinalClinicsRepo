@@ -408,3 +408,29 @@ footer .border-secondary {
   max-width: 100%;
   height: auto;
 }
+
+/* Medical brand helpers */
+.bg-medical-600 {
+    background-color: #1565C0 !important;
+}
+
+.text-medical-600 {
+    color: #1565C0 !important;
+}
+
+.bg-medical-50 {
+    background-color: #E3F2FD !important;
+}
+
+.border-medical-100 {
+    border-color: #BBDEFB !important;
+}
+
+/* Profile page refinements */
+.profile-card {
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.hover-card:hover {
+    background-color: #f8f9fa;
+}
