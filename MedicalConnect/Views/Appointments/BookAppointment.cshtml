@@ -401,5 +401,394 @@
         const doctorId = @Model.DoctorId;
         const availableDates = @Html.Raw(Json.Serialize(Model.AvailableDates.Select(d => d.ToString("yyyy-MM-dd"))));
     </script>
+
+    <script>
+        // متغيرات عامة
+        let currentStep = 1;
+        let selectedDate = null;
+        let selectedTime = null;
+
+        // عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            initCalendar();
+            initStepNavigation();
+        });
+
+        // تهيئة التقويم
+        function initCalendar() {
+            const calendarDiv = document.getElementById('appointment-calendar');
+            if (!calendarDiv) return;
+
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+
+            // إنشاء التقويم
+            let calendarHTML = '<div class="calendar-container">';
+
+            // رأس التقويم
+            calendarHTML += `
+                <div class="calendar-header d-flex justify-content-between align-items-center mb-3">
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="prev-month">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <h5 class="mb-0" id="calendar-month-year"></h5>
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="next-month">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+            `;
+
+            // أيام الأسبوع
+            calendarHTML += `
+                <div class="calendar-days-header row g-1 text-center mb-2">
+                    <div class="col fw-bold text-muted small">الأحد</div>
+                    <div class="col fw-bold text-muted small">الاثنين</div>
+                    <div class="col fw-bold text-muted small">الثلاثاء</div>
+                    <div class="col fw-bold text-muted small">الأربعاء</div>
+                    <div class="col fw-bold text-muted small">الخميس</div>
+                    <div class="col fw-bold text-muted small">الجمعة</div>
+                    <div class="col fw-bold text-muted small">السبت</div>
+                </div>
+            `;
+
+            // أيام الشهر
+            calendarHTML += '<div class="calendar-days" id="calendar-days"></div>';
+            calendarHTML += '</div>';
+
+            calendarDiv.innerHTML = calendarHTML;
+
+            // رسم الشهر الحالي
+            drawMonth(currentYear, currentMonth);
+
+            // أحداث الأزرار
+            document.getElementById('prev-month').addEventListener('click', function() {
+                const [year, month] = getCurrentMonthYear();
+                const newDate = new Date(year, month - 1, 1);
+                drawMonth(newDate.getFullYear(), newDate.getMonth());
+            });
+
+            document.getElementById('next-month').addEventListener('click', function() {
+                const [year, month] = getCurrentMonthYear();
+                const newDate = new Date(year, month + 1, 1);
+                drawMonth(newDate.getFullYear(), newDate.getMonth());
+            });
+        }
+
+        // رسم أيام الشهر
+        function drawMonth(year, month) {
+            const calendarDays = document.getElementById('calendar-days');
+            const monthYearLabel = document.getElementById('calendar-month-year');
+
+            const monthNames = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+                               'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+
+            monthYearLabel.textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            let daysHTML = '<div class="row g-1">';
+
+            // خلايا فارغة قبل أول يوم
+            for (let i = 0; i < firstDay; i++) {
+                daysHTML += '<div class="col"></div>';
+            }
+
+            // أيام الشهر
+            for (let day = 1; day <= daysInMonth; day++) {
+                const currentDate = new Date(year, month, day);
+                const dateStr = formatDate(currentDate);
+                const isPast = currentDate < today;
+
+                let dayClass = 'calendar-day p-2 text-center rounded';
+
+                if (isPast) {
+                    dayClass += ' disabled text-muted';
+                } else {
+                    dayClass += ' available';
+                }
+
+                if (selectedDate === dateStr) {
+                    dayClass += ' selected';
+                }
+
+                daysHTML += `
+                    <div class="col">
+                        <div class="${dayClass}" data-date="${dateStr}" ${isPast ? '' : `onclick="selectDate('${dateStr}')"`}>
+                            ${day}
+                        </div>
+                    </div>
+                `;
+            }
+
+            daysHTML += '</div>';
+            calendarDays.innerHTML = daysHTML;
+        }
+
+        // اختيار تاريخ
+        window.selectDate = function(dateStr) {
+            selectedDate = dateStr;
+
+            // تحديث التقويم
+            document.querySelectorAll('.calendar-day').forEach(day => {
+                day.classList.remove('selected');
+            });
+            document.querySelector(`[data-date="${dateStr}"]`).classList.add('selected');
+
+            // عرض الأوقات المتاحة
+            displayAvailableTimes();
+
+            // تفعيل زر الخطوة التالية
+            if (selectedTime) {
+                document.getElementById('goto-step-2').disabled = false;
+            }
+        }
+
+        // عرض الأوقات المتاحة
+        function displayAvailableTimes() {
+            const timesDiv = document.getElementById('available-times');
+
+            // أوقات افتراضية (صباحية ومسائية)
+            const morningTimes = ['9:00', '9:30', '10:00', '10:30', '11:00', '11:30'];
+            const eveningTimes = ['1:00', '1:30', '2:00', '2:30', '3:00', '3:30'];
+
+            let timesHTML = '<div class="times-list">';
+
+            // أوقات الصباح
+            timesHTML += '<h6 class="text-muted small mb-2">صباحاً</h6>';
+            timesHTML += '<div class="row g-2 mb-3">';
+            morningTimes.forEach(time => {
+                const timeClass = selectedTime === time ? 'time-slot selected' : 'time-slot';
+                timesHTML += `
+                    <div class="col-6">
+                        <div class="${timeClass}" onclick="selectTime('${time}')">
+                            ${time}
+                        </div>
+                    </div>
+                `;
+            });
+            timesHTML += '</div>';
+
+            // أوقات المساء
+            timesHTML += '<h6 class="text-muted small mb-2">مساءً</h6>';
+            timesHTML += '<div class="row g-2">';
+            eveningTimes.forEach(time => {
+                const timeClass = selectedTime === time ? 'time-slot selected' : 'time-slot';
+                timesHTML += `
+                    <div class="col-6">
+                        <div class="${timeClass}" onclick="selectTime('${time}')">
+                            ${time}
+                        </div>
+                    </div>
+                `;
+            });
+            timesHTML += '</div>';
+
+            timesHTML += '</div>';
+            timesDiv.innerHTML = timesHTML;
+        }
+
+        // اختيار وقت
+        window.selectTime = function(time) {
+            selectedTime = time;
+
+            // تحديث الأوقات
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+
+            // تفعيل زر الخطوة التالية
+            if (selectedDate && selectedTime) {
+                document.getElementById('goto-step-2').disabled = false;
+            }
+        }
+
+        // تهيئة التنقل بين الخطوات
+        function initStepNavigation() {
+            // الانتقال إلى الخطوة 2
+            document.getElementById('goto-step-2').addEventListener('click', function() {
+                if (selectedDate && selectedTime) {
+                    goToStep(2);
+                }
+            });
+
+            // العودة إلى الخطوة 1
+            document.getElementById('back-to-step-1').addEventListener('click', function() {
+                goToStep(1);
+            });
+
+            // الانتقال إلى الخطوة 3
+            document.getElementById('goto-step-3').addEventListener('click', function() {
+                if (validateStep2()) {
+                    updateConfirmationDetails();
+                    goToStep(3);
+                }
+            });
+
+            // العودة إلى الخطوة 2
+            document.getElementById('back-to-step-2').addEventListener('click', function() {
+                goToStep(2);
+            });
+
+            // تأكيد الحجز
+            document.getElementById('confirm-booking').addEventListener('click', function() {
+                confirmBooking();
+            });
+        }
+
+        // الانتقال إلى خطوة معينة
+        function goToStep(step) {
+            // إخفاء جميع الخطوات
+            document.querySelectorAll('.booking-step-content').forEach(content => {
+                content.classList.add('d-none');
+            });
+
+            // عرض الخطوة المطلوبة
+            document.getElementById(`booking-step-${step}`).classList.remove('d-none');
+
+            // تحديث مؤشرات الخطوات
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.getElementById(`step-${i}-indicator`);
+                const icon = indicator.querySelector('.booking-step-icon');
+
+                if (i <= step) {
+                    indicator.classList.add('active');
+                    icon.classList.remove('bg-light', 'text-muted');
+                    icon.classList.add('bg-primary', 'text-white');
+                } else {
+                    indicator.classList.remove('active');
+                    icon.classList.remove('bg-primary', 'text-white');
+                    icon.classList.add('bg-light', 'text-muted');
+                }
+            }
+
+            currentStep = step;
+        }
+
+        // التحقق من صحة الخطوة 2
+        function validateStep2() {
+            const reason = document.getElementById('appointmentReason').value;
+
+            if (!reason) {
+                showToast('error', 'يرجى اختيار سبب الزيارة');
+                return false;
+            }
+
+            return true;
+        }
+
+        // تحديث تفاصيل التأكيد
+        function updateConfirmationDetails() {
+            const appointmentType = document.querySelector('input[name="AppointmentType"]:checked').value;
+            const reason = document.getElementById('appointmentReason').value;
+
+            // تحديث التاريخ
+            const date = new Date(selectedDate);
+            const formattedDate = date.toLocaleDateString('ar-EG', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('confirm-date').textContent = formattedDate;
+
+            // تحديث الوقت
+            document.getElementById('confirm-time').textContent = selectedTime;
+
+            // تحديث نوع الموعد
+            const typeText = appointmentType === 'inPerson' ? 'زيارة في العيادة' : 'استشارة عن بعد';
+            document.getElementById('confirm-type').textContent = typeText;
+
+            // تحديث سبب الزيارة
+            document.getElementById('confirm-reason').textContent = reason;
+        }
+
+        // تأكيد الحجز
+        async function confirmBooking() {
+            const termsCheck = document.getElementById('termsCheck');
+
+            if (!termsCheck.checked) {
+                showToast('error', 'يجب الموافقة على الشروط والأحكام');
+                return;
+            }
+
+            const bookingButton = document.getElementById('confirm-booking');
+            const spinner = document.getElementById('booking-spinner');
+
+            bookingButton.disabled = true;
+            spinner.classList.remove('d-none');
+
+            // محاكاة عملية الحجز
+            setTimeout(() => {
+                // إخفاء الخطوة 3 وعرض الخطوة 4
+                document.getElementById('booking-step-3').classList.add('d-none');
+                document.getElementById('booking-step-4').classList.remove('d-none');
+
+                // تحديث تفاصيل الحجز النهائية
+                const bookingNumber = 'BK-' + Math.floor(100000 + Math.random() * 900000);
+                document.getElementById('booking-number').textContent = bookingNumber;
+
+                const date = new Date(selectedDate);
+                const formattedDate = date.toLocaleDateString('ar-EG', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                document.getElementById('booking-date').textContent = formattedDate;
+                document.getElementById('booking-time').textContent = selectedTime;
+
+                const appointmentType = document.querySelector('input[name="AppointmentType"]:checked').value;
+                const typeText = appointmentType === 'inPerson' ? 'زيارة في العيادة' : 'استشارة عن بعد';
+                document.getElementById('booking-type').textContent = typeText;
+
+                bookingButton.disabled = false;
+                spinner.classList.add('d-none');
+
+                showToast('success', 'تم تأكيد الحجز بنجاح!');
+            }, 2000);
+        }
+
+        // دوال مساعدة
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getCurrentMonthYear() {
+            const label = document.getElementById('calendar-month-year').textContent;
+            const monthNames = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+                               'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            const parts = label.split(' ');
+            const month = monthNames.indexOf(parts[0]);
+            const year = parseInt(parts[1]);
+            return [year, month];
+        }
+
+        function showToast(type, message) {
+            const toastHTML = `
+                <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+
+            const container = document.querySelector('.toast-container');
+            container.innerHTML = toastHTML;
+
+            const toastElement = container.querySelector('.toast');
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        }
+    </script>
     @* <script src="~/js/book-appointment.js"></script> *@
 }

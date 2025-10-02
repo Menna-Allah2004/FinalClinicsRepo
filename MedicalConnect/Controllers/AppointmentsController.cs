@@ -63,7 +63,8 @@ namespace MedicalConnect.Controllers
                 PatientName = patient.User.FullName,
                 PatientPhone = patient.User.PhoneNumber,
                 PatientEmail = patient.User.Email,
-                AvailableDates = await GetAvailableDatesForDoctor(doctorId)
+                AvailableDates = await GetAvailableDatesForDoctor(doctorId),
+                Doctor = doctor
             };
 
             return View(viewModel);
